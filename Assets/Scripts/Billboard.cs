@@ -21,7 +21,8 @@ public class Billboard : MonoBehaviour
 
             // unity quad objects face in the opposite direction from LookAt(), causing them to be culled away
             // need to rotate them to face the camera
-            transform.Rotate(0, 180, 0);
+            // but we are rendering the enemy image only at the back and not the front, so no need for the rotation here
+            // transform.Rotate(0, 180, 0);
         }
     }
 }
