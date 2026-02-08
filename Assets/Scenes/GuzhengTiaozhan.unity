@@ -738,13 +738,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4184256699064620798, guid: efcfdca393f4d9438b4882ac6f1b66cd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 7141308834842009762, guid: efcfdca393f4d9438b4882ac6f1b66cd, type: 3}
       propertyPath: m_Name
       value: EnemyBillboard
       objectReference: {fileID: 0}
     - target: {fileID: 7141308834842009762, guid: efcfdca393f4d9438b4882ac6f1b66cd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

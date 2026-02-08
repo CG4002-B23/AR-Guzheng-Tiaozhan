@@ -19,8 +19,8 @@ public class Billboard : MonoBehaviour
 
             transform.LookAt(targetPosition); // make object look at camera
 
-            // FIX: Standard Unity Quads/Planes often face 'backwards' relative to LookAt.
-            // If your photo looks invisible or backward, uncomment the line below:
+            // unity quad objects face in the opposite direction from LookAt(), causing them to be culled away
+            // need to rotate them to face the camera
             transform.Rotate(0, 180, 0);
         }
     }
