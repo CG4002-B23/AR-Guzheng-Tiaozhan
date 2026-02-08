@@ -605,6 +605,8 @@ GameObject:
   - component: {fileID: 2512387470422636641}
   - component: {fileID: 2512387470422636642}
   - component: {fileID: 2512387470422636670}
+  - component: {fileID: 2512387470422636672}
+  - component: {fileID: 2512387470422636671}
   m_Layer: 0
   m_Name: XR Origin (AR Rig)
   m_TagString: Untagged
@@ -627,6 +629,34 @@ MonoBehaviour:
   m_SerializedLibrary: {fileID: 11400000, guid: 68b34dbdbae1b6ca193804def7f677eb, type: 2}
   m_MaxNumberOfMovingImages: 0
   m_TrackedImagePrefab: {fileID: 5676638896489940741, guid: 06e9b35033cf568eb98a6849585770d5, type: 3}
+--- !u!114 &2512387470422636671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512387470422636669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be961c9b5783a1857868e6ae8fb29d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToSpawn: {fileID: 799818054235073643, guid: eb2311b2c844b4cfab7f124450338205, type: 3}
+  minPlaneArea: 2
+--- !u!114 &2512387470422636672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512387470422636669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlanePrefab: {fileID: 6309444649428937925, guid: 0137d514ecbaa0d1e91c35a3d4633443, type: 3}
+  m_DetectionMode: 1
 --- !u!4 &2512387470860572925
 Transform:
   m_ObjectHideFlags: 0

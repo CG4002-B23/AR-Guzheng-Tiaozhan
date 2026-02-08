@@ -38,31 +38,32 @@ public class AutoEnemySpawner : MonoBehaviour
         // Check newly added planes
         foreach (var plane in args.added)
         {
-            CheckAndSpawn(plane);
+            if (areaIsLargeEnough(plane)) SpawnObject(plane);
         }
 
         // Check updated planes (they might have grown big enough now)
         foreach (var plane in args.updated)
         {
-            CheckAndSpawn(plane);
+            if (areaIsLargeEnough(plane)) SpawnObject(plane);
         }
     }
-
-    // Spawn object only if the plane is large enough
-    private void CheckAndSpawn(ARPlane plane)
+    private bool areaIsLargeEnough(ARPlane plane)
     {
-        if (objectSpawned) return;
-        if (plane.alignment != PlaneAlignment.HorizontalUp) return; // ensure plane is horizontal
+        if (objectSpawned) return false;
+        if (plane.alignment != PlaneAlignment.HorizontalUp) return false; // ensure plane is horizontal
         float area = plane.size.x * plane.size.y;
 
         if (area >= minPlaneArea)
         {
-            SpawnObject(plane);
+            return true;
         }
+        return false;
     }
 
     private void SpawnObject(ARPlane plane)
     {
+        if (objectSpawned) return;
+
         // Spawn the object at the center of the plane
         spawnedObject = Instantiate(objectToSpawn, plane.center, Quaternion.identity);
         objectSpawned = true;
