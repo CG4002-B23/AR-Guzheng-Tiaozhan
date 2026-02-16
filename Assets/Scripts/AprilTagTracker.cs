@@ -12,6 +12,10 @@ public class AprilTagTracker : MonoBehaviour
     public struct TagProfile { public int tagID; public GameObject linkedObject; }
     
     public List<TagProfile> tagProfiles = new List<TagProfile>();
+    private Dictionary<int, TagSession> _activeTagSessions = new Dictionary<int, TagSession>(); // holds 1 KF for every tag detection
+
+    [Tooltip("How long (in seconds) to keep predicting position using KF before hiding the object")]
+    public float lostTagTimeout = 0.5f;
 
     [Tooltip("Put AR camera here")]
     public ARCameraManager arCameraManager;
@@ -43,6 +47,41 @@ public class AprilTagTracker : MonoBehaviour
         // 2. Initialize Code
         InitializeDetector(1280, 720);
         if (arCameraManager != null) arCameraManager.frameReceived += OnCameraFrameReceived;
+
+        foreach(var profile in tagProfiles) 
+        {
+            _activeTagSessions[profile.tagID] = new TagSession();
+        }
+    }
+
+    void Update()
+    {
+        float dt = Time.deltaTime;
+        float currentTime = Time.time;
+
+        foreach (var profile in tagProfiles)
+        {
+            if (!_activeTagSessions.ContainsKey(profile.tagID)) continue;
+            
+            TagSession session = _activeTagSessions[profile.tagID];
+            GameObject trackedObject = profile.linkedObject;
+
+            // hide trackedObject if not detected for a while
+            if (currentTime - session.LastSeenTime > lostTagTimeout)
+            {
+                if (trackedObject.activeSelf) trackedObject.SetActive(false);
+                continue; 
+            }
+
+            Vector3 smoothedPos = session.Filter.KFPredict(dt); // fill in gaps for detection
+
+            // apply to object
+            if (!trackedObject.activeSelf) trackedObject.SetActive(true);
+            trackedObject.transform.localPosition = smoothedPos;
+            
+            // note: position is smoothed, but rotation is not smoothed (yet)
+            // consider Quaternion.Slerp in the detection loop
+        }
     }
 
     void OnDestroy()
@@ -143,36 +182,71 @@ public class AprilTagTracker : MonoBehaviour
         // Build Debug String
         string status = $"Frame: {_frameCount}\n" +
                         $"Res: {w}x{h}\n" +
-                        $"Decimation: {decimation}\n" +
-                        $"Tag Family: 41h12\n"; 
+                        $"Decimation: {decimation}\n";
+        float currentTime = Time.time;
 
-        // assume nothing is visible at the start of the frame
-        // so when the apriltags go out of frame, the 3d objects are also hidden
-        foreach (var profile in tagProfiles)
-        {
-            if (profile.linkedObject != null)
-            {
-                profile.linkedObject.SetActive(false);
-            }
-        }
+        HashSet<int> foundTags = new HashSet<int>(); // which tags are found in this frame
 
-        // spawn 3d objects at the pose of the apriltags detected
+        // // assume nothing is visible at the start of the frame
+        // // so when the apriltags go out of frame, the 3d objects are also hidden
+        // foreach (var profile in tagProfiles)
+        // {
+        //     if (profile.linkedObject != null)
+        //     {
+        //         profile.linkedObject.SetActive(false);
+        //     }
+        // }
+
+        // // spawn 3d objects at the pose of the apriltags detected
+        // foreach (var tag in _detector.DetectedTags)
+        // {
+        //     status += $"\n[ID {tag.ID}] \nPos: {tag.Position.ToString("F2")} \nOri: {tag.Rotation.ToString("F2")}";
+        //     foundTags.Add(tag.ID);
+            
+        //     // Search for profile
+        //     bool foundProfile = false;
+        //     foreach (var profile in tagProfiles) {
+        //         if (profile.tagID == tag.ID && profile.linkedObject != null) {
+        //             profile.linkedObject.SetActive(true);
+        //             // need to realign axes because the coordinate frame from AprilTag detection and Unity are different
+        //             profile.linkedObject.transform.localPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
+        //             profile.linkedObject.transform.localRotation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
+        //             foundProfile = true;
+        //         }
+        //     }
+        //     if (!foundProfile) status += " (No Profile)";
+        // }
+
         foreach (var tag in _detector.DetectedTags)
         {
-            status += $"\n[ID {tag.ID}] \nPos: {tag.Position.ToString("F2")} \nOri: {tag.Rotation.ToString("F2")}";
-            
-            // Search for profile
-            bool foundProfile = false;
-            foreach (var profile in tagProfiles) {
-                if (profile.tagID == tag.ID && profile.linkedObject != null) {
-                    profile.linkedObject.SetActive(true);
-                    // need to realign axes because the coordinate frame from AprilTag detection and Unity are different
-                    profile.linkedObject.transform.localPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
-                    profile.linkedObject.transform.localRotation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
-                    foundProfile = true;
+            foundTags.Add(tag.ID);
+            Vector3 tagPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
+            Quaternion tagOrientation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
+
+            // Find if we have a profile for this tag
+            if (_activeTagSessions.ContainsKey(tag.ID))
+            {
+                TagSession session = _activeTagSessions[tag.ID];
+                
+                // avoid the object flying in from the last known position
+                if (currentTime - session.LastSeenTime > lostTagTimeout)
+                {
+                    session.Filter.Reset(tagPosition);
                 }
+                
+                // smooth trajectory with measurement update
+                float dt = currentTime - session.LastSeenTime;
+                session.Filter.KFCorrect(tagPosition, dt);
+
+                session.LastSeenTime = currentTime;
+                
+                // directly set rotation (not smoothing yet)
+                foreach(var p in tagProfiles) {
+                     if(p.tagID == tag.ID) p.linkedObject.transform.localRotation = tagOrientation;
+                }
+
+                status += $"\nID {tag.ID}: Found";
             }
-            if (!foundProfile) status += " (No Profile)";
         }
         
         _debugText = status;
