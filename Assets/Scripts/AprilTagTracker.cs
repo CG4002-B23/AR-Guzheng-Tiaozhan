@@ -10,6 +10,9 @@ public class AprilTagTracker : MonoBehaviour
 {
     [System.Serializable]
     public struct TagProfile { public int tagID; public GameObject linkedObject; }
+
+    [Tooltip("Perform detection smoothing using Kalman Filter")]
+    public bool useSmoothing = true;
     
     public List<TagProfile> tagProfiles = new List<TagProfile>();
     private Dictionary<int, TagSession> _activeTagSessions = new Dictionary<int, TagSession>(); // holds 1 KF for every tag detection
@@ -35,7 +38,6 @@ public class AprilTagTracker : MonoBehaviour
     // debug variables
     private string _debugText = "Initializing...";
     private int _frameCount = 0;
-    private float _lastDetectionTime = 0;
 
     void Start()
     {
@@ -56,6 +58,8 @@ public class AprilTagTracker : MonoBehaviour
 
     void Update()
     {
+        if (!useSmoothing) return;
+
         float dt = Time.deltaTime;
         float currentTime = Time.time;
 
@@ -187,35 +191,41 @@ public class AprilTagTracker : MonoBehaviour
 
         HashSet<int> foundTags = new HashSet<int>(); // which tags are found in this frame
 
-        // // assume nothing is visible at the start of the frame
-        // // so when the apriltags go out of frame, the 3d objects are also hidden
-        // foreach (var profile in tagProfiles)
-        // {
-        //     if (profile.linkedObject != null)
-        //     {
-        //         profile.linkedObject.SetActive(false);
-        //     }
-        // }
+        if (!useSmoothing)
+        {
+            // assume nothing is visible at the start of the frame
+            // so when the apriltags go out of frame, the 3d objects are also hidden
+            foreach (var profile in tagProfiles)
+            {
+                if (profile.linkedObject != null)
+                {
+                    profile.linkedObject.SetActive(false);
+                }
+            }
 
-        // // spawn 3d objects at the pose of the apriltags detected
-        // foreach (var tag in _detector.DetectedTags)
-        // {
-        //     status += $"\n[ID {tag.ID}] \nPos: {tag.Position.ToString("F2")} \nOri: {tag.Rotation.ToString("F2")}";
-        //     foundTags.Add(tag.ID);
-            
-        //     // Search for profile
-        //     bool foundProfile = false;
-        //     foreach (var profile in tagProfiles) {
-        //         if (profile.tagID == tag.ID && profile.linkedObject != null) {
-        //             profile.linkedObject.SetActive(true);
-        //             // need to realign axes because the coordinate frame from AprilTag detection and Unity are different
-        //             profile.linkedObject.transform.localPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
-        //             profile.linkedObject.transform.localRotation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
-        //             foundProfile = true;
-        //         }
-        //     }
-        //     if (!foundProfile) status += " (No Profile)";
-        // }
+            // spawn 3d objects at the pose of the apriltags detected
+            foreach (var tag in _detector.DetectedTags)
+            {
+                status += $"\n[ID {tag.ID}] \nPos: {tag.Position.ToString("F2")} \nOri: {tag.Rotation.ToString("F2")}";
+                foundTags.Add(tag.ID);
+                
+                // Search for profile
+                bool foundProfile = false;
+                foreach (var profile in tagProfiles) {
+                    if (profile.tagID == tag.ID && profile.linkedObject != null) {
+                        profile.linkedObject.SetActive(true);
+                        // need to realign axes because the coordinate frame from AprilTag detection and Unity are different
+                        profile.linkedObject.transform.localPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
+                        profile.linkedObject.transform.localRotation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
+                        foundProfile = true;
+                    }
+                }
+                if (!foundProfile) status += " (No Profile)";
+            }
+
+            _debugText = status;
+            return;
+        }
 
         foreach (var tag in _detector.DetectedTags)
         {
