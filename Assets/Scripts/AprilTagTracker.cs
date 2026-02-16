@@ -146,6 +146,17 @@ public class AprilTagTracker : MonoBehaviour
                         $"Decimation: {decimation}\n" +
                         $"Tag Family: 41h12\n"; 
 
+        // assume nothing is visible at the start of the frame
+        // so when the apriltags go out of frame, the 3d objects are also hidden
+        foreach (var profile in tagProfiles)
+        {
+            if (profile.linkedObject != null)
+            {
+                profile.linkedObject.SetActive(false);
+            }
+        }
+
+        // spawn 3d objects at the pose of the apriltags detected
         foreach (var tag in _detector.DetectedTags)
         {
             status += $"\n[ID {tag.ID}] \nPos: {tag.Position.ToString("F2")} \nOri: {tag.Rotation.ToString("F2")}";
@@ -155,9 +166,8 @@ public class AprilTagTracker : MonoBehaviour
             foreach (var profile in tagProfiles) {
                 if (profile.tagID == tag.ID && profile.linkedObject != null) {
                     profile.linkedObject.SetActive(true);
-                    // profile.linkedObject.transform.localPosition = tag.Position;
+                    // need to realign axes because the coordinate frame from AprilTag detection and Unity are different
                     profile.linkedObject.transform.localPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
-                    // profile.linkedObject.transform.localRotation = tag.Rotation;
                     profile.linkedObject.transform.localRotation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
                     foundProfile = true;
                 }
