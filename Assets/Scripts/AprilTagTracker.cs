@@ -155,8 +155,10 @@ public class AprilTagTracker : MonoBehaviour
             foreach (var profile in tagProfiles) {
                 if (profile.tagID == tag.ID && profile.linkedObject != null) {
                     profile.linkedObject.SetActive(true);
-                    profile.linkedObject.transform.localPosition = tag.Position;
-                    profile.linkedObject.transform.localRotation = tag.Rotation;
+                    // profile.linkedObject.transform.localPosition = tag.Position;
+                    profile.linkedObject.transform.localPosition = new Vector3(-tag.Position.x, -tag.Position.y, tag.Position.z);
+                    // profile.linkedObject.transform.localRotation = tag.Rotation;
+                    profile.linkedObject.transform.localRotation = new Quaternion(-tag.Rotation.x, -tag.Rotation.y, tag.Rotation.z, tag.Rotation.w);
                     foundProfile = true;
                 }
             }
