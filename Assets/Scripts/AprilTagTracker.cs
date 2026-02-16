@@ -50,6 +50,8 @@ public class AprilTagTracker : MonoBehaviour
         InitializeDetector(1280, 720);
         if (arCameraManager != null) arCameraManager.frameReceived += OnCameraFrameReceived;
 
+        if (!useSmoothing) return;
+
         foreach(var profile in tagProfiles) 
         {
             _activeTagSessions[profile.tagID] = new TagSession();
@@ -186,7 +188,8 @@ public class AprilTagTracker : MonoBehaviour
         // Build Debug String
         string status = $"Frame: {_frameCount}\n" +
                         $"Res: {w}x{h}\n" +
-                        $"Decimation: {decimation}\n";
+                        $"Decimation: {decimation}\n" + 
+                        $"FOV: {cameraFOV}\n";
         float currentTime = Time.time;
 
         HashSet<int> foundTags = new HashSet<int>(); // which tags are found in this frame

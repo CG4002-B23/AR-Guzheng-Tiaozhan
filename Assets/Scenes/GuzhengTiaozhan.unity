@@ -151,11 +151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3902f88ac65d64f78555115287d036f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useSmoothing: 1
   tagProfiles:
   - tagID: 0
     linkedObject: {fileID: 1569372337}
   - tagID: 1
     linkedObject: {fileID: 768342755}
+  lostTagTimeout: 0.3
   arCameraManager: {fileID: 2512387468973847747}
   decimation: 2
   tagSizeMeters: 0.053
