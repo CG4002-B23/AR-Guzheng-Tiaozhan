@@ -12,10 +12,16 @@ public class AprilTagTracker : MonoBehaviour
     public struct TagProfile { public int tagID; public GameObject linkedObject; }
     
     public List<TagProfile> tagProfiles = new List<TagProfile>();
+
+    [Tooltip("Put AR camera here")]
     public ARCameraManager arCameraManager;
+
+    [Tooltip("The higher the decimation number, the more downscaling there is, therefore faster but less accurate detection")]
     [Range(1, 4)] public int decimation = 2;
     public float tagSizeMeters = 0.05f;
-    public float cameraFOV = 77.0f; // input cameraFOV manually from phone specifications. there is also code to compute this automatically
+
+    [Tooltip("Input cameraFOV from phone specification. The value will also be computed in code")]
+    public float cameraFOV = 77.0f; 
 
     private TagDetector _detector;
     private NativeArray<byte> _rawPixelBuffer;
