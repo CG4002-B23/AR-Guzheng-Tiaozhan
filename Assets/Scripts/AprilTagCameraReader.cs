@@ -17,7 +17,7 @@ public class AprilTagCameraReader : MonoBehaviour
 
     [Tooltip("Input cameraFOV from phone specification if known. The value will also be computed in code")]
     public float defaultCameraFOV = 80.0f;
-    [Tooltip("Select width of image to downscale to. The image will be process at this dimension. The image height will be scaled accordingly.")]
+    [Tooltip("Select width of image to downscale to (max 640). The image will be process at this dimension. The image height will be scaled accordingly.")]
     public float targetWidthToProcess = 640.0f;
 
     private NativeArray<byte> _rawPixelBuffer;
@@ -45,7 +45,7 @@ public class AprilTagCameraReader : MonoBehaviour
         }
 
         // Downscale logic
-        float ratio = (float)image.width / 640f;
+        float ratio = (float)image.width / targetWidthToProcess;
         int targetWidth = image.width;
         int targetHeight = image.height;
         if (ratio > 1.0f) {
