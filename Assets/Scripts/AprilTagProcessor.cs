@@ -178,8 +178,9 @@ public class AprilTagProcessor : MonoBehaviour
                 
                 // directly set rotation (not smoothing yet)
                 foreach(var p in tagProfiles) {
-                    if(p.tagID == tag.ID && p.linkedObject != null) p.linkedObject.transform.localRotation = tagOrientation;
+                    if (p.tagID != tag.ID || p.linkedObject == null) continue;
 
+                    p.linkedObject.transform.localRotation = tagOrientation;
                     status += $"\n[ID {tag.ID}] (Smoothed)" +
                             $"\nPos: {p.linkedObject.transform.localPosition.ToString("F2")}" +
                             $"\nRot: {p.linkedObject.transform.localRotation.ToString("F2")}";
