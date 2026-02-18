@@ -16,7 +16,7 @@ public class AprilTagCameraReader : MonoBehaviour
     public ARCameraManager arCameraManager;
 
     [Tooltip("Input cameraFOV from phone specification if known. The value will also be computed in code")]
-    public float defaultCameraFOV = 50.0f;
+    public float defaultCameraFOV = 80.0f;
     [Tooltip("Select width of image to downscale to. The image will be process at this dimension. The image height will be scaled accordingly.")]
     public float targetWidthToProcess = 640.0f;
 
@@ -89,7 +89,7 @@ public class AprilTagCameraReader : MonoBehaviour
         // we still have the back up variable for cameraFOV if this cannot be done on the phone
         float currentFov = defaultCameraFOV;
         if (arCameraManager.TryGetIntrinsics(out XRCameraIntrinsics intrinsics)) {
-            currentFov = 2.0f * Mathf.Atan((intrinsics.resolution.y) / (2.0f * intrinsics.focalLength.y)) * Mathf.Rad2Deg;
+            currentFov = 2.0f * Mathf.Atan((intrinsics.resolution.y) / (2.0f * intrinsics.focalLength.y)); // in radians
         }
 
         // send the processed data to the detector script

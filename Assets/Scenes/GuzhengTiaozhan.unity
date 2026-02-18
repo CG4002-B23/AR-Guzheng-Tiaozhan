@@ -698,7 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arCameraManager: {fileID: 2512387468973847747}
-  defaultCameraFOV: 50
+  defaultCameraFOV: 80
   targetWidthToProcess: 640
 --- !u!4 &1765540924 stripped
 Transform:
