@@ -1,54 +1,45 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AprilTag;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
-using Unity.Collections;
-using System;
 
-public class AprilTagTracker : MonoBehaviour
+public class AprilTagProcessor : MonoBehaviour
 {
     [System.Serializable]
     public struct TagProfile { public int tagID; public GameObject linkedObject; }
 
+    [Tooltip("Place camera reading script")]
+    public AprilTagCameraReader cameraReader;
+
     [Tooltip("Perform detection smoothing using Kalman Filter")]
     public bool useSmoothing = true;
     
+    [Tooltip("List of 3d objects to be rendered on each of the tags when they are detected in the frame")]
     public List<TagProfile> tagProfiles = new List<TagProfile>();
     private Dictionary<int, TagSession> _activeTagSessions = new Dictionary<int, TagSession>(); // holds 1 KF for every tag detection
 
     [Tooltip("How long (in seconds) to keep predicting position using KF before hiding the object")]
-    public float lostTagTimeout = 0.5f;
+    public float lostTagTimeout = 0.3f;
 
-    [Tooltip("Put AR camera here")]
-    public ARCameraManager arCameraManager;
-
-    [Tooltip("The higher the decimation number, the more downscaling there is, therefore faster but less accurate detection")]
+    [Tooltip("The higher the decimation number, the more downscaling there is during the detection, therefore faster but less accurate detection")]
     [Range(1, 4)] public int decimation = 2;
     public float tagSizeMeters = 0.05f;
 
-    [Tooltip("Input cameraFOV from phone specification. The value will also be computed in code")]
-    public float cameraFOV = 77.0f; 
-
-    private TagDetector _detector;
-    private NativeArray<byte> _rawPixelBuffer;
-    private Color32[] _colorBuffer;
-    private int _currentWidth, _currentHeight;
+    // expose debug status text publicly, to be read by AprilTagDebugUI.cs
+    public string DebugStatusText { get; private set; } = "Initialising...";
     
-    // debug variables
-    private string _debugText = "Initializing...";
+    private TagDetector _detector;
     private int _frameCount = 0;
+    private int _currentWidth, _currentHeight;
 
     void Start()
     {
-        // 1. Force Auto Focus (Crucial for detecting small tags)
-        if (arCameraManager != null) {
-            arCameraManager.autoFocusRequested = true;
-        }
+        InitialiseDetector(1280, 720); // default start
 
-        // 2. Initialize Code
-        InitializeDetector(1280, 720);
-        if (arCameraManager != null) arCameraManager.frameReceived += OnCameraFrameReceived;
+        // subscribe to the camera reader event (to get camera frames)
+        if (cameraReader != null) {
+            cameraReader.OnFrameAvailable += OnFrameAvailable;
+        }
 
         if (!useSmoothing) return;
 
@@ -56,6 +47,12 @@ public class AprilTagTracker : MonoBehaviour
         {
             _activeTagSessions[profile.tagID] = new TagSession();
         }
+    }
+
+    void OnDestroy()
+    {
+        _detector?.Dispose();
+        if (cameraReader != null) cameraReader.OnFrameAvailable -= OnFrameAvailable; // unsubscribe to prevent memory leaks
     }
 
     void Update()
@@ -85,111 +82,36 @@ public class AprilTagTracker : MonoBehaviour
             if (!trackedObject.activeSelf) trackedObject.SetActive(true);
             trackedObject.transform.localPosition = smoothedPos;
             
-            // note: position is smoothed, but rotation is not smoothed (yet)
-            // consider Quaternion.Slerp in the detection loop
+            // note: position is smoothed, but rotation is not smoothed
+            // consider Quaternion.Slerp in the detection loop if rotation smoothing is required later on
         }
     }
 
-    void OnDestroy()
-    {
-        _detector?.Dispose();
-        if (_rawPixelBuffer.IsCreated) _rawPixelBuffer.Dispose();
-        if (arCameraManager != null) arCameraManager.frameReceived -= OnCameraFrameReceived;
-    }
-
-    // debug statements showing on phone screen
-    void OnGUI()
-    {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 40;
-        style.normal.textColor = Color.red;
-        style.fontStyle = FontStyle.Bold;
-
-        // Draw the debug info at the top left
-        GUI.Label(new Rect(50, 50, 800, 1000), _debugText, style);
-    }
-
-    void InitializeDetector(int width, int height)
+    void InitialiseDetector(int width, int height)
     {
         if (_detector != null) _detector.Dispose();
-        
         _detector = new TagDetector(width, height, decimation);
-
         _currentWidth = width;
         _currentHeight = height;
-        _colorBuffer = new Color32[width * height];
-        
-        if (_rawPixelBuffer.IsCreated) _rawPixelBuffer.Dispose();
-        _rawPixelBuffer = new NativeArray<byte>(width * height * 4, Allocator.Persistent); 
     }
 
-    void OnCameraFrameReceived(ARCameraFrameEventArgs args)
+    // called automatically by the camera reader
+    void OnFrameAvailable(Color32[] pixels, int width, int height, float fov)
     {
         _frameCount++;
 
-        if (!arCameraManager.TryAcquireLatestCpuImage(out XRCpuImage image)) {
-            _debugText = "Status: Fail to acquire CPU Image";
-            return;
+        // Resize detection if screen orientation changed (checked against cached width/height)
+        if (_currentWidth != width || _currentHeight != height) {
+            InitialiseDetector(width, height);
         }
 
-        // Downscale logic
-        float ratio = (float)image.width / 640f;
-        int targetWidth = image.width;
-        int targetHeight = image.height;
-        if (ratio > 1.0f) {
-            targetWidth = Mathf.RoundToInt(image.width / ratio);
-            targetHeight = Mathf.RoundToInt(image.height / ratio);
-        }
-
-        // Resize detection if screen orientation changed
-        if (_currentWidth != targetWidth || _currentHeight != targetHeight) {
-            InitializeDetector(targetWidth, targetHeight);
-        }
-
-        // Convert Image
-        var conversionParams = new XRCpuImage.ConversionParams {
-            inputRect = new RectInt(0, 0, image.width, image.height),
-            outputDimensions = new Vector2Int(targetWidth, targetHeight),
-            outputFormat = TextureFormat.RGBA32, // AprilTag unity repo method takes in RGB image, not grayscale, though tag detection is usually done in grayscale
-            transformation = XRCpuImage.Transformation.MirrorY
-        };
-
-        // allocate sufficient bytes in gray buffer
-        int size = image.GetConvertedDataSize(conversionParams);
-        if (_rawPixelBuffer.Length < size) {
-            _rawPixelBuffer.Dispose();
-            _rawPixelBuffer = new NativeArray<byte>(size, Allocator.Persistent);
-        }
-
-        // XRCpuImage takes the raw camera data and pushes converted pixels directly into _rawPixelBuffer
-        // _rawPixelBuffer is a NativeArray allocated with Allocator.Persistent, so
-        // it sits in a special memory area that doesn't get wiped every frame, saving performance.
-        image.Convert(conversionParams, _rawPixelBuffer);
-        image.Dispose();
-
-        // copying bytes into a color array is very slow (4 channels, RGBA)
-        // instead of moving data, treat every chunk of 4 bytes as 1 color
-        NativeArray<Color32> tmp = _rawPixelBuffer.Reinterpret<Color32>(1);
-        tmp.CopyTo(_colorBuffer);
-
-        // Calculate simplified FOV from android camera intrinsics.
-        // we still have the back up variable for cameraFOV if this cannot be done on the phone
-        if (arCameraManager.TryGetIntrinsics(out XRCameraIntrinsics intrinsics)) {
-            cameraFOV = 2.0f * Mathf.Atan((intrinsics.resolution.y) / (2.0f * intrinsics.focalLength.y)) * Mathf.Rad2Deg;
-        }
-
-        RunDetection(_colorBuffer, cameraFOV, targetWidth, targetHeight);
-    }
-
-    void RunDetection(Color32[] pixels, float fov, int w, int h)
-    {
         _detector.ProcessImage(pixels, fov, tagSizeMeters);
         
         // Build Debug String
         string status = $"Frame: {_frameCount}\n" +
-                        $"Res: {w}x{h}\n" +
+                        $"Res: {width}x{height}\n" +
                         $"Decimation: {decimation}\n" + 
-                        $"FOV: {cameraFOV}\n";
+                        $"FOV: {fov}\n";
         float currentTime = Time.time;
 
         HashSet<int> foundTags = new HashSet<int>(); // which tags are found in this frame
@@ -226,10 +148,11 @@ public class AprilTagTracker : MonoBehaviour
                 if (!foundProfile) status += " (No Profile)";
             }
 
-            _debugText = status;
+            DebugStatusText = status;
             return;
         }
 
+        // smoothing enabled
         foreach (var tag in _detector.DetectedTags)
         {
             foundTags.Add(tag.ID);
@@ -262,6 +185,6 @@ public class AprilTagTracker : MonoBehaviour
             }
         }
         
-        _debugText = status;
+        DebugStatusText = status;
     }
 }
