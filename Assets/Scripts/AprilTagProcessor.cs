@@ -11,12 +11,12 @@ public class AprilTagProcessor : MonoBehaviour
     [Tooltip("Place camera reading script")]
     public AprilTagCameraReader cameraReader;
 
-    [Tooltip("Perform detection smoothing using Kalman Filter")]
+    [Tooltip("Perform detection smoothing for both position and rotation")]
     public bool useSmoothing = true;
     
     [Tooltip("List of 3d objects to be rendered on each of the tags when they are detected in the frame")]
     public List<TagProfile> tagProfiles = new List<TagProfile>();
-    private Dictionary<int, TagSession> _activeTagSessions = new Dictionary<int, TagSession>(); // holds 1 KF for every tag detection
+    private Dictionary<int, AprilTagSession> _activeTagSessions = new Dictionary<int, AprilTagSession>(); // holds 1 KF for every tag detection
 
     [Tooltip("How long (in seconds) to keep predicting position using KF before hiding the object")]
     public float lostTagTimeout = 0.3f;
@@ -31,7 +31,6 @@ public class AprilTagProcessor : MonoBehaviour
     private TagDetector _detector;
     private int _frameCount = 0;
     private int _currentWidth, _currentHeight;
-    private float rotationSmoothSpeed = 5.0f; // lower = smoother but laggier, higher = faster but more jittery
 
     void Start()
     {
@@ -46,7 +45,7 @@ public class AprilTagProcessor : MonoBehaviour
 
         foreach(var profile in tagProfiles) 
         {
-            _activeTagSessions[profile.tagID] = new TagSession();
+            _activeTagSessions[profile.tagID] = new AprilTagSession();
         }
     }
 
@@ -67,7 +66,7 @@ public class AprilTagProcessor : MonoBehaviour
         {
             if (!_activeTagSessions.ContainsKey(profile.tagID)) continue;
             
-            TagSession session = _activeTagSessions[profile.tagID];
+            AprilTagSession session = _activeTagSessions[profile.tagID];
             GameObject trackedObject = profile.linkedObject;
 
             // hide trackedObject if not detected for a while
@@ -77,7 +76,7 @@ public class AprilTagProcessor : MonoBehaviour
                 continue; 
             }
 
-            Vector3 smoothedPos = session.Filter.KFPredict(dt); // fill in gaps for detection
+            Vector3 smoothedPos = session.PositionSmoother.KFPredict(dt); // fill in gaps for detection
 
             // apply to object
             if (!trackedObject.activeSelf) trackedObject.SetActive(true);
@@ -86,12 +85,10 @@ public class AprilTagProcessor : MonoBehaviour
             trackedObject.transform.localPosition = smoothedPos;
             
             // set smoothed rotation as spherical linear interpolation between the current rotation and the rotation in the next frame
-            float interpolationRatio = 1f - Mathf.Exp(-rotationSmoothSpeed * dt); // 0 - lean to previous frame's rotation. 1 - lean to current frame's rotation
-            trackedObject.transform.localRotation = Quaternion.Slerp(
-                trackedObject.transform.localRotation, 
-                session.TargetRotation, 
-                interpolationRatio
-            ); 
+            trackedObject.transform.localRotation = session.RotationSmoother.SmoothRotation(
+                trackedObject.transform.localRotation,
+                dt
+            );
         }
     }
 
@@ -170,12 +167,12 @@ public class AprilTagProcessor : MonoBehaviour
             // Find if we have a profile for this tag
             if (_activeTagSessions.ContainsKey(tag.ID))
             {
-                TagSession session = _activeTagSessions[tag.ID];
+                AprilTagSession session = _activeTagSessions[tag.ID];
                 
                 // avoid the object flying in from the last known position
                 if (currentTime - session.LastSeenTime > lostTagTimeout)
                 {
-                    session.Filter.Reset(tagPosition);
+                    session.PositionSmoother.Reset(tagPosition);
 
                     // snap rotation upon rediscovery so it doesn't spin into place
                     foreach(var p in tagProfiles) {
@@ -187,10 +184,10 @@ public class AprilTagProcessor : MonoBehaviour
                 
                 // smooth trajectory with measurement update
                 float dt = currentTime - session.LastSeenTime;
-                session.Filter.KFCorrect(tagPosition, dt);
+                session.PositionSmoother.KFCorrect(tagPosition, dt);
 
                 session.LastSeenTime = currentTime;
-                session.TargetRotation = tagOrientation;
+                session.RotationSmoother.TargetRotation = tagOrientation;
                 
                 foreach(var p in tagProfiles) {
                     if (p.tagID != tag.ID || p.linkedObject == null) continue;

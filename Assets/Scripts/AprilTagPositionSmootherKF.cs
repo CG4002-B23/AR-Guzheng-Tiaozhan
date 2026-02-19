@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable] // so the class shows up in the inspector
-public class KalmanFilter
+public class AprilTagPositionSmootherKF
 {
     // state space is the position and velocity of the tag: [x, y, z, vx, vy, vz]
     // perform smoothing for all 3 axes
@@ -14,7 +14,7 @@ public class KalmanFilter
     // measurement noise (r): how inaccurate the measurements (aprilTag detection) is
     private float _q = 0.03f; 
     private float _r = 0.005f;  
-    private float _friction = 0.85f; // friction. 1.0f = no friction, 0.8f = high friction
+    private float _friction = 0.95f; // friction. 1.0f = no friction, 0.8f = high friction
     private float _estimated_dt = 0.016f; // 60 fps on modern devices
 
     // estimation error covariance (level of confidence of position estimate)
@@ -22,7 +22,7 @@ public class KalmanFilter
     private float _p = 100.0f; 
     private float _k = 0.0f; // kalman gain
 
-    public KalmanFilter() { }
+    public AprilTagPositionSmootherKF() { }
 
     public void Reset(Vector3 startPos)
     {
@@ -56,13 +56,4 @@ public class KalmanFilter
         _vel += velocityGain * positionError;
         _p = (1 - _k) * _p; // update error cov
     }
-}
-
-// keeping track of active tags
-public class TagSession
-{
-    public KalmanFilter Filter = new KalmanFilter();
-    public float LastSeenTime;
-    public bool IsVisible;
-    public Quaternion TargetRotation = Quaternion.identity;
 }
