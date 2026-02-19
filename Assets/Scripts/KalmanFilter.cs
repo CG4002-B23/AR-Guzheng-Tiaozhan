@@ -64,4 +64,5 @@ public class TagSession
     public KalmanFilter Filter = new KalmanFilter();
     public float LastSeenTime;
     public bool IsVisible;
+    public Quaternion TargetRotation = Quaternion.identity;
 }

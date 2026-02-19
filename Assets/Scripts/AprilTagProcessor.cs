@@ -31,6 +31,7 @@ public class AprilTagProcessor : MonoBehaviour
     private TagDetector _detector;
     private int _frameCount = 0;
     private int _currentWidth, _currentHeight;
+    private float rotationSmoothSpeed = 5.0f; // lower = smoother but laggier, higher = faster but more jittery
 
     void Start()
     {
@@ -80,10 +81,17 @@ public class AprilTagProcessor : MonoBehaviour
 
             // apply to object
             if (!trackedObject.activeSelf) trackedObject.SetActive(true);
+
+            // set smoothed position from KF output
             trackedObject.transform.localPosition = smoothedPos;
             
-            // note: position is smoothed, but rotation is not smoothed
-            // consider Quaternion.Slerp in the detection loop if rotation smoothing is required later on
+            // set smoothed rotation as spherical linear interpolation between the current rotation and the rotation in the next frame
+            float interpolationRatio = 1f - Mathf.Exp(-rotationSmoothSpeed * dt); // 0 - lean to previous frame's rotation. 1 - lean to current frame's rotation
+            trackedObject.transform.localRotation = Quaternion.Slerp(
+                trackedObject.transform.localRotation, 
+                session.TargetRotation, 
+                interpolationRatio
+            ); 
         }
     }
 
@@ -168,6 +176,13 @@ public class AprilTagProcessor : MonoBehaviour
                 if (currentTime - session.LastSeenTime > lostTagTimeout)
                 {
                     session.Filter.Reset(tagPosition);
+
+                    // snap rotation upon rediscovery so it doesn't spin into place
+                    foreach(var p in tagProfiles) {
+                        if (p.tagID == tag.ID && p.linkedObject != null) {
+                            p.linkedObject.transform.localRotation = tagOrientation;
+                        }
+                    }
                 }
                 
                 // smooth trajectory with measurement update
@@ -175,12 +190,11 @@ public class AprilTagProcessor : MonoBehaviour
                 session.Filter.KFCorrect(tagPosition, dt);
 
                 session.LastSeenTime = currentTime;
+                session.TargetRotation = tagOrientation;
                 
-                // directly set rotation (not smoothing yet)
                 foreach(var p in tagProfiles) {
                     if (p.tagID != tag.ID || p.linkedObject == null) continue;
 
-                    p.linkedObject.transform.localRotation = tagOrientation;
                     status += $"\n[ID {tag.ID}] (Smoothed)" +
                             $"\nPos: {p.linkedObject.transform.localPosition.ToString("F2")}" +
                             $"\nRot: {p.linkedObject.transform.localRotation.ToString("F2")}";
