@@ -1154,6 +1154,8 @@ GameObject:
   - component: {fileID: 2512387470422636670}
   - component: {fileID: 2512387470422636672}
   - component: {fileID: 2512387470422636671}
+  - component: {fileID: 2512387470422636674}
+  - component: {fileID: 2512387470422636673}
   m_Layer: 0
   m_Name: XR Origin (AR Rig)
   m_TagString: Untagged
@@ -1175,7 +1177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SerializedLibrary: {fileID: 11400000, guid: 68b34dbdbae1b6ca193804def7f677eb, type: 2}
   m_MaxNumberOfMovingImages: 0
-  m_TrackedImagePrefab: {fileID: 5676638896489940741, guid: 06e9b35033cf568eb98a6849585770d5, type: 3}
+  m_TrackedImagePrefab: {fileID: 0}
 --- !u!114 &2512387470422636671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1204,6 +1206,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlanePrefab: {fileID: 6309444649428937925, guid: 0137d514ecbaa0d1e91c35a3d4633443, type: 3}
   m_DetectionMode: 1
+--- !u!114 &2512387470422636673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512387470422636669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efcefcf8e50886ec5b5564587d492753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guzhengPrefab: {fileID: 5676638896489940741, guid: 06e9b35033cf568eb98a6849585770d5, type: 3}
+  requiredTrackingTime: 2
+--- !u!114 &2512387470422636674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512387470422636669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnchorPrefab: {fileID: 0}
 --- !u!4 &2512387470860572925
 Transform:
   m_ObjectHideFlags: 0
