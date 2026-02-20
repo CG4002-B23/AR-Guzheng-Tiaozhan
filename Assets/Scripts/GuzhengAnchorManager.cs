@@ -5,7 +5,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 [RequireComponent(typeof(ARTrackedImageManager))]
-public class GuzhengSpawnAndAnchor : MonoBehaviour
+public class GuzhengAnchorManager : MonoBehaviour
 {
     [Header("Guzheng Settings")]
     [Tooltip("The 3D Guzheng prefab to spawn for the battle.")]
