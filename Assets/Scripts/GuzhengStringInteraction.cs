@@ -11,7 +11,7 @@ public class GuzhengStringInteraction : MonoBehaviour
     
     private Color invisibleColor;
     private Material stringMaterial;
-    private string DebugStatusText = "";
+    private List<Collider> touchingHands = new List<Collider>(); // hand colliders currently inside the trigger
 
     void Start()
     {
@@ -23,35 +23,60 @@ public class GuzhengStringInteraction : MonoBehaviour
         stringMaterial.color = invisibleColor;
     }
 
+    void Update()
+    {
+        if (touchingHands.Count > 0)
+        {
+            bool listChanged = false;
+
+            // Iterate backwards through the list to safely remove items while looping
+            for (int i = touchingHands.Count - 1; i >= 0; i--)
+            {
+                if (!touchingHands[i].gameObject.activeInHierarchy)  // disabled by tracking loss
+                {
+                    touchingHands.RemoveAt(i);
+                    listChanged = true;
+                }
+            }
+
+            if (listChanged && touchingHands.Count == 0) // removed a lost hand and there are no more hands touching the string
+            {
+                stringMaterial.color = invisibleColor;
+            }
+        }
+    }
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Hand")) // check if the object touching the string is the player's hand
+        if (other.CompareTag("Hand"))
         {
-            stringMaterial.color = highlightColor;
-            DebugStatusText = "Hand touching string: " + gameObject.name;
-            
-            // trigger guzheng audio notes here
+            if (!touchingHands.Contains(other))
+            {
+                touchingHands.Add(other); // add the new finger that is touching the string
+                
+                if (touchingHands.Count == 1)
+                {
+                    stringMaterial.color = highlightColor;
+                    
+                    // play guzheng note here
+                }
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Hand")) // turn the string invisible again when the hand leaves
+        if (other.CompareTag("Hand"))
         {
-            stringMaterial.color = invisibleColor;
-            DebugStatusText = "";
+            if (touchingHands.Contains(other))
+            {
+                touchingHands.Remove(other); // remove hand from list when exited normally
+                
+                if (touchingHands.Count == 0)
+                {
+                    stringMaterial.color = invisibleColor;
+                }
+            }
         }
-    }
-
-    // debug statements showing on phone screen
-    void OnGUI()
-    {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 40;
-        style.normal.textColor = Color.green;
-        style.fontStyle = FontStyle.Bold;
-
-        // Draw the debug info at the top right
-        GUI.Label(new Rect(1300, 50, 800, 1000), DebugStatusText, style);
     }
 }
