@@ -7,13 +7,7 @@ public class RightHandAnimationController : MonoBehaviour
     [Header("Component References")]
     public Animator handAnimator;
 
-    [Header("Timer Settings")]
-    [Tooltip("How many seconds before switching animations")]
-    public float switchInterval = 3.0f;
-    private float timer = 0f;
-    
-    // 0 = Idle, 1 = Pluck, 2 = Pointer
-    private int currentState = 0; 
+    public MockGestureProvider gestureProvider; // to be changed later to get information from fpga
 
     void Start()
     {
@@ -21,35 +15,23 @@ public class RightHandAnimationController : MonoBehaviour
         {
             handAnimator = GetComponent<Animator>();
         }
-    }
-
-    void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= switchInterval)
+        if (gestureProvider != null)
         {
-            timer = 0f;
-            CycleNextAnimation();
+            gestureProvider.OnGestureReceived += HandleGestureDetected;
         }
     }
 
-    void CycleNextAnimation()
+    void OnDestroy()
     {
-        currentState++;
-        if (currentState > 2) currentState = 0;
-
-        switch (currentState)
+        if (gestureProvider != null)
         {
-            case 0:
-                handAnimator.SetTrigger("IdleTrigger");
-                break;
-            case 1:
-                handAnimator.SetTrigger("RightTuoTrigger"); // right tuo has an automatic exit time
-                break;
-            case 2:
-                handAnimator.SetTrigger("PointerTrigger");
-                break;
+            gestureProvider.OnGestureReceived -= HandleGestureDetected;
         }
+    }
+
+    private void HandleGestureDetected(string detectedGesture)
+    {
+        // e.g., "RightTuo" + "Trigger" = "RightTuoTrigger"
+        handAnimator.SetTrigger(detectedGesture + "Trigger");
     }
 }
