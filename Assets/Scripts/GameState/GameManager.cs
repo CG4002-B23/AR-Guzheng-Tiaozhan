@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
         ChangeState(GameState.StartMenu);
     }
 
-    // call this method from any script to change the game state
+    // call this method from any script to change the game state (state sender)
     public void ChangeState(GameState newState)
     {
         CurrentState = newState;
