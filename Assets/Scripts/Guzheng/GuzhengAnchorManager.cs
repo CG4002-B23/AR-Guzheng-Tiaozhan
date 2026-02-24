@@ -17,6 +17,7 @@ public class GuzhengAnchorManager : StateListener
     private ARTrackedImageManager imageManager;
     
     private GameObject spawnedGuzheng;
+    private ARAnchor guzhengAnchor;
     private float trackingTimer = 0f;
     private bool isAnchored = false;
 
@@ -33,8 +34,6 @@ public class GuzhengAnchorManager : StateListener
 
         foreach (var trackedImage in imageManager.trackables)
         {
-            TrackableId id = trackedImage.trackableId;
-
             // spawn the guzheng immediately if the marker has not been seen before
             if (spawnedGuzheng == null)
             {
@@ -50,27 +49,42 @@ public class GuzhengAnchorManager : StateListener
             if (trackedImage.trackingState == TrackingState.Tracking)
             {
                 trackingTimer += Time.deltaTime;
-                if (trackingTimer >= requiredTrackingTime) AnchorGuzheng(id);
+                if (trackingTimer >= requiredTrackingTime) 
+                    AnchorGuzheng();
             }
             else
             {
                 // tracking dropped to Limited or None before the timer was up. reset the timer, because we cannot guarantee a detection
                 trackingTimer = 0f;
+                DestroyGuzheng();
             }
         }
     }
 
-    private void AnchorGuzheng(TrackableId id)
+    private void AnchorGuzheng()
     {
         // decouple the guzheng model from the marker
         spawnedGuzheng.transform.SetParent(null, true);
 
         // ARAnchor components takes over the transform and stabilise using SLAM
-        if (spawnedGuzheng.GetComponent<ARAnchor>() == null) spawnedGuzheng.AddComponent<ARAnchor>();
+        if (spawnedGuzheng.GetComponent<ARAnchor>() == null) 
+            guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
 
         isAnchored = true;
         DebugStatusText = "Guzheng Anchored";
         GameManager.Instance.ChangeState(GameManager.GameState.PlayingFieldScanning);
+    }
+
+    public void DestroyGuzheng()
+    {
+        if (spawnedGuzheng != null)
+        {
+            Destroy(spawnedGuzheng);
+            spawnedGuzheng = null;
+            trackingTimer = 0f;
+            isAnchored = false;
+            DebugStatusText = "";
+        }
     }
 
     // debug statements showing on phone screen

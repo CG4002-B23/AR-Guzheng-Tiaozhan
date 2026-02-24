@@ -46,7 +46,7 @@ public class ARStateManager : MonoBehaviour
 
     private void ToggleARFeatures(bool isGuzhengMarkerDetectionEnabled, bool isPlanesEnabled, bool isAnchorsEnabled)
     {
-        if (imageManager != null) imageManager.enabled = isGuzhengMarkerDetectionEnabled;
+        // if (imageManager != null) imageManager.enabled = isGuzhengMarkerDetectionEnabled;
         if (planeManager != null) planeManager.enabled = isPlanesEnabled;
         if (anchorManager != null) anchorManager.enabled = isAnchorsEnabled;
     }

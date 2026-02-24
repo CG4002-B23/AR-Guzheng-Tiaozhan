@@ -1083,6 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 309348962}
+  guzhengAnchorManager: {fileID: 2512387470422636673}
   startMenu: {fileID: 269944953}
   pauseMenu: {fileID: 1201677158}
   gameplayUI: {fileID: 1853408422}
@@ -3469,7 +3470,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f840261577a0edd029b908e18bb88999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arSession: {fileID: 1167446572}
   imageManager: {fileID: 2512387470422636670}
   planeManager: {fileID: 2512387470422636672}
   anchorManager: {fileID: 2512387470422636674}

@@ -1,13 +1,13 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.XR.Management;
 
 // handles which button is clicked
 public class UIManager : MonoBehaviour
 {
     [Tooltip("GameStateManager object holding the GameManager script")]
     public GameManager gameManager;
+
+    [Tooltip("Reference to the GuzhengAnchorManager")]
+    public GuzhengAnchorManager guzhengAnchorManager;
 
     [Header("UI Canvases")]
     [Tooltip("Drag Canvas panel objects here")]
@@ -68,7 +68,7 @@ public class UIManager : MonoBehaviour
 
     public void OnMainMenuButtonClicked()
     {
+        guzhengAnchorManager.DestroyGuzheng();
         GameManager.Instance.ChangeState(GameManager.GameState.StartMenu);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // reload the AR scene
     }
 }
