@@ -5,7 +5,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 [RequireComponent(typeof(ARTrackedImageManager))]
-public class GuzhengAnchorManager : MonoBehaviour
+public class GuzhengAnchorManager : StateListener
 {
     [Header("Guzheng Settings")]
     [Tooltip("The 3D Guzheng prefab to spawn for the battle.")]
@@ -18,7 +18,6 @@ public class GuzhengAnchorManager : MonoBehaviour
     
     private Dictionary<TrackableId, GameObject> spawnedGuzhengs = new Dictionary<TrackableId, GameObject>();
     private Dictionary<TrackableId, float> trackingTimers = new Dictionary<TrackableId, float>();
-    private Dictionary<TrackableId, bool> isAnchored = new Dictionary<TrackableId, bool>();
 
     public string DebugStatusText { get; private set; } = "";
 
@@ -29,6 +28,8 @@ public class GuzhengAnchorManager : MonoBehaviour
 
     void Update()
     {
+        if (!isActiveState) return;
+
         foreach (var trackedImage in imageManager.trackables)
         {
             TrackableId id = trackedImage.trackableId;
@@ -40,10 +41,7 @@ public class GuzhengAnchorManager : MonoBehaviour
                 
                 spawnedGuzhengs[id] = instance;
                 trackingTimers[id] = 0f;
-                isAnchored[id] = false;
             }
-
-            if (isAnchored[id]) continue;
 
             // temporary timer logic to determine when to anchor the guzheng to the marker
             // replace this with isStringsAligned boolean later on
@@ -77,8 +75,8 @@ public class GuzhengAnchorManager : MonoBehaviour
             guzhengInstance.AddComponent<ARAnchor>();
         }
 
-        isAnchored[id] = true;
         DebugStatusText = "Guzheng Anchored";
+        GameManager.Instance.ChangeState(GameManager.GameState.PlayingFieldScanning);
     }
 
     // debug statements showing on phone screen

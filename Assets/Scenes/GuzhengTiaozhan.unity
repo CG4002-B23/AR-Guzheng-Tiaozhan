@@ -3441,6 +3441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcefcf8e50886ec5b5564587d492753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetState: 2
   guzhengPrefab: {fileID: 5108422147287545188, guid: 0f2e137360fd14848b3884ee25701ced, type: 3}
   requiredTrackingTime: 2
 --- !u!114 &2512387470422636674
@@ -3468,6 +3469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f840261577a0edd029b908e18bb88999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arSession: {fileID: 1167446572}
   imageManager: {fileID: 2512387470422636670}
   planeManager: {fileID: 2512387470422636672}
   anchorManager: {fileID: 2512387470422636674}

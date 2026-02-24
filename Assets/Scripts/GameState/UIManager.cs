@@ -1,4 +1,7 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR.Management;
 
 // handles which button is clicked
 public class UIManager : MonoBehaviour
@@ -66,5 +69,6 @@ public class UIManager : MonoBehaviour
     public void OnMainMenuButtonClicked()
     {
         GameManager.Instance.ChangeState(GameManager.GameState.StartMenu);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // reload the AR scene
     }
 }
