@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState { get; private set; }
     public GameState PreviousState { get; private set; } // store the previous state to return to when the game is paused
+    
+    public string DebugStatusText { get; private set; } = "";
 
     void Start()
     {
@@ -32,11 +34,25 @@ public class GameManager : MonoBehaviour
 
         CurrentState = newState;
         OnGameStateChanged?.Invoke(newState); // check if anyone is listening before firing the event
+
+        DebugStatusText = "State: " + CurrentState;
     }
 
     // for the pause menu, to revert to the previous state that the game was in
     public void ResumeGame()
     {
         ChangeState(PreviousState);
+    }
+
+        // debug statements showing on phone screen
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 40;
+        style.normal.textColor = Color.green;
+        style.fontStyle = FontStyle.Bold;
+
+        // Draw the debug info at the top right
+        GUI.Label(new Rect(1600, 1200, 800, 1000), DebugStatusText, style);
     }
 }
