@@ -4,6 +4,21 @@ using UnityEngine;
 // Handles what state the game is currently in 
 public class GameManager : MonoBehaviour
 {
+    // singleton setup - ensure that there is only 1 instance of GameManager by providing global access to it
+    public static GameManager Instance { get; private set; }
+    void Awake()
+    {
+        // delete any extra instances of this object
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     public enum GameState { Initialising, StartMenu, GuzhengPlacing, PlayingFieldScanning, Playing, Paused }
 
     // other scripts tune in to this event
@@ -53,6 +68,6 @@ public class GameManager : MonoBehaviour
         style.fontStyle = FontStyle.Bold;
 
         // Draw the debug info at the top right
-        GUI.Label(new Rect(1600, 1200, 800, 1000), DebugStatusText, style);
+        GUI.Label(new Rect(1600, 50, 800, 1000), DebugStatusText, style);
     }
 }

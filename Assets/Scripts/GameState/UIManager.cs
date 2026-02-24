@@ -50,21 +50,21 @@ public class UIManager : MonoBehaviour
     // hook each of these functions to the OnClick() list of the buttons in the menus
     public void OnStartButtonClicked()
     {
-        gameManager.ChangeState(GameManager.GameState.GuzhengPlacing);
+        GameManager.Instance.ChangeState(GameManager.GameState.GuzhengPlacing);
     }
 
     public void OnPauseButtonClicked()
     {
-        gameManager.ChangeState(GameManager.GameState.Paused);
+        GameManager.Instance.ChangeState(GameManager.GameState.Paused);
     }
 
     public void OnResumeButtonClicked()
     {
-        gameManager.ResumeGame(); // reverts to the state of the game just before pausing
+        GameManager.Instance.ResumeGame(); // reverts to the state of the game just before pausing
     }
 
     public void OnMainMenuButtonClicked()
     {
-        gameManager.ChangeState(GameManager.GameState.StartMenu);
+        GameManager.Instance.ChangeState(GameManager.GameState.StartMenu);
     }
 }
