@@ -23,8 +23,11 @@ public class ARStateManager : MonoBehaviour
         switch (newState)
         {
             case GameManager.GameState.StartMenu:
-            case GameManager.GameState.Paused:
                 ToggleARFeatures(isGuzhengMarkerDetectionEnabled: false, isPlanesEnabled: false, isAnchorsEnabled: false);
+                break;
+
+            case GameManager.GameState.Paused:
+                ToggleARFeatures(isGuzhengMarkerDetectionEnabled: false, isPlanesEnabled: false, isAnchorsEnabled: true);
                 break;
 
             case GameManager.GameState.GuzhengPlacing:
