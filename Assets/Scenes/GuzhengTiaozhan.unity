@@ -1072,6 +1072,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 309348962}
+  startMenu: {fileID: 269944953}
+  pauseMenu: {fileID: 1201677158}
+  gameplayUI: {fileID: 1853408422}
 --- !u!4 &871859320
 Transform:
   m_ObjectHideFlags: 0
@@ -3364,6 +3367,7 @@ GameObject:
   - component: {fileID: 2512387470422636671}
   - component: {fileID: 2512387470422636674}
   - component: {fileID: 2512387470422636673}
+  - component: {fileID: 2512387470422636675}
   m_Layer: 0
   m_Name: XR Origin (AR Rig)
   m_TagString: Untagged
@@ -3441,6 +3445,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AnchorPrefab: {fileID: 0}
+--- !u!114 &2512387470422636675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512387470422636669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f840261577a0edd029b908e18bb88999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imageManager: {fileID: 2512387470422636670}
+  planeManager: {fileID: 2512387470422636672}
+  anchorManager: {fileID: 2512387470422636674}
 --- !u!4 &2512387470860572925
 Transform:
   m_ObjectHideFlags: 0
