@@ -70,6 +70,13 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.ResumeGame(); // reverts to the state of the game just before pausing
     }
 
+    public void OnRestartButtonClicked()
+    {
+        guzhengAnchorManager.DestroyGuzheng();
+        GameManager.Instance.ChangeState(GameManager.GameState.GuzhengPlacing);
+        arSession.Reset();
+    }
+
     public void OnMainMenuButtonClicked()
     {
         guzhengAnchorManager.DestroyGuzheng();
