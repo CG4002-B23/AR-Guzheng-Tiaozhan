@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// handles the functionality changes during transition between game states
 // 'abstract' only exists to be inherited from
 public abstract class StateListener : MonoBehaviour
 {

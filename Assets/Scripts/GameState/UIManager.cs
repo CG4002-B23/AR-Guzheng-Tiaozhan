@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// handles which button is clicked
 public class UIManager : MonoBehaviour
 {
     [Tooltip("GameStateManager object holding the GameManager script")]

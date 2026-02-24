@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+// Handles what state the game is currently in 
 public class GameManager : MonoBehaviour
 {
     public enum GameState { StartMenu, GuzhengPlacing, PlayingFieldScanning, Playing, Paused }
