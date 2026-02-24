@@ -5,7 +5,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 [RequireComponent(typeof(ARTrackedImageManager))]
-public class GuzhengAnchorManager : MonoBehaviour
+public class GuzhengAnchorManager : StateListener
 {
     [Header("Guzheng Settings")]
     [Tooltip("The 3D Guzheng prefab to spawn for the battle.")]
@@ -16,9 +16,10 @@ public class GuzhengAnchorManager : MonoBehaviour
 
     private ARTrackedImageManager imageManager;
     
-    private Dictionary<TrackableId, GameObject> spawnedGuzhengs = new Dictionary<TrackableId, GameObject>();
-    private Dictionary<TrackableId, float> trackingTimers = new Dictionary<TrackableId, float>();
-    private Dictionary<TrackableId, bool> isAnchored = new Dictionary<TrackableId, bool>();
+    private GameObject spawnedGuzheng;
+    private ARAnchor guzhengAnchor;
+    private float trackingTimer = 0f;
+    private bool isAnchored = false;
 
     public string DebugStatusText { get; private set; } = "";
 
@@ -29,56 +30,61 @@ public class GuzhengAnchorManager : MonoBehaviour
 
     void Update()
     {
+        if (!isActiveState) return;
+
         foreach (var trackedImage in imageManager.trackables)
         {
-            TrackableId id = trackedImage.trackableId;
-
             // spawn the guzheng immediately if the marker has not been seen before
-            if (!spawnedGuzhengs.ContainsKey(id))
+            if (spawnedGuzheng == null)
             {
-                GameObject instance = Instantiate(guzhengPrefab, trackedImage.transform);
-                
-                spawnedGuzhengs[id] = instance;
-                trackingTimers[id] = 0f;
-                isAnchored[id] = false;
+                spawnedGuzheng = Instantiate(guzhengPrefab, trackedImage.transform);
+                trackingTimer = 0f;
+                isAnchored = false;
             }
 
-            if (isAnchored[id]) continue;
+            if (isAnchored) continue;
 
             // temporary timer logic to determine when to anchor the guzheng to the marker
             // replace this with isStringsAligned boolean later on
             if (trackedImage.trackingState == TrackingState.Tracking)
             {
-                trackingTimers[id] += Time.deltaTime;
-
-                if (trackingTimers[id] >= requiredTrackingTime)
-                {
-                    AnchorGuzheng(id);
-                }
+                trackingTimer += Time.deltaTime;
+                if (trackingTimer >= requiredTrackingTime) 
+                    AnchorGuzheng();
             }
             else
             {
                 // tracking dropped to Limited or None before the timer was up. reset the timer, because we cannot guarantee a detection
-                trackingTimers[id] = 0f;
+                trackingTimer = 0f;
+                DestroyGuzheng();
             }
         }
     }
 
-    private void AnchorGuzheng(TrackableId id)
+    private void AnchorGuzheng()
     {
-        GameObject guzhengInstance = spawnedGuzhengs[id];
-
         // decouple the guzheng model from the marker
-        guzhengInstance.transform.SetParent(null, true);
+        spawnedGuzheng.transform.SetParent(null, true);
 
         // ARAnchor components takes over the transform and stabilise using SLAM
-        if (guzhengInstance.GetComponent<ARAnchor>() == null)
-        {
-            guzhengInstance.AddComponent<ARAnchor>();
-        }
+        if (spawnedGuzheng.GetComponent<ARAnchor>() == null) 
+            guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
 
-        isAnchored[id] = true;
+        isAnchored = true;
         DebugStatusText = "Guzheng Anchored";
+        GameManager.Instance.ChangeState(GameManager.GameState.PlayingFieldScanning);
+    }
+
+    public void DestroyGuzheng()
+    {
+        if (spawnedGuzheng != null)
+        {
+            Destroy(spawnedGuzheng);
+            spawnedGuzheng = null;
+            trackingTimer = 0f;
+            isAnchored = false;
+            DebugStatusText = "";
+        }
     }
 
     // debug statements showing on phone screen
