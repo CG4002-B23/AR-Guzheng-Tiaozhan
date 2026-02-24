@@ -60,7 +60,7 @@ public class UIManager : MonoBehaviour
 
     public void OnResumeButtonClicked()
     {
-        gameManager.ChangeState(GameManager.GameState.Playing); 
+        gameManager.ResumeGame(); // reverts to the state of the game just before pausing
     }
 
     public void OnMainMenuButtonClicked()
