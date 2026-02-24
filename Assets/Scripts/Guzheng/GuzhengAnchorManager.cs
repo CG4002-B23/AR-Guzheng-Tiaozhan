@@ -16,8 +16,9 @@ public class GuzhengAnchorManager : StateListener
 
     private ARTrackedImageManager imageManager;
     
-    private Dictionary<TrackableId, GameObject> spawnedGuzhengs = new Dictionary<TrackableId, GameObject>();
-    private Dictionary<TrackableId, float> trackingTimers = new Dictionary<TrackableId, float>();
+    private GameObject spawnedGuzheng;
+    private float trackingTimer = 0f;
+    private bool isAnchored = false;
 
     public string DebugStatusText { get; private set; } = "";
 
@@ -35,46 +36,39 @@ public class GuzhengAnchorManager : StateListener
             TrackableId id = trackedImage.trackableId;
 
             // spawn the guzheng immediately if the marker has not been seen before
-            if (!spawnedGuzhengs.ContainsKey(id))
+            if (spawnedGuzheng == null)
             {
-                GameObject instance = Instantiate(guzhengPrefab, trackedImage.transform);
-                
-                spawnedGuzhengs[id] = instance;
-                trackingTimers[id] = 0f;
+                spawnedGuzheng = Instantiate(guzhengPrefab, trackedImage.transform);
+                trackingTimer = 0f;
+                isAnchored = false;
             }
+
+            if (isAnchored) continue;
 
             // temporary timer logic to determine when to anchor the guzheng to the marker
             // replace this with isStringsAligned boolean later on
             if (trackedImage.trackingState == TrackingState.Tracking)
             {
-                trackingTimers[id] += Time.deltaTime;
-
-                if (trackingTimers[id] >= requiredTrackingTime)
-                {
-                    AnchorGuzheng(id);
-                }
+                trackingTimer += Time.deltaTime;
+                if (trackingTimer >= requiredTrackingTime) AnchorGuzheng(id);
             }
             else
             {
                 // tracking dropped to Limited or None before the timer was up. reset the timer, because we cannot guarantee a detection
-                trackingTimers[id] = 0f;
+                trackingTimer = 0f;
             }
         }
     }
 
     private void AnchorGuzheng(TrackableId id)
     {
-        GameObject guzhengInstance = spawnedGuzhengs[id];
-
         // decouple the guzheng model from the marker
-        guzhengInstance.transform.SetParent(null, true);
+        spawnedGuzheng.transform.SetParent(null, true);
 
         // ARAnchor components takes over the transform and stabilise using SLAM
-        if (guzhengInstance.GetComponent<ARAnchor>() == null)
-        {
-            guzhengInstance.AddComponent<ARAnchor>();
-        }
+        if (spawnedGuzheng.GetComponent<ARAnchor>() == null) spawnedGuzheng.AddComponent<ARAnchor>();
 
+        isAnchored = true;
         DebugStatusText = "Guzheng Anchored";
         GameManager.Instance.ChangeState(GameManager.GameState.PlayingFieldScanning);
     }
