@@ -4,7 +4,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
 [RequireComponent(typeof(ARPlaneManager))]
-public class AutoEnemySpawner : MonoBehaviour
+public class AutoEnemySpawner : StateListener
 {
     [Header("Settings")]
     public GameObject objectToSpawn;
@@ -19,20 +19,43 @@ public class AutoEnemySpawner : MonoBehaviour
         planeManager = GetComponent<ARPlaneManager>();
     }
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         // Subscribe to the event that tells us when planes are found/updated
         planeManager.planesChanged += OnPlanesChanged;
     }
 
-    void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         planeManager.planesChanged -= OnPlanesChanged;
+    }
+
+    protected override void OnStateToggled(bool isNowActive)
+    {
+        if (isNowActive)
+        {
+            if (objectSpawned) return;
+
+            planeManager.enabled = true; // allow planes to be created
+
+            // reenable any previously hidden planes (there should be none)
+            foreach (var plane in planeManager.trackables)
+                plane.gameObject.SetActive(true);
+        }
+        else
+        {
+            planeManager.enabled = false; // stop new planes from being created
+
+            // hide all existing hidden planes (cannot call Destroy according to docs)
+            foreach (var plane in planeManager.trackables)
+                plane.gameObject.SetActive(false);
+        }
     }
 
     private void OnPlanesChanged(ARPlanesChangedEventArgs args)
     {
-        // If we already spawned the object, do nothing
         if (objectSpawned) return;
 
         // Check newly added planes

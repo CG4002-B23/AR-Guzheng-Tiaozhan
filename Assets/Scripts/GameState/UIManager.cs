@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 // handles which button is clicked
 public class UIManager : MonoBehaviour
 {
     [Tooltip("GameStateManager object holding the GameManager script")]
     public GameManager gameManager;
+
+    [Tooltip("ARSession object here")]
+    public ARSession arSession;
 
     [Tooltip("Reference to the GuzhengAnchorManager")]
     public GuzhengAnchorManager guzhengAnchorManager;
@@ -70,5 +74,6 @@ public class UIManager : MonoBehaviour
     {
         guzhengAnchorManager.DestroyGuzheng();
         GameManager.Instance.ChangeState(GameManager.GameState.StartMenu);
+        arSession.Reset();
     }
 }

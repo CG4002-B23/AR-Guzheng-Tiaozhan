@@ -1083,6 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 309348962}
+  arSession: {fileID: 1167446572}
   guzhengAnchorManager: {fileID: 2512387470422636673}
   startMenu: {fileID: 269944953}
   pauseMenu: {fileID: 1201677158}
@@ -3379,7 +3380,6 @@ GameObject:
   - component: {fileID: 2512387470422636671}
   - component: {fileID: 2512387470422636674}
   - component: {fileID: 2512387470422636673}
-  - component: {fileID: 2512387470422636675}
   m_Layer: 0
   m_Name: XR Origin (AR Rig)
   m_TagString: Untagged
@@ -3414,6 +3414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be961c9b5783a1857868e6ae8fb29d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetState: 3
   objectToSpawn: {fileID: 1027182576545114604, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   minPlaneArea: 2
 --- !u!114 &2512387470422636672
@@ -3458,21 +3459,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AnchorPrefab: {fileID: 0}
---- !u!114 &2512387470422636675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2512387470422636669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f840261577a0edd029b908e18bb88999, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageManager: {fileID: 2512387470422636670}
-  planeManager: {fileID: 2512387470422636672}
-  anchorManager: {fileID: 2512387470422636674}
 --- !u!4 &2512387470860572925
 Transform:
   m_ObjectHideFlags: 0
