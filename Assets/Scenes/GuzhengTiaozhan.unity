@@ -1197,6 +1197,7 @@ MonoBehaviour:
   startMenu: {fileID: 269944953}
   pauseMenu: {fileID: 1201677158}
   gameplayUI: {fileID: 1853408422}
+  gameplayUICanvasGroup: {fileID: 1853408426}
 --- !u!4 &871859320
 Transform:
   m_ObjectHideFlags: 0
@@ -2245,7 +2246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1656730964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2592,6 +2593,7 @@ GameObject:
   - component: {fileID: 1853408423}
   - component: {fileID: 1853408425}
   - component: {fileID: 1853408424}
+  - component: {fileID: 1853408426}
   m_Layer: 5
   m_Name: GameplayUI
   m_TagString: Untagged
@@ -2657,6 +2659,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853408422}
   m_CullTransparentMesh: 1
+--- !u!225 &1853408426
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853408422}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1874470156
 GameObject:
   m_ObjectHideFlags: 0

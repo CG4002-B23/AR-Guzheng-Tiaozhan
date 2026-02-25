@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject gameplayUI;
 
+    [Tooltip("Drag the gameplayUI object here again to link its Canvas Group")]
+    public CanvasGroup gameplayUICanvasGroup;
+
     void OnEnable()
     {
         GameManager.OnGameStateChanged += HandleGameStateChange;
@@ -40,9 +43,20 @@ public class UIManager : MonoBehaviour
             newState == GameManager.GameState.FieldScanning ||
             newState == GameManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
 
+        // set active only if the state needs to change
         if (gameplayUI.activeSelf != shouldGameplayUIBeActive)
         {
             gameplayUI.SetActive(shouldGameplayUIBeActive);
+        }
+
+        // toggle interactivity for gameplayUI (when paused)
+        if (gameplayUICanvasGroup != null)
+        {
+            // only interactable when not paused
+            bool canInteract = (newState != GameManager.GameState.Paused);
+            
+            gameplayUICanvasGroup.interactable = canInteract;
+            gameplayUICanvasGroup.blocksRaycasts = canInteract;
         }
     }
 
