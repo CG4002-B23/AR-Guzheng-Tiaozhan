@@ -72,7 +72,7 @@ public class GuzhengAnchorManager : StateListener
 
         isAnchored = true;
         DebugStatusText = "Guzheng Anchored";
-        GameManager.Instance.ChangeState(GameManager.GameState.PlayingFieldScanning);
+        GameManager.Instance.ChangeState(GameManager.GameState.FieldScanning);
     }
 
     public void DestroyGuzheng()

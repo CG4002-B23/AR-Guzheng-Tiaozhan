@@ -61,13 +61,19 @@ public class AutoEnemySpawner : StateListener
         // Check newly added planes
         foreach (var plane in args.added)
         {
-            if (areaIsLargeEnough(plane)) SpawnObject(plane);
+            if (areaIsLargeEnough(plane))  {
+                SpawnObject(plane);
+                GameManager.Instance.ChangeState(GameManager.GameState.Playing);
+            }
         }
 
         // Check updated planes (they might have grown big enough now)
         foreach (var plane in args.updated)
         {
-            if (areaIsLargeEnough(plane)) SpawnObject(plane);
+            if (areaIsLargeEnough(plane)) {
+                SpawnObject(plane);
+                GameManager.Instance.ChangeState(GameManager.GameState.Playing);
+            }
         }
     }
     private bool areaIsLargeEnough(ARPlane plane)
