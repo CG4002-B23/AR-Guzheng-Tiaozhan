@@ -18,6 +18,9 @@ public class MenuInteractionController : StateListener
     [Tooltip("The Image component of the loading ring. Set its Image Type to 'Filled' and Fill Method to 'Radial 360'.")]
     public Image loadingRing;
 
+    [Tooltip("Offset the ring's position in screen pixels (X, Y) relative to the finger.")]
+    public Vector2 ringOffset = new Vector2(100f, 100f);
+
     private float hoverTimer = 0f;
     private GameObject currentHoveredButton = null;
     private PointerEventData pointerEventData;
@@ -39,12 +42,7 @@ public class MenuInteractionController : StateListener
             Debug.LogWarning("MenuInteractionController: No EventSystem found in the scene!");
         }
 
-        if (loadingRing != null)
-        {
-            // hide ring when game starts
-            loadingRing.fillAmount = 0f;
-            loadingRing.gameObject.SetActive(false);
-        }
+        ResetHoverState();
     }
 
     void Update()
@@ -58,7 +56,7 @@ public class MenuInteractionController : StateListener
         // loading ring follow position of finger
         if (loadingRing != null)
         {
-            loadingRing.rectTransform.position = screenPos;
+            loadingRing.rectTransform.position = screenPos + ringOffset;
         }
 
         // raycasting against all UI elements in the screen
@@ -112,14 +110,7 @@ public class MenuInteractionController : StateListener
         {
             if (currentHoveredButton != null)
             {
-                currentHoveredButton = null;
-                hoverTimer = 0f;
-
-                if (loadingRing != null)
-                {
-                    loadingRing.gameObject.SetActive(false);
-                    loadingRing.fillAmount = 0f;
-                }
+                ResetHoverState();
             }
         }
     }
@@ -129,6 +120,11 @@ public class MenuInteractionController : StateListener
         ExecuteEvents.Execute(buttonToClick, pointerEventData, ExecuteEvents.pointerClickHandler);
 
         // reset the state so the button is not spam clicked
+        ResetHoverState();
+    }
+
+    private void ResetHoverState()
+    {
         hoverTimer = 0f;
         currentHoveredButton = null; 
 

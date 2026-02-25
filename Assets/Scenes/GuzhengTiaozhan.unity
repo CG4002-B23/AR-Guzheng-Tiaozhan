@@ -1146,6 +1146,7 @@ MonoBehaviour:
   mainCamera: {fileID: 2512387468973847745}
   hoverDuration: 1
   loadingRing: {fileID: 1656730965}
+  ringOffset: {x: 60, y: 60}
 --- !u!4 &844269954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 474899527542041659, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
@@ -2262,7 +2263,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1656730965
 MonoBehaviour:
