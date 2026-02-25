@@ -1,11 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 // handles the functionality changes during transition between game states
 // 'abstract' only exists to be inherited from
 public abstract class StateListener : MonoBehaviour
 {
     [Tooltip("The state in which this script should be active.")]
-    public GameManager.GameState targetState; 
+    public List<GameManager.GameState> targetStates;
 
     protected bool isActiveState = false; 
 
@@ -24,7 +25,7 @@ public abstract class StateListener : MonoBehaviour
 
     private void HandleGameStateChange(GameManager.GameState newState) // (state receiver)
     {
-        isActiveState = (newState == targetState);
+        isActiveState = targetStates.Contains(newState);
         OnStateToggled(isActiveState);
     }
 
