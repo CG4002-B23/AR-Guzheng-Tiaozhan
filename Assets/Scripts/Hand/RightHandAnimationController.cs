@@ -6,7 +6,9 @@ public class RightHandAnimationController : StateListener
     public Animator handAnimator;
     public MockGestureProvider gestureProvider; // to be changed later to get information from fpga
 
-    void Start()
+    private string _currentTrigger = "IdleTrigger";
+
+    void Awake()
     {
         if (handAnimator == null)
             handAnimator = GetComponent<Animator>();
@@ -21,31 +23,57 @@ public class RightHandAnimationController : StateListener
     protected override void OnStateToggled(bool isNowActive)
     {
         base.OnStateToggled(isNowActive);
+        Debug.Log($"OnStateToggled called, current state: {GameManager.Instance.CurrentState}");
 
         // we need to handle the animations in every state, so isNowActive is irrelevant
-        if (GameManager.Instance != null)
-            HandleGameStateChanged(GameManager.Instance.CurrentState);
+        ChangeHandGesture(GameManager.Instance.CurrentState);
     }
 
-    private void HandleGameStateChanged(GameManager.GameState newState)
+    private void ChangeHandGesture(GameManager.GameState newState)
     {
+        if (handAnimator == null) return;
+
         switch (newState)
         {
             case GameManager.GameState.StartMenu:
             case GameManager.GameState.Paused:
                 UnsubscribeFromGestures();
-                handAnimator.SetTrigger("PointerTrigger");
+                SetHandTrigger("PointerTrigger");
                 break;
 
             case GameManager.GameState.Playing:
+                SetHandTrigger("IdleTrigger");
                 SubscribeToGestures();
                 break;
 
-            default: // all other states
+            default:
                 UnsubscribeFromGestures();
-                handAnimator.SetTrigger("IdleTrigger");
+                SetHandTrigger("IdleTrigger");
                 break;
         }
+    }
+
+    private void SetHandTrigger(string triggerName)
+    {
+        _currentTrigger = triggerName; // always store it regardless of hand visibility
+
+        if (handAnimator.gameObject.activeInHierarchy)
+        {
+            handAnimator.ResetTrigger("PointerTrigger");
+            handAnimator.ResetTrigger("IdleTrigger");
+            handAnimator.ResetTrigger("RightTuoTrigger");
+            handAnimator.SetTrigger(triggerName);
+        }
+    }
+
+    public void OnHandBecameVisible()
+    {
+        if (handAnimator == null) return;
+
+        handAnimator.ResetTrigger("PointerTrigger");
+        handAnimator.ResetTrigger("IdleTrigger");
+        handAnimator.ResetTrigger("RightTuoTrigger");
+        handAnimator.SetTrigger(_currentTrigger);
     }
 
     private void HandleGestureDetected(string detectedGesture)

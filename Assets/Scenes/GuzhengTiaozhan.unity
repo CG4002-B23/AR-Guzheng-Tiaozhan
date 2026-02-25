@@ -1039,7 +1039,7 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 8611872287478895451, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
   m_PrefabInstance: {fileID: 2028187190}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &818703112
+--- !u!114 &818703115
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1048,15 +1048,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 818703109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7994b359900cdc25a0af44f653edeb2, type: 3}
+  m_Script: {fileID: 11500000, guid: c0a643ef4cf1501d5a3d1509e187b924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStates: 0100000002000000030000000400000005000000
-  handAnimator: {fileID: 818703111}
-  gestureProvider: {fileID: 1735430944}
-  indexFingertipTransform: {fileID: 2028187192}
-  pauseButtonRectTransform: {fileID: 996610821}
-  pauseButtonCanvas: {fileID: 1199423900}
+  animationController: {fileID: 1874470157}
 --- !u!1 &871859318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2441,6 +2436,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853408422}
   m_CullTransparentMesh: 1
+--- !u!1 &1874470156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1874470158}
+  - component: {fileID: 1874470157}
+  m_Layer: 0
+  m_Name: RightHandAnimationControls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1874470157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874470156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7994b359900cdc25a0af44f653edeb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 0100000002000000030000000400000005000000
+  handAnimator: {fileID: 818703111}
+  gestureProvider: {fileID: 1735430944}
+--- !u!4 &1874470158
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874470156}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 441.3714, y: 261.09875, z: -386.9601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1919191882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2801,16 +2843,11 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 818703112}
+      addedObject: {fileID: 818703115}
   m_SourcePrefab: {fileID: 100100000, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
 --- !u!4 &2028187191 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3269934931636048784, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
-  m_PrefabInstance: {fileID: 2028187190}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2028187192 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4164355148559857662, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
   m_PrefabInstance: {fileID: 2028187190}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2057676630
@@ -3707,3 +3744,4 @@ SceneRoots:
   - {fileID: 586436899}
   - {fileID: 309348963}
   - {fileID: 871859320}
+  - {fileID: 1874470158}

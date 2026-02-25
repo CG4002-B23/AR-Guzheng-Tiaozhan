@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
                 
             case GameManager.GameState.Playing:
             case GameManager.GameState.GuzhengPlacing:
-            case GameManager.GameState.PlayingFieldScanning:
+            case GameManager.GameState.FieldScanning:
                 // show the gameplayUI for all active game states
                 gameplayUI.SetActive(true);
                 break;

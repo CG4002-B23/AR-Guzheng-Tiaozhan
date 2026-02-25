@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public enum GameState { Initialising, StartMenu, GuzhengPlacing, PlayingFieldScanning, Playing, Paused }
+    public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, Playing, Paused }
 
     // other scripts tune in to this event
     public static event Action<GameState> OnGameStateChanged;
@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     // call this method from any script to change the game state (state sender)
     public void ChangeState(GameState newState)
     {
+        Debug.Log($"ChangeState called: {CurrentState} -> {newState}");
         if (CurrentState == newState) return;
 
         // update the previous state so that if the pause button is pressed, we have the previous state to return to 
