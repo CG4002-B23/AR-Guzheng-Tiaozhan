@@ -16,6 +16,12 @@ public abstract class StateListener : MonoBehaviour
     protected virtual void OnEnable()
     {
         GameManager.OnGameStateChanged += HandleGameStateChange;
+
+        // manually fetch current game state immediately so it doesn't miss any events
+        if (GameManager.Instance != null)
+        {
+            HandleGameStateChange(GameManager.Instance.CurrentState);
+        }
     }
 
     protected virtual void OnDisable()
