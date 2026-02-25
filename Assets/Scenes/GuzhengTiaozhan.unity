@@ -1039,6 +1039,11 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 8611872287478895451, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
   m_PrefabInstance: {fileID: 2028187190}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &818703114 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8691978799109056319, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+  m_PrefabInstance: {fileID: 2028187190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &818703115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1052,6 +1057,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationController: {fileID: 1874470157}
+--- !u!114 &818703116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818703109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d62177f462a3e541b6d071839022403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 020000000300000004000000
+  hand: {fileID: 818703114}
+  mainCamera: {fileID: 2512387468973847745}
+  pauseButtonRect: {fileID: 996610821}
 --- !u!1 &871859318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2844,6 +2865,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 818703115}
+    - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 818703116}
   m_SourcePrefab: {fileID: 100100000, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
 --- !u!4 &2028187191 stripped
 Transform:
