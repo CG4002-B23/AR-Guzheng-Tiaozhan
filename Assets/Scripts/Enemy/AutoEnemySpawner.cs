@@ -17,6 +17,9 @@ public class AutoEnemySpawner : StateListener
     [Header("Data (Auto-Assigned)")]
     public Transform guzhengTransform;
 
+    [Tooltip("Possible spawn locations for the enemy")]
+    public List<Vector3> savedLocations = new List<Vector3>();
+
     private ARPlaneManager planeManager;
     private GameObject spawnedObject;
     private bool objectSpawned = false;
@@ -146,7 +149,17 @@ public class AutoEnemySpawner : StateListener
             .OrderByDescending(p => Vector3.Distance(p, guzhengPos))
             .ToList();
 
-        Vector3 spawnLocation = sortedFurthestPoints[0]; // select furthest point
+        List<Vector3> top3Points = sortedFurthestPoints.Take(3).ToList();
+
+        int selectedIndex = Random.Range(0, top3Points.Count);
+        Vector3 spawnLocation = top3Points[selectedIndex]; // randomly select index for immediate spawn location
+
+        // save all the possible spawn locations
+        savedLocations.Clear();
+        for (int i = 0; i < top3Points.Count; i++)
+        {
+            savedLocations.Add(top3Points[i]);
+        }
 
         // Spawn the object at the furthest point from the guzheng
         spawnedObject = Instantiate(objectToSpawn, spawnLocation, Quaternion.identity);
