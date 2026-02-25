@@ -14,6 +14,10 @@ public class MenuInteractionController : StateListener
     [Tooltip("How long the finger must hover over the button to click it (in seconds).")]
     public float hoverDuration = 1.0f;
 
+    [Header("UI Visuals")]
+    [Tooltip("The Image component of the loading ring. Set its Image Type to 'Filled' and Fill Method to 'Radial 360'.")]
+    public Image loadingRing;
+
     private float hoverTimer = 0f;
     private GameObject currentHoveredButton = null;
     private PointerEventData pointerEventData;
@@ -34,6 +38,13 @@ public class MenuInteractionController : StateListener
         {
             Debug.LogWarning("MenuInteractionController: No EventSystem found in the scene!");
         }
+
+        if (loadingRing != null)
+        {
+            // hide ring when game starts
+            loadingRing.fillAmount = 0f;
+            loadingRing.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -44,11 +55,17 @@ public class MenuInteractionController : StateListener
         Vector2 screenPos = mainCamera.WorldToScreenPoint(indexFinger.position);
         pointerEventData.position = screenPos;
 
+        // loading ring follow position of finger
+        if (loadingRing != null)
+        {
+            loadingRing.rectTransform.position = screenPos;
+        }
+
         // raycasting against all UI elements in the screen
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerEventData, results);
 
-        // check if we hit an button
+        // check if we hit a button (first valid interactable button)
         GameObject hitButton = null;
         foreach (RaycastResult result in results)
         {
@@ -68,6 +85,11 @@ public class MenuInteractionController : StateListener
             {
                 hoverTimer += Time.deltaTime;
 
+                if (loadingRing != null)
+                {
+                    loadingRing.fillAmount = hoverTimer / hoverDuration;
+                }
+
                 if (hoverTimer >= hoverDuration)
                 {
                     ClickButton(hitButton);
@@ -77,28 +99,43 @@ public class MenuInteractionController : StateListener
             {
                 currentHoveredButton = hitButton;
                 hoverTimer = 0f;
-                Debug.Log($"Started hovering over: {hitButton.name}");
+
+                // Show the ring and reset its fill
+                if (loadingRing != null)
+                {
+                    loadingRing.gameObject.SetActive(true);
+                    loadingRing.fillAmount = 0f;
+                }
             }
         }
         else // finger not on a button
         {
             if (currentHoveredButton != null)
             {
-                Debug.Log("Hover cancelled.");
                 currentHoveredButton = null;
                 hoverTimer = 0f;
+
+                if (loadingRing != null)
+                {
+                    loadingRing.gameObject.SetActive(false);
+                    loadingRing.fillAmount = 0f;
+                }
             }
         }
     }
 
     private void ClickButton(GameObject buttonToClick)
     {
-        Debug.Log($"Button Clicked via Hover: {buttonToClick.name}");
-
         ExecuteEvents.Execute(buttonToClick, pointerEventData, ExecuteEvents.pointerClickHandler);
 
         // reset the state so the button is not spam clicked
         hoverTimer = 0f;
         currentHoveredButton = null; 
+
+        if (loadingRing != null)
+        {
+            loadingRing.gameObject.SetActive(false);
+            loadingRing.fillAmount = 0f;
+        }
     }
 }
