@@ -1,13 +1,19 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PauseController : StateListener
 {
     [Header("Tracking References")]
-    public Transform hand; // spawned hand rig
+    public List<Transform> handPoints = new List<Transform>(); // add multiple hand parts
     public Camera mainCamera; // AR camera
 
     [Header("Button References")]
     public RectTransform pauseButtonRect;
+
+    [Header("Settings")]
+    [Range(1f, 30f)]
+    public float checkFrequency = 10f; // Hz
     
     void Start()
     {
@@ -15,17 +21,44 @@ public class PauseController : StateListener
             mainCamera = Camera.main;
     }
 
-    void Update()
+    protected override void OnEnable() // when the object is disabled, Unity kills the coroutine. so we need to reenable it
     {
-        if (!isActiveState || hand == null) return;
+        base.OnEnable();
+        StartCoroutine(HandPositionCheckingRoutine());
+    }
 
-        Vector2 screenPos = mainCamera.WorldToScreenPoint(hand.position); // project hand position to screen coordinates
-        // Debug.Log("Hand at position: " + screenPos.ToString());
+    private IEnumerator HandPositionCheckingRoutine()
+    {
+        var wait = new WaitForSeconds(1f / checkFrequency);
+        Debug.Log("PauseController: Started Coroutine");
 
-        bool isTouchingPauseButton = RectTransformUtility.RectangleContainsScreenPoint(pauseButtonRect, screenPos, null);
-        if (isTouchingPauseButton)
+        while (true)
         {
-            GameManager.Instance.ChangeState(GameManager.GameState.Paused);
+            if (isActiveState)
+            {
+                Debug.Log("PauseController: checking hand points");
+                CheckHandPoints();
+            }
+            
+            Debug.Log("PauseController: in the loop");
+
+            yield return wait;
+        }
+    }
+
+    private void CheckHandPoints()
+    {
+        foreach (Transform point in handPoints)
+        {
+            if (point == null) continue;
+
+            Vector2 screenPos = mainCamera.WorldToScreenPoint(point.position);
+
+            if (RectTransformUtility.RectangleContainsScreenPoint(pauseButtonRect, screenPos, null))
+            {
+                GameManager.Instance.ChangeState(GameManager.GameState.Paused);
+                return; // no need to check remaining points
+            }
         }
     }
 }
