@@ -1129,6 +1129,22 @@ MonoBehaviour:
   mainCamera: {fileID: 2512387468973847745}
   pauseButtonRect: {fileID: 996610821}
   checkFrequency: 10
+--- !u!114 &818703117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818703109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ebaf2c1fc2c99a99725ce23f6a64f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 0100000005000000
+  indexFinger: {fileID: 2028187192}
+  mainCamera: {fileID: 2512387468973847745}
+  hoverDuration: 1
 --- !u!4 &844269954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 474899527542041659, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
@@ -2979,6 +2995,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 818703116}
+    - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 818703117}
   m_SourcePrefab: {fileID: 100100000, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
 --- !u!4 &2028187191 stripped
 Transform:
