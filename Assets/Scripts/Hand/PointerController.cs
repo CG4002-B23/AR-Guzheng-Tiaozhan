@@ -22,6 +22,7 @@ public class PointerController : StateListener
 
     void Update()
     {
+        if (!isActiveState) return;
         if (GameManager.Instance == null || handAnimator == null) return;
 
         bool shouldTrigger = ShouldActivatePointerTrigger(GameManager.Instance.CurrentState);

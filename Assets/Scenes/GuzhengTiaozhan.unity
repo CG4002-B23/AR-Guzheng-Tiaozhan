@@ -1051,8 +1051,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7994b359900cdc25a0af44f653edeb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 0100000002000000030000000400000005000000
   handAnimator: {fileID: 818703111}
   gestureProvider: {fileID: 1735430944}
+  indexFingertipTransform: {fileID: 2028187192}
+  pauseButtonRectTransform: {fileID: 996610821}
+  pauseButtonCanvas: {fileID: 1199423900}
+--- !u!114 &818703113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818703109}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20298a2b9d850b4eb9670a6739f0a98e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 0100000005000000020000000300000004000000
+  handAnimator: {fileID: 818703111}
+  indexFingertipTransform: {fileID: 2028187192}
+  pauseButtonRectTransform: {fileID: 996610821}
+  pauseButtonCanvas: {fileID: 1199423900}
 --- !u!1 &871859318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2798,10 +2819,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       insertIndex: -1
       addedObject: {fileID: 818703112}
+    - targetCorrespondingSourceObject: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 818703113}
   m_SourcePrefab: {fileID: 100100000, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
 --- !u!4 &2028187191 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3269934931636048784, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+  m_PrefabInstance: {fileID: 2028187190}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2028187192 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4164355148559857662, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
   m_PrefabInstance: {fileID: 2028187190}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2057676630
@@ -3414,7 +3443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be961c9b5783a1857868e6ae8fb29d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetState: 3
+  targetStates: 03000000
   objectToSpawn: {fileID: 1027182576545114604, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   minPlaneArea: 2
 --- !u!114 &2512387470422636672
@@ -3443,7 +3472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efcefcf8e50886ec5b5564587d492753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetState: 2
+  targetStates: 02000000
   guzhengPrefab: {fileID: 5108422147287545188, guid: 0f2e137360fd14848b3884ee25701ced, type: 3}
   requiredTrackingTime: 2
 --- !u!114 &2512387470422636674
