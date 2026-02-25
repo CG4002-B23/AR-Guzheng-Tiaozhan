@@ -31,26 +31,18 @@ public class UIManager : MonoBehaviour
 
     private void HandleGameStateChange(GameManager.GameState newState)
     {
-        startMenu.SetActive(false);
-        pauseMenu.SetActive(false);
-        gameplayUI.SetActive(false);
+        startMenu.SetActive(newState == GameManager.GameState.StartMenu);
+        pauseMenu.SetActive(newState == GameManager.GameState.Paused);
+        
+        bool shouldGameplayUIBeActive = 
+            newState == GameManager.GameState.Playing || 
+            newState == GameManager.GameState.GuzhengPlacing || 
+            newState == GameManager.GameState.FieldScanning ||
+            newState == GameManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
 
-        switch (newState)
+        if (gameplayUI.activeSelf != shouldGameplayUIBeActive)
         {
-            case GameManager.GameState.StartMenu: startMenu.SetActive(true);
-                break;
-                
-            case GameManager.GameState.Paused:
-                pauseMenu.SetActive(true);
-                gameplayUI.SetActive(true);  // set the gameplayUI to be visible behind the pause menu
-                break;
-                
-            case GameManager.GameState.Playing:
-            case GameManager.GameState.GuzhengPlacing:
-            case GameManager.GameState.FieldScanning:
-                // show the gameplayUI for all active game states
-                gameplayUI.SetActive(true);
-                break;
+            gameplayUI.SetActive(shouldGameplayUIBeActive);
         }
     }
 
