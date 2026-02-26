@@ -23,7 +23,7 @@ public class Billboard : MonoBehaviour
         // successfully found the guzheng anchor
         if (targetAnchor != null)
         {
-            Vector3 targetPosition = Camera.main.transform.position; // camera position
+            Vector3 targetPosition = targetAnchor.position;
             if (lockYAxis)
             {
                 targetPosition.y = transform.position.y; // so the object only changes it's yaw

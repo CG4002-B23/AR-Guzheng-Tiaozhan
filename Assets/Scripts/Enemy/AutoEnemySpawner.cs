@@ -11,15 +11,13 @@ public class AutoEnemySpawner : StateListener
     public GameObject objectToSpawn;
     public float minPlaneArea = 10.0f; // Minimum area required before object is spawned
 
-    [Tooltip("Part of the Guzheng anchor's GameObject name to look for (e.g., 'Guzheng')")]
-    public string guzhengAnchorName = "guzheng";
-
     [Header("Data (Auto-Assigned)")]
     public Transform guzhengTransform;
 
     [Tooltip("Possible spawn locations for the enemy")]
     public List<Vector3> savedLocations = new List<Vector3>();
 
+    private GuzhengAnchorGetter anchorGetter;
     private ARPlaneManager planeManager;
     private GameObject spawnedObject;
     private bool objectSpawned = false;
@@ -27,6 +25,7 @@ public class AutoEnemySpawner : StateListener
     void Awake()
     {
         planeManager = GetComponent<ARPlaneManager>();
+        anchorGetter = FindFirstObjectByType<GuzhengAnchorGetter>();
     }
 
     protected override void OnEnable()
@@ -64,35 +63,11 @@ public class AutoEnemySpawner : StateListener
         }
     }
 
-    private void FindGuzhengAnchor()
-    {
-        if (guzhengTransform != null) return;
-
-        // find all active anchors in the scene
-        ARAnchor[] anchors = FindObjectsOfType<ARAnchor>();
-
-        foreach (var anchor in anchors)
-        {
-            if (anchor.gameObject.name.Contains(guzhengAnchorName))
-            {
-                guzhengTransform = anchor.transform;
-                Debug.Log("Guzheng Anchor found by name!");
-                return;
-            }
-        }
-
-        // Fallback: If we didn't find it by name, but there is exactly ONE anchor, it must be the Guzheng
-        if (guzhengTransform == null && anchors.Length == 1)
-        {
-            guzhengTransform = anchors[0].transform;
-            Debug.Log("Guzheng Anchor found by fallback (only anchor in scene)!");
-        }
-    }
-
     private void OnPlanesChanged(ARPlanesChangedEventArgs args)
     {
         if (objectSpawned) return;
-        if (guzhengTransform == null) FindGuzhengAnchor();
+        if (guzhengTransform == null && anchorGetter != null) 
+            guzhengTransform = anchorGetter.FindGuzhengAnchor();
         if (guzhengTransform == null) return; // if still don't have guzheng transform, we need to wait for it to be available
 
         // Check newly added planes

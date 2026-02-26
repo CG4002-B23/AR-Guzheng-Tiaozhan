@@ -3571,6 +3571,7 @@ GameObject:
   - component: {fileID: 2512387470422636671}
   - component: {fileID: 2512387470422636674}
   - component: {fileID: 2512387470422636673}
+  - component: {fileID: 2512387470422636675}
   m_Layer: 0
   m_Name: XR Origin (AR Rig)
   m_TagString: Untagged
@@ -3608,6 +3609,8 @@ MonoBehaviour:
   targetStates: 03000000
   objectToSpawn: {fileID: 1027182576545114604, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   minPlaneArea: 2
+  guzhengTransform: {fileID: 0}
+  savedLocations: []
 --- !u!114 &2512387470422636672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3650,6 +3653,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AnchorPrefab: {fileID: 0}
+--- !u!114 &2512387470422636675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512387470422636669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec28955b7e190af61a919734e7cc10e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guzhengAnchorName: guzheng
 --- !u!4 &2512387470860572925
 Transform:
   m_ObjectHideFlags: 0
