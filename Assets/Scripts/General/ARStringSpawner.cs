@@ -98,4 +98,13 @@ public class ARStringSpawner : MonoBehaviour
             }
         }
     }
+
+    public void SetLinesActive(bool active)
+    {
+        // Toggle the visibility of the line renderers
+        foreach (var lr in lineRenderers)
+            if (lr != null) lr.enabled = active;
+        
+        this.enabled = active;  // enable or disable the script so it stops updating the parallel lines
+    }
 }
