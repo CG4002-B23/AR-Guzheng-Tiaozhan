@@ -71,7 +71,7 @@ public class LaneManager : StateListener
             if (i >= guzhengSpawner.StringStarts.Count || i >= enemySpawner.StringStarts.Count) break;
 
             Vector3 start = guzhengSpawner.StringStarts[i];
-            Vector3 end   = enemySpawner.StringStarts[i];
+            Vector3 end   = enemySpawner.StringStarts[enemySpawner.StringStarts.Count - 1 - i];
 
             if (!LaneStarts.ContainsKey(i))
             {
