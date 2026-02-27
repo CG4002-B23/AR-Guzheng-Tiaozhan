@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
             newState == GameManager.GameState.Playing || 
             newState == GameManager.GameState.GuzhengPlacing || 
             newState == GameManager.GameState.FieldScanning ||
+            newState == GameManager.GameState.GuzhengAlignment ||
             newState == GameManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
 
         // set active only if the state needs to change

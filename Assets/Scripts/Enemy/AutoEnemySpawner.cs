@@ -75,7 +75,7 @@ public class AutoEnemySpawner : StateListener
         {
             if (areaIsLargeEnough(plane))  {
                 SpawnObject(plane);
-                GameManager.Instance.ChangeState(GameManager.GameState.Playing);
+                GameManager.Instance.ChangeState(GameManager.GameState.GuzhengAlignment);
             }
         }
 
@@ -84,7 +84,7 @@ public class AutoEnemySpawner : StateListener
         {
             if (areaIsLargeEnough(plane)) {
                 SpawnObject(plane);
-                GameManager.Instance.ChangeState(GameManager.GameState.Playing);
+                GameManager.Instance.ChangeState(GameManager.GameState.GuzhengAlignment);
             }
         }
     }
