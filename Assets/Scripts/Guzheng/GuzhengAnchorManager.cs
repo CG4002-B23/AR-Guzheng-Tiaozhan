@@ -49,7 +49,7 @@ public class GuzhengAnchorManager : StateListener
                 
                 GuzhengAlignmentChecker alignmentChecker = FindFirstObjectByType<GuzhengAlignmentChecker>();
                 if (alignmentChecker != null)
-                    alignmentChecker.enemySpawner = spawnedGuzheng.GetComponent<ARStringSpawner>();
+                    alignmentChecker.guzhengSpawner = spawnedGuzheng.GetComponent<ARStringSpawner>();
             }
 
             if (isAnchored) continue;
