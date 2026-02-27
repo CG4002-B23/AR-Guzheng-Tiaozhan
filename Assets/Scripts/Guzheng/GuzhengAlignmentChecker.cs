@@ -3,7 +3,9 @@ using UnityEngine;
 public class GuzhengAlignmentChecker : StateListener
 {
     [Header("Spawners")]
+    [HideInInspector]
     public ARStringSpawner guzhengSpawner;
+    [HideInInspector]
     public ARStringSpawner enemySpawner;
 
     [Header("Alignment Settings")]
@@ -25,6 +27,10 @@ public class GuzhengAlignmentChecker : StateListener
         float angle = Vector3.Angle(guzhengForward, dirToEnemy);
 
         if (angle <= alignmentToleranceDegrees) // transition to playing if aligned
+        {
+            Debug.Log("angle: " + angle);
+            Debug.Log("tolerance deg: " + alignmentToleranceDegrees);
             GameManager.Instance.ChangeState(GameManager.GameState.Playing);
+        }
     }
 }

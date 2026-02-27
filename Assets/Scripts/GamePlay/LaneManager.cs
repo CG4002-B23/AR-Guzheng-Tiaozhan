@@ -4,7 +4,9 @@ using UnityEngine;
 public class LaneManager : StateListener
 {
     [Header("Spawners")]
+    [HideInInspector]
     public ARStringSpawner guzhengSpawner;
+    [HideInInspector]
     public ARStringSpawner enemySpawner;
 
     [Header("Lane Renderers (Translucent)")]
@@ -66,9 +68,6 @@ public class LaneManager : StateListener
 
         for (int i = 0; i < connectionLanes.Count; i++)
         {
-            Debug.Log("i: " + i);
-            Debug.Log("guzhengspawner StringStarts Count: " + guzhengSpawner.StringStarts.Count);
-            Debug.Log("enemyspawner StringStarts Count: " + enemySpawner.StringStarts.Count);
             if (i >= guzhengSpawner.StringStarts.Count || i >= enemySpawner.StringStarts.Count) break;
 
             Vector3 start = guzhengSpawner.StringStarts[i];

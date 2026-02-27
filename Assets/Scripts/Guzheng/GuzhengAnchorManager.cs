@@ -46,6 +46,10 @@ public class GuzhengAnchorManager : StateListener
                 LaneManager laneManager = FindFirstObjectByType<LaneManager>();
                 if (laneManager != null)
                     laneManager.guzhengSpawner = spawnedGuzheng.GetComponent<ARStringSpawner>();
+                
+                GuzhengAlignmentChecker alignmentChecker = FindFirstObjectByType<GuzhengAlignmentChecker>();
+                if (alignmentChecker != null)
+                    alignmentChecker.enemySpawner = spawnedGuzheng.GetComponent<ARStringSpawner>();
             }
 
             if (isAnchored) continue;

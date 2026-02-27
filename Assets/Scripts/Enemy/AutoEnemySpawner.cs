@@ -145,6 +145,10 @@ public class AutoEnemySpawner : StateListener
         if (laneManager != null)
             laneManager.enemySpawner = spawnedObject.GetComponent<ARStringSpawner>();
 
+        GuzhengAlignmentChecker alignmentChecker = FindFirstObjectByType<GuzhengAlignmentChecker>();
+        if (alignmentChecker != null)
+            alignmentChecker.enemySpawner = spawnedObject.GetComponent<ARStringSpawner>();
+
         // disable plane detection after spawning to save performance
         planeManager.enabled = false; 
         
