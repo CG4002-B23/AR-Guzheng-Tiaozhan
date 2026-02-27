@@ -1,38 +1,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaneManager : MonoBehaviour
+public class LaneManager : StateListener
 {
     [Header("Spawners")]
     public ARStringSpawner guzhengSpawner;
     public ARStringSpawner enemySpawner;
 
-    [Header("Alignment Settings")]
-    [Tooltip("How many degrees of forgiveness for horizontal alignment")]
-    public float alignmentToleranceDegrees = 5.0f;
-    
     [Header("Lane Renderers (Translucent)")]
     [Tooltip("Assign 5 LineRenderers here for the connecting lanes")]
     public List<LineRenderer> connectionLanes;
     
     [Tooltip("Color of the connected lanes")]
-    public Color translucentLaneColor = new Color(0.3f, 0.3f, 0.3f, 0.3f); // Gray with 30% opacity
+    public Color translucentLaneColor = new Color(0.7f, 0.7f, 0.7f, 0.3f); // Gray with 30% opacity
 
-    private bool areLanesConnected = false;
+    // Key = Index of the lane (0 to 4), Value = World position
+    // LaneStarts mirrors guzheng StringStarts, LaneEnds mirrors enemy StringStarts
+    public Dictionary<int, Vector3> LaneStarts { get; private set; } = new Dictionary<int, Vector3>();
+    public Dictionary<int, Vector3> LaneEnds   { get; private set; } = new Dictionary<int, Vector3>();
 
-    void Start()
+    void Awake()
     {
-        InitLanes();
+        InitLanes();  
+    }
+
+    protected override void OnStateToggled(bool isNowActive)
+    {
+        foreach (var lane in connectionLanes)
+            if (lane != null) lane.enabled = isNowActive;
+
+        if (!isNowActive)
+        {
+            LaneStarts.Clear();
+            LaneEnds.Clear();
+        }
     }
 
     void Update()
     {
-        CheckAlignment();
+        if (!isActiveState) return;
 
-        if (areLanesConnected)
-        {
-            UpdateConnectedLanes();
-        }
+        UpdateLanes();
     }
 
     private void InitLanes()
@@ -41,89 +49,42 @@ public class LaneManager : MonoBehaviour
         {
             if (lane != null)
             {
-                // fix widths
                 lane.startWidth = guzhengSpawner.config.globalWidth;
                 lane.endWidth = guzhengSpawner.config.globalWidth;
-
-                // draw in global positions
-                lane.useWorldSpace = true;
-
-                // set colors
                 lane.startColor = translucentLaneColor;
                 lane.endColor = translucentLaneColor;
-
-                // initially turned off
+                lane.useWorldSpace = true;
+                lane.positionCount = 2;
                 lane.enabled = false;
             }
         }
     }
 
-    void CheckAlignment()
+    void UpdateLanes()
     {
-        // 1. Get the horizontal forward direction of the Guzheng
-        Vector3 guzhengForward = Vector3.ProjectOnPlane(guzhengSpawner.transform.forward, Vector3.up).normalized;
-        
-        // 2. Get the horizontal direction from the Guzheng to the Enemy
-        Vector3 dirToEnemy = Vector3.ProjectOnPlane(enemySpawner.transform.position - guzhengSpawner.transform.position, Vector3.up).normalized;
-
-        // 3. Calculate the angle between them
-        float angle = Vector3.Angle(guzhengForward, dirToEnemy);
-
-        bool isAligned = angle <= alignmentToleranceDegrees;
-
-        // 4. Handle State Changes
-        if (isAligned && !areLanesConnected)
-        {
-            TransitionToConnected();
-        }
-        else if (!isAligned && areLanesConnected)
-        {
-            TransitionToDisconnected();
-        }
-    }
-
-    void TransitionToConnected()
-    {
-        areLanesConnected = true;
-
-        // Turn off original lines
-        guzhengSpawner.SetLinesActive(false);
-        enemySpawner.SetLinesActive(false);
-
-        // Turn on connection lanes
-        foreach (var lane in connectionLanes)
-        {
-            if (lane != null) lane.enabled = true;
-        }
-    }
-
-    void TransitionToDisconnected()
-    {
-        areLanesConnected = false;
-
-        // Turn original lines back on
-        guzhengSpawner.SetLinesActive(true);
-        enemySpawner.SetLinesActive(true);
-
-        // Turn off connection lanes
-        foreach (var lane in connectionLanes)
-        {
-            if (lane != null) lane.enabled = false;
-        }
-    }
-
-    void UpdateConnectedLanes()
-    {
-        // Draw the lanes from Guzheng start points to Enemy start points
         for (int i = 0; i < connectionLanes.Count; i++)
         {
             if (i >= guzhengSpawner.StringStarts.Count || i >= enemySpawner.StringStarts.Count) break;
 
+            Vector3 start = guzhengSpawner.StringStarts[i];
+            Vector3 end   = enemySpawner.StringStarts[i];
+
+            if (!LaneStarts.ContainsKey(i))
+            {
+                LaneStarts.Add(i, start);
+                LaneEnds.Add(i, end);
+            }
+            else
+            {
+                LaneStarts[i] = start;
+                LaneEnds[i]   = end;
+            }
+
             LineRenderer lane = connectionLanes[i];
             if (lane != null)
             {
-                lane.SetPosition(0, guzhengSpawner.StringStarts[i]);
-                lane.SetPosition(1, enemySpawner.StringStarts[i]);
+                lane.SetPosition(0, LaneStarts[i]);
+                lane.SetPosition(1, LaneEnds[i]);
             }
         }
     }

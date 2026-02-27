@@ -22,8 +22,6 @@ public class ARStringSpawner : StateListener
     public Dictionary<int, Vector3> StringStarts { get; private set; } = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> StringEnds { get; private set; } = new Dictionary<int, Vector3>();
 
-    private bool renderersVisible = true;
-
     void Awake()
     {
         horizontalOffsetCoords = new Vector3(0.0f, horizontalOffset, 0.0f);

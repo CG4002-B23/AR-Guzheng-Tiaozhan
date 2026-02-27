@@ -2076,6 +2076,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 211280466716591218, guid: e6eff0c4cbabbf5bf8899f3e6c8f4f28, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4588598021487891123}
+    - targetCorrespondingSourceObject: {fileID: 211280466716591218, guid: e6eff0c4cbabbf5bf8899f3e6c8f4f28, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 514610908457311104}
   m_SourcePrefab: {fileID: -4161369568681901532, guid: e6eff0c4cbabbf5bf8899f3e6c8f4f28, type: 3}
 --- !u!4 &4783065271932610051 stripped
 Transform:
@@ -2108,3 +2111,19 @@ MonoBehaviour:
   - {fileID: 5291099356267301203}
   - {fileID: 4685344946704172498}
   horizontalOffset: -0.1
+--- !u!114 &514610908457311104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108422147287545188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7beefecad4cd70c49a9b904f297655e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 04000000
+  guzhengSpawner: {fileID: 4588598021487891123}
+  enemySpawner: {fileID: 3476179374824800027, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
+  alignmentToleranceDegrees: 50
