@@ -26,11 +26,11 @@ public class LaneManager : StateListener
 
     protected override void OnStateToggled(bool isNowActive)
     {
-        foreach (var lane in connectionLanes)
-            if (lane != null) lane.enabled = isNowActive;
-
         if (!isNowActive)
         {
+            foreach (var lane in connectionLanes)
+                if (lane != null) lane.enabled = false;
+
             LaneStarts.Clear();
             LaneEnds.Clear();
         }
@@ -62,8 +62,13 @@ public class LaneManager : StateListener
 
     void UpdateLanes()
     {
+        if (guzhengSpawner.StringStarts.Count == 0 || enemySpawner.StringStarts.Count == 0) return;
+
         for (int i = 0; i < connectionLanes.Count; i++)
         {
+            Debug.Log("i: " + i);
+            Debug.Log("guzhengspawner StringStarts Count: " + guzhengSpawner.StringStarts.Count);
+            Debug.Log("enemyspawner StringStarts Count: " + enemySpawner.StringStarts.Count);
             if (i >= guzhengSpawner.StringStarts.Count || i >= enemySpawner.StringStarts.Count) break;
 
             Vector3 start = guzhengSpawner.StringStarts[i];
@@ -83,6 +88,7 @@ public class LaneManager : StateListener
             LineRenderer lane = connectionLanes[i];
             if (lane != null)
             {
+                lane.enabled = true; // only enabled when we have valid positions
                 lane.SetPosition(0, LaneStarts[i]);
                 lane.SetPosition(1, LaneEnds[i]);
             }

@@ -140,6 +140,11 @@ public class AutoEnemySpawner : StateListener
         spawnedObject = Instantiate(objectToSpawn, spawnLocation, Quaternion.identity);
         objectSpawned = true;
 
+        // need to update the enemy spawner object for lane manager to get string information from
+        LaneManager laneManager = FindFirstObjectByType<LaneManager>();
+        if (laneManager != null)
+            laneManager.enemySpawner = spawnedObject.GetComponent<ARStringSpawner>();
+
         // disable plane detection after spawning to save performance
         planeManager.enabled = false; 
         

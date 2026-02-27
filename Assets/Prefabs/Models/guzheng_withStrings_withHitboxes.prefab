@@ -2102,7 +2102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5acc4dceec048e7487f3654051b694f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStates: 020000000300000004000000
+  targetStates: 040000000200000003000000
   config: {fileID: 11400000, guid: 2cae99931640c3243b4fd439ab27481d, type: 2}
   lineRenderers:
   - {fileID: 927230486249722693}
@@ -2126,4 +2126,4 @@ MonoBehaviour:
   targetStates: 04000000
   guzhengSpawner: {fileID: 4588598021487891123}
   enemySpawner: {fileID: 3476179374824800027, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
-  alignmentToleranceDegrees: 50
+  alignmentToleranceDegrees: 20

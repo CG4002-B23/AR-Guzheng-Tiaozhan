@@ -40,6 +40,12 @@ public class GuzhengAnchorManager : StateListener
                 spawnedGuzheng = Instantiate(guzhengPrefab, trackedImage.transform);
                 trackingTimer = 0f;
                 isAnchored = false;
+
+                // need to update the guzheng spawner object for lane manager to get string information from
+                // later since the guzheng will despawn, we need to update the guzheng spawner again
+                LaneManager laneManager = FindFirstObjectByType<LaneManager>();
+                if (laneManager != null)
+                    laneManager.guzhengSpawner = spawnedGuzheng.GetComponent<ARStringSpawner>();
             }
 
             if (isAnchored) continue;
