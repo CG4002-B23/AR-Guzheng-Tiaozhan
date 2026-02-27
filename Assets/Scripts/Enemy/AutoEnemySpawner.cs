@@ -136,8 +136,13 @@ public class AutoEnemySpawner : StateListener
             savedLocations.Add(top3Points[i]);
         }
 
+        // rotation settings
+        Vector3 directionToGuzheng = guzhengTransform.position - spawnLocation;
+        directionToGuzheng.y = 0; // keep the enemy horizontal on the AR plane
+        Quaternion spawnRotation = Quaternion.LookRotation(directionToGuzheng);
+
         // Spawn the object at the furthest point from the guzheng
-        spawnedObject = Instantiate(objectToSpawn, spawnLocation, Quaternion.identity);
+        spawnedObject = Instantiate(objectToSpawn, spawnLocation, spawnRotation);
         objectSpawned = true;
 
         // need to update the enemy spawner object for lane manager to get string information from

@@ -880,6 +880,9 @@ MonoBehaviour:
   - {fileID: 309691097}
   - {fileID: 594706716}
   translucentLaneColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.3}
+  pulseSpeed: 3
+  minAlpha: 0.1
+  maxAlpha: 0.6
 --- !u!4 &427778959
 Transform:
   m_ObjectHideFlags: 0
