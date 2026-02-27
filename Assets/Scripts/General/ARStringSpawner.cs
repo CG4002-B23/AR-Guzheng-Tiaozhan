@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ARStringSpawner : MonoBehaviour
+public class ARStringSpawner : StateListener
 {
     [Tooltip("From string configuration file")]
     public DefaultStringConfig config;
@@ -22,19 +22,32 @@ public class ARStringSpawner : MonoBehaviour
     public Dictionary<int, Vector3> StringStarts { get; private set; } = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> StringEnds { get; private set; } = new Dictionary<int, Vector3>();
 
-    void Start()
+    private bool renderersVisible = true;
+
+    void Awake()
     {
         horizontalOffsetCoords = new Vector3(0.0f, horizontalOffset, 0.0f);
     }
-
-    void OnEnable() // executed everytime the object is activated in the scene
+    protected override void OnEnable()
     {
+        base.OnEnable();
         InitializeLines();
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable(); 
     }
 
     void Update()
     {
+        if (!isActiveState) return;
         DrawParallelLines();
+    }
+
+    protected override void OnStateToggled(bool isNowActive)
+    {
+        SetRenderersActive(isNowActive);
     }
 
     void InitializeLines()
@@ -99,12 +112,9 @@ public class ARStringSpawner : MonoBehaviour
         }
     }
 
-    public void SetLinesActive(bool active)
+    public void SetRenderersActive(bool active)
     {
-        // Toggle the visibility of the line renderers
         foreach (var lr in lineRenderers)
             if (lr != null) lr.enabled = active;
-        
-        this.enabled = active;  // enable or disable the script so it stops updating the parallel lines
     }
 }
