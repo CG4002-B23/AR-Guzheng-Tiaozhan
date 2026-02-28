@@ -7,11 +7,23 @@ public class Billboard : MonoBehaviour
     [Tooltip("If true, the object rotates on Y-axis only")]
     public bool lockYAxis = true;
 
+    private GuzhengAnchorGetter anchorGetter;
+    private Transform targetAnchor;
+
+    void Start()
+    {
+        anchorGetter = FindFirstObjectByType<GuzhengAnchorGetter>();  
+    }
+
     void Update()
     {
-        if (Camera.main != null)
+        if (targetAnchor == null && anchorGetter != null)
+            targetAnchor = anchorGetter.FindGuzhengAnchor();
+
+        // successfully found the guzheng anchor
+        if (targetAnchor != null)
         {
-            Vector3 targetPosition = Camera.main.transform.position; // camera position
+            Vector3 targetPosition = targetAnchor.position;
             if (lockYAxis)
             {
                 targetPosition.y = transform.position.y; // so the object only changes it's yaw

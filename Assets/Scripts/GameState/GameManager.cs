@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, Playing, Paused }
+    public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, GuzhengAlignment, Playing, Paused }
 
     // other scripts tune in to this event
     public static event Action<GameState> OnGameStateChanged;
