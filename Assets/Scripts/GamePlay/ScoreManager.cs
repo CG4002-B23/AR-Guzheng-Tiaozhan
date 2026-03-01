@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ScoreManager : StateListener
 {
+    [Header("UI Reference")]
+    public GameplayUIStats uiStatsManager;
+
     [Header("Score Tracking")]
     public int currentScore = 0;
 
@@ -31,7 +34,7 @@ public class ScoreManager : StateListener
     public void ResetScore()
     {
         currentScore = 0;
-        Debug.Log("Score reset to 0.");
+        if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);
     }
 
     public void RegisterHit(float distanceAtImpact)
@@ -50,5 +53,7 @@ public class ScoreManager : StateListener
         {
             Debug.Log($"<color=gray>FAIR.</color> Distance: {distanceAtImpact:F2} | Score: {currentScore}");
         }
+
+        if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);
     }
 }

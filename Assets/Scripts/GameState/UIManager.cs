@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 // handles which button is clicked
-public class UIManager : MonoBehaviour
+public class GameplayUIManager : MonoBehaviour
 {
     [Tooltip("GameStateManager object holding the GameManager script")]
     public GameManager gameManager;

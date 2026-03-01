@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class HealthManager : StateListener
 {
+    [Header("UI Reference")]
+    public GameplayUIStats uiStatsManager;
+
     [Header("Player (Guzheng) Health")]
     public int playerMaxHealth = 100;
     public int playerCurrentHealth;
@@ -27,12 +30,19 @@ public class HealthManager : StateListener
     {
         playerCurrentHealth = playerMaxHealth;
         enemyCurrentHealth = enemyMaxHealth;
+
+        if (uiStatsManager != null)
+        {
+            uiStatsManager.UpdatePlayerHealth(playerCurrentHealth, playerMaxHealth);
+            uiStatsManager.UpdateEnemyHealth(enemyCurrentHealth, enemyMaxHealth);
+        }
     }
 
     public void DamagePlayer(int amount)
     {
         playerCurrentHealth -= amount;
-        Debug.Log($"Player took {amount} damage! HP left: {playerCurrentHealth}");
+
+        if (uiStatsManager != null) uiStatsManager.UpdatePlayerHealth(playerCurrentHealth, playerMaxHealth);
 
         if (playerCurrentHealth <= 0)
         {
@@ -44,7 +54,8 @@ public class HealthManager : StateListener
     public void DamageEnemy(int amount)
     {
         enemyCurrentHealth -= amount;
-        Debug.Log($"Enemy took {amount} damage! HP left: {enemyCurrentHealth}");
+
+        if (uiStatsManager != null) uiStatsManager.UpdateEnemyHealth(enemyCurrentHealth, enemyMaxHealth);
 
         if (enemyCurrentHealth <= 0)
         {
