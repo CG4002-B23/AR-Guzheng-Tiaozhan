@@ -8,6 +8,7 @@ public class PlayerBotManager : StateListener
     public SphereSpawner playerSphereSpawner; 
     public LaneManager laneManager;
     public HealthManager healthManager;
+    public ScoreManager scoreManager;
     public GameObject collisionSparkPrefab;
     public GameObject enemyDamageEffectPrefab;
 
@@ -106,6 +107,12 @@ public class PlayerBotManager : StateListener
                     Vector3 enemyPosition = laneManager.LaneEnds[botNote.targetEnemyNote.laneIndex];
                     Instantiate(enemyDamageEffectPrefab, enemyPosition, Quaternion.identity);
                 }
+
+                Vector3 guzhengLaneStartPosition = laneManager.LaneStarts[botNote.targetEnemyNote.laneIndex];
+                float distanceToGuzheng = Vector3.Distance(botNote.targetEnemyNote.noteObject.transform.position, guzhengLaneStartPosition);
+                
+                if (scoreManager != null)
+                    scoreManager.RegisterHit(distanceToGuzheng);
 
                 healthManager.DamageEnemy(botDamage);
                 enemyNoteManager.DestroyNoteFromBot(botNote.targetEnemyNote);
