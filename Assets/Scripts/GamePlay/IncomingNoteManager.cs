@@ -6,10 +6,12 @@ public class IncomingNoteManager : StateListener
     [Header("References")]
     public SphereSpawner sphereSpawner;
     public LaneManager laneManager;
+    public HealthManager healthManager;
 
     [Header("Spawning & Movement")]
     public float spawnInterval = 1.0f;
     public float noteSpeed = 2.0f;
+    public int missedNoteDamage = 5;
 
     private float spawnTimer = 0f;
 
@@ -28,7 +30,8 @@ public class IncomingNoteManager : StateListener
     {
         if (!isActiveState) return;
 
-        HandleSpawning(); MoveNotes();
+        HandleSpawning(); 
+        MoveNotes();
     }
 
     private void HandleSpawning()
@@ -80,9 +83,12 @@ public class IncomingNoteManager : StateListener
                 noteSpeed * Time.deltaTime
             );
 
-            //  if sphere reaches destination (with tiny threshold), recycle it
+            // sphere reaches guzheng (with tiny threshold)
             if (Vector3.Distance(note.noteObject.transform.position, targetPosition) < 0.05f)
             {
+                if (healthManager != null)
+                    healthManager.DamagePlayer(missedNoteDamage);
+
                 sphereSpawner.ReturnSphere(note.noteObject);
                 activeNotes.RemoveAt(i);
             }
