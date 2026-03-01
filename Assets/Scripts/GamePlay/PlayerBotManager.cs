@@ -11,7 +11,7 @@ public class PlayerBotManager : StateListener
 
     [Header("Bot Combat Settings")]
     [Tooltip("How far from the Guzheng should the collision happen?")]
-    public float hitDistanceFromGuzheng = 1.0f;
+    public float hitDistanceFromGuzheng = 0.2f;
     [Tooltip("How fast the player's notes fly towards the enemy")]
     public float playerNoteSpeed = 10.0f;
     public int botDamage = 10;
