@@ -1,18 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class AudioManager : StateListener
 {
-    // Start is called before the first frame update
-    void Start()
+    private AudioSource audioSource;
+
+    [Tooltip("Assign some music here to play in the menus")]
+    public AudioClip menuMusic;
+
+    private void Awake()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = menuMusic;
+        audioSource.loop = true;
+        audioSource.playOnAwake = false; 
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnStateToggled(bool isNowActive)
     {
-        
+        base.OnStateToggled(isNowActive);
+
+        if (audioSource == null || audioSource.clip == null) return;
+
+        if (isNowActive)
+        {
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+        }
+        else
+        {
+            if (audioSource.isPlaying)
+                audioSource.Stop(); // use Pause() to resume playing it the next time it's played
+        }
     }
 }
