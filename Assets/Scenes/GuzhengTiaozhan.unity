@@ -2562,6 +2562,71 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358820623}
   m_CullTransparentMesh: 1
+--- !u!1 &1375489246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1375489249}
+  - component: {fileID: 1375489248}
+  - component: {fileID: 1375489247}
+  m_Layer: 0
+  m_Name: NoteSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1375489247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375489246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce5835ea1c6b584ea0c841f0b9ea688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 05000000
+  spherePrefab: {fileID: 5400601534774202354, guid: b70223106d1a542a3ad55b5688c2374e, type: 3}
+  poolSize: 80
+--- !u!114 &1375489248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375489246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4610b934ce236d5d7909662e669eaa03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 05000000
+  sphereSpawner: {fileID: 1375489247}
+  laneManager: {fileID: 427778958}
+  spawnInterval: 1
+  noteSpeed: 2
+--- !u!4 &1375489249
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375489246}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3894045, y: -0.22178653, z: 0.8405379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1476750811 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8632180759679770195, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
@@ -4342,3 +4407,4 @@ SceneRoots:
   - {fileID: 871859320}
   - {fileID: 1874470158}
   - {fileID: 427778959}
+  - {fileID: 1375489249}
