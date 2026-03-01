@@ -1524,6 +1524,7 @@ MonoBehaviour:
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
+  enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
   hitDistanceFromGuzheng: 0.2
   playerNoteSpeed: 10
   botDamage: 10
@@ -2748,6 +2749,7 @@ MonoBehaviour:
   spawnInterval: 1
   noteSpeed: 2
   missedNoteDamage: 5
+  playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
 --- !u!4 &1375489249
 Transform:
   m_ObjectHideFlags: 0

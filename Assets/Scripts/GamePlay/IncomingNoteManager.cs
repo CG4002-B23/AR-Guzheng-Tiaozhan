@@ -12,6 +12,7 @@ public class IncomingNoteManager : StateListener
     public float spawnInterval = 1.0f;
     public float noteSpeed = 2.0f;
     public int missedNoteDamage = 5;
+    public GameObject playerDamageEffectPrefab;
 
     private float spawnTimer = 0f;
 
@@ -96,6 +97,9 @@ public class IncomingNoteManager : StateListener
             {
                 if (healthManager != null)
                     healthManager.DamagePlayer(missedNoteDamage);
+
+                if (playerDamageEffectPrefab != null)
+                    Instantiate(playerDamageEffectPrefab, targetPosition, Quaternion.identity);
 
                 sphereSpawner.ReturnSphere(note.noteObject);
                 activeNotes.RemoveAt(i);

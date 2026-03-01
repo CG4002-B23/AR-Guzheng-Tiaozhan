@@ -9,6 +9,7 @@ public class PlayerBotManager : StateListener
     public LaneManager laneManager;
     public HealthManager healthManager;
     public GameObject collisionSparkPrefab;
+    public GameObject enemyDamageEffectPrefab;
 
     [Header("Bot Combat Settings")]
     [Tooltip("How far from the Guzheng should the collision happen?")]
@@ -17,7 +18,7 @@ public class PlayerBotManager : StateListener
     public float playerNoteSpeed = 10.0f;
     public int botDamage = 10;
 
-    [Tooltip("")]
+    [Tooltip("How far away the player's note is from the enemy's note in the same lane to count as a collision")]
     public float collisionDistanceThreshold = 0.05f;
 
     private class BotNote
@@ -99,6 +100,12 @@ public class PlayerBotManager : StateListener
                 // spawn collision particles
                 if (collisionSparkPrefab != null)
                     Instantiate(collisionSparkPrefab, botNote.noteObject.transform.position, Quaternion.identity);
+
+                if (enemyDamageEffectPrefab != null)
+                {
+                    Vector3 enemyPosition = laneManager.LaneEnds[botNote.targetEnemyNote.laneIndex];
+                    Instantiate(enemyDamageEffectPrefab, enemyPosition, Quaternion.identity);
+                }
 
                 healthManager.DamageEnemy(botDamage);
                 enemyNoteManager.DestroyNoteFromBot(botNote.targetEnemyNote);
