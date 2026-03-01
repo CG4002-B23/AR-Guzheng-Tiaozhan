@@ -2126,4 +2126,4 @@ MonoBehaviour:
   targetStates: 04000000
   guzhengSpawner: {fileID: 4588598021487891123}
   enemySpawner: {fileID: 3476179374824800027, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
-  alignmentToleranceDegrees: 10
+  alignmentToleranceDegrees: 50
