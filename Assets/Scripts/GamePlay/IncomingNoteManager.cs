@@ -18,13 +18,15 @@ public class IncomingNoteManager : StateListener
     private Color colorRightTuo = Color.green;
     private Color colorRightMuo = Color.blue;
 
-    private class ActiveNote
+    public class ActiveNote
     {
         public GameObject noteObject;
         public int laneIndex;
+        public Color noteColor;
+        public bool isTargetedByBot;
     }
 
-    private List<ActiveNote> activeNotes = new List<ActiveNote>();
+    public List<ActiveNote> activeNotes = new List<ActiveNote>();
 
     void Update()
     {
@@ -57,14 +59,20 @@ public class IncomingNoteManager : StateListener
 
         // temporary logic for deciding which note to spawn
         bool isRightTuo = Random.value > 0.5f; // 50% chance of spawning a right tuo
+        Color requiredNoteColor = isRightTuo ? colorRightTuo : colorRightMuo;
         
         Renderer rend = newNoteObj.GetComponent<Renderer>();
         if (rend != null)
         {
-            rend.material.color = isRightTuo ? colorRightTuo : colorRightMuo;
+            rend.material.color = requiredNoteColor;
         }
 
-        activeNotes.Add(new ActiveNote { noteObject = newNoteObj, laneIndex = randomLane });
+        activeNotes.Add(new ActiveNote { 
+            noteObject = newNoteObj, 
+            laneIndex = randomLane,
+            noteColor = requiredNoteColor,
+            isTargetedByBot = false
+        });
     }
 
     private void MoveNotes() // move the notes down their respective lanes
@@ -105,6 +113,15 @@ public class IncomingNoteManager : StateListener
             }
             activeNotes.Clear();
             spawnTimer = 0f;
+        }
+    }
+
+    public void DestroyNoteFromBot(ActiveNote note)
+    {
+        if (activeNotes.Contains(note))
+        {
+            sphereSpawner.ReturnSphere(note.noteObject);
+            activeNotes.Remove(note);
         }
     }
 }

@@ -952,6 +952,53 @@ Transform:
   - {fileID: 594706717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &443796982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 443796984}
+  - component: {fileID: 443796983}
+  m_Layer: 0
+  m_Name: SphereSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &443796983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443796982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce5835ea1c6b584ea0c841f0b9ea688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 05000000
+  spherePrefab: {fileID: 5400601534774202354, guid: b70223106d1a542a3ad55b5688c2374e, type: 3}
+  poolSize: 40
+--- !u!4 &443796984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 443796982}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3894045, y: -0.22178653, z: 0.8405379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &473157849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,6 +1488,59 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 427778959}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &735639757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735639759}
+  - component: {fileID: 735639758}
+  m_Layer: 0
+  m_Name: PlayerBot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &735639758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735639757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c0451d230b44b9598ba8139ea76465, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetStates: 0500000006000000
+  enemyNoteManager: {fileID: 1375489248}
+  playerSphereSpawner: {fileID: 443796983}
+  laneManager: {fileID: 427778958}
+  healthManager: {fileID: 84735140}
+  hitDistanceFromGuzheng: 1
+  playerNoteSpeed: 10
+  botDamage: 10
+  collisionDistanceThreshold: 0.05
+--- !u!4 &735639759
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735639757}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.3894045, y: -0.22178653, z: 0.8405379}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &738125540
 GameObject:
@@ -2621,29 +2721,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1375489249}
   - component: {fileID: 1375489248}
-  - component: {fileID: 1375489247}
   m_Layer: 0
-  m_Name: NoteSystem
+  m_Name: EnemyNoteManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1375489247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1375489246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ce5835ea1c6b584ea0c841f0b9ea688, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetStates: 05000000
-  spherePrefab: {fileID: 5400601534774202354, guid: b70223106d1a542a3ad55b5688c2374e, type: 3}
-  poolSize: 80
 --- !u!114 &1375489248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2657,7 +2741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetStates: 05000000
-  sphereSpawner: {fileID: 1375489247}
+  sphereSpawner: {fileID: 443796983}
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
   spawnInterval: 1
@@ -4460,3 +4544,5 @@ SceneRoots:
   - {fileID: 427778959}
   - {fileID: 1375489249}
   - {fileID: 84735141}
+  - {fileID: 735639759}
+  - {fileID: 443796984}
