@@ -112,7 +112,7 @@ public class PlayerBotManager : StateListener
                 float distanceToGuzheng = Vector3.Distance(botNote.targetEnemyNote.noteObject.transform.position, guzhengLaneStartPosition);
                 
                 if (scoreManager != null)
-                    scoreManager.RegisterHit(distanceToGuzheng);
+                    scoreManager.RegisterHit(distanceToGuzheng, botNote.noteObject.transform.position);
 
                 healthManager.DamageEnemy(botDamage);
                 enemyNoteManager.DestroyNoteFromBot(botNote.targetEnemyNote);

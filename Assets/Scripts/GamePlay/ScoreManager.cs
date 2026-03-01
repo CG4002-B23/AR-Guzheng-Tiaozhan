@@ -5,6 +5,9 @@ public class ScoreManager : StateListener
     [Header("UI Reference")]
     public GameplayUIStats uiStatsManager;
 
+    [Header("UI Popups")]
+    public GameObject floatingTextPrefab;
+
     [Header("Score Tracking")]
     public int currentScore = 0;
 
@@ -37,21 +40,38 @@ public class ScoreManager : StateListener
         if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);
     }
 
-    public void RegisterHit(float distanceAtImpact)
+    public void RegisterHit(float distanceAtImpact, Vector3 hitPosition)
     {
+        string popupText = "";
+        Color popupColor = Color.white;
+
         if (distanceAtImpact <= perfectThreshold)
         {
             currentScore += perfectPoints;
+            popupText = "PERFECT!";
+            popupColor = Color.yellow;
             Debug.Log($"<color=yellow>PERFECT!</color> Distance: {distanceAtImpact:F2} | Score: {currentScore}");
         }
         else if (distanceAtImpact <= goodThreshold)
         {
             currentScore += goodPoints;
+            popupText = "GOOD!";
+            popupColor = Color.green;
             Debug.Log($"<color=green>GOOD!</color> Distance: {distanceAtImpact:F2} | Score: {currentScore}");
         }
         else
         {
+            popupText = "FAIR";
+            popupColor = Color.gray;
             Debug.Log($"<color=gray>FAIR.</color> Distance: {distanceAtImpact:F2} | Score: {currentScore}");
+        }
+
+        if (floatingTextPrefab != null && popupText != "")
+        {
+            Vector3 spawnPos = hitPosition + (Vector3.up * 0.2f);
+            GameObject popup = Instantiate(floatingTextPrefab, spawnPos, Quaternion.identity);
+            
+            popup.GetComponent<FloatingText>().Setup(popupText, popupColor);
         }
 
         if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);

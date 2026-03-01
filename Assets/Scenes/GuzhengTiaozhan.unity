@@ -4498,6 +4498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStates: 0500000006000000
   uiStatsManager: {fileID: 172989354}
+  floatingTextPrefab: {fileID: 7952434625043751468, guid: a3386e8ce0300a943bd701e9d55eeb09, type: 3}
   currentScore: 0
   perfectThreshold: 0.3
   goodThreshold: 0.8
