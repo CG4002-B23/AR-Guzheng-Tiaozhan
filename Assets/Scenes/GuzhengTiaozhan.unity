@@ -1505,7 +1505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &735639758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1523,6 +1523,7 @@ MonoBehaviour:
   playerSphereSpawner: {fileID: 443796983}
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
+  collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   hitDistanceFromGuzheng: 0.2
   playerNoteSpeed: 10
   botDamage: 10

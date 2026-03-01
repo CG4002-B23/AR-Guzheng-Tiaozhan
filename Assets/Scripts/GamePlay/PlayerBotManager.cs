@@ -8,6 +8,7 @@ public class PlayerBotManager : StateListener
     public SphereSpawner playerSphereSpawner; 
     public LaneManager laneManager;
     public HealthManager healthManager;
+    public GameObject collisionSparkPrefab;
 
     [Header("Bot Combat Settings")]
     [Tooltip("How far from the Guzheng should the collision happen?")]
@@ -95,6 +96,10 @@ public class PlayerBotManager : StateListener
             
             if (distanceBetweenNotes < collisionDistanceThreshold) 
             {
+                // spawn collision particles
+                if (collisionSparkPrefab != null)
+                    Instantiate(collisionSparkPrefab, botNote.noteObject.transform.position, Quaternion.identity);
+
                 healthManager.DamageEnemy(botDamage);
                 enemyNoteManager.DestroyNoteFromBot(botNote.targetEnemyNote);
                 playerSphereSpawner.ReturnSphere(botNote.noteObject);
