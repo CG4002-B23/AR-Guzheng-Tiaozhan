@@ -5,7 +5,7 @@ using UnityEngine.XR.ARFoundation;
 public class GameplayUIManager : MonoBehaviour
 {
     [Tooltip("GameStateManager object holding the GameManager script")]
-    public GameManager gameManager;
+    public StateManager gameManager;
 
     [Tooltip("ARSession object here")]
     public ARSession arSession;
@@ -18,31 +18,35 @@ public class GameplayUIManager : MonoBehaviour
     public GameObject startMenu;
     public GameObject pauseMenu;
     public GameObject gameplayUI;
+    public GameObject victoryScreen;
+    public GameObject defeatScreen;
 
     [Tooltip("Drag the gameplayUI object here again to link its Canvas Group")]
     public CanvasGroup gameplayUICanvasGroup;
 
     void OnEnable()
     {
-        GameManager.OnGameStateChanged += HandleGameStateChange;
+        StateManager.OnGameStateChanged += HandleGameStateChange;
     }
 
     void OnDisable()
     {
-        GameManager.OnGameStateChanged -= HandleGameStateChange;
+        StateManager.OnGameStateChanged -= HandleGameStateChange;
     }
 
-    private void HandleGameStateChange(GameManager.GameState newState)
+    private void HandleGameStateChange(StateManager.GameState newState)
     {
-        startMenu.SetActive(newState == GameManager.GameState.StartMenu);
-        pauseMenu.SetActive(newState == GameManager.GameState.Paused);
+        startMenu.SetActive(newState == StateManager.GameState.StartMenu);
+        pauseMenu.SetActive(newState == StateManager.GameState.Paused);
+        victoryScreen.SetActive(newState == StateManager.GameState.Victory);
+        defeatScreen.SetActive(newState == StateManager.GameState.Defeat);
         
         bool shouldGameplayUIBeActive = 
-            newState == GameManager.GameState.Playing || 
-            newState == GameManager.GameState.GuzhengPlacing || 
-            newState == GameManager.GameState.FieldScanning ||
-            newState == GameManager.GameState.GuzhengAlignment ||
-            newState == GameManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
+            newState == StateManager.GameState.Playing || 
+            newState == StateManager.GameState.GuzhengPlacing || 
+            newState == StateManager.GameState.FieldScanning ||
+            newState == StateManager.GameState.GuzhengAlignment ||
+            newState == StateManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
 
         // set active only if the state needs to change
         if (gameplayUI.activeSelf != shouldGameplayUIBeActive)
@@ -54,7 +58,7 @@ public class GameplayUIManager : MonoBehaviour
         if (gameplayUICanvasGroup != null)
         {
             // only interactable when not paused
-            bool canInteract = (newState != GameManager.GameState.Paused);
+            bool canInteract = (newState != StateManager.GameState.Paused);
             
             gameplayUICanvasGroup.interactable = canInteract;
             gameplayUICanvasGroup.blocksRaycasts = canInteract;
@@ -64,30 +68,30 @@ public class GameplayUIManager : MonoBehaviour
     // hook each of these functions to the OnClick() list of the buttons in the menus
     public void OnStartButtonClicked()
     {
-        GameManager.Instance.ChangeState(GameManager.GameState.GuzhengPlacing);
+        StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
     }
 
     public void OnPauseButtonClicked()
     {
-        GameManager.Instance.ChangeState(GameManager.GameState.Paused);
+        StateManager.Instance.ChangeState(StateManager.GameState.Paused);
     }
 
     public void OnResumeButtonClicked()
     {
-        GameManager.Instance.ResumeGame(); // reverts to the state of the game just before pausing
+        StateManager.Instance.ResumeGame(); // reverts to the state of the game just before pausing
     }
 
     public void OnRestartButtonClicked()
     {
         guzhengAnchorManager.DestroyGuzheng();
-        GameManager.Instance.ChangeState(GameManager.GameState.GuzhengPlacing);
+        StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
         arSession.Reset();
     }
 
     public void OnMainMenuButtonClicked()
     {
         guzhengAnchorManager.DestroyGuzheng();
-        GameManager.Instance.ChangeState(GameManager.GameState.StartMenu);
+        StateManager.Instance.ChangeState(StateManager.GameState.StartMenu);
         arSession.Reset();
     }
 }

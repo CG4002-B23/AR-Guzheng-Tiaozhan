@@ -2128,6 +2128,8 @@ MonoBehaviour:
   startMenu: {fileID: 269944953}
   pauseMenu: {fileID: 1201677158}
   gameplayUI: {fileID: 1853408422}
+  victoryScreen: {fileID: 22655691}
+  defeatScreen: {fileID: 1075161562}
   gameplayUICanvasGroup: {fileID: 1853408426}
 --- !u!4 &871859320
 Transform:

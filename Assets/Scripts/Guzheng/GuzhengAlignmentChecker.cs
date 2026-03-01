@@ -30,7 +30,7 @@ public class GuzhengAlignmentChecker : StateListener
         {
             Debug.Log("angle: " + angle);
             Debug.Log("tolerance deg: " + alignmentToleranceDegrees);
-            GameManager.Instance.ChangeState(GameManager.GameState.Playing);
+            StateManager.Instance.ChangeState(StateManager.GameState.Playing);
         }
     }
 }
