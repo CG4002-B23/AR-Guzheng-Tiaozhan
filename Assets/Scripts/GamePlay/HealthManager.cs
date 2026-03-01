@@ -4,6 +4,7 @@ public class HealthManager : StateListener
 {
     [Header("UI Reference")]
     public GameplayUIStats uiStatsManager;
+    public GameManager gameManager;
 
     [Header("Player (Guzheng) Health")]
     public int playerMaxHealth = 100;
@@ -47,7 +48,7 @@ public class HealthManager : StateListener
         if (playerCurrentHealth <= 0)
         {
             playerCurrentHealth = 0;
-            HandleGameOver(false);
+            gameManager.HandleGameOver(false);
         }
     }
 
@@ -60,21 +61,7 @@ public class HealthManager : StateListener
         if (enemyCurrentHealth <= 0)
         {
             enemyCurrentHealth = 0;
-            HandleGameOver(true);
-        }
-    }
-
-    private void HandleGameOver(bool playerWon)
-    {
-        if (playerWon)
-        {
-            Debug.Log("Enemy defeated! Player Wins!");
-            // game manager switch to victory state
-        }
-        else
-        {
-            Debug.Log("Player defeated! Game Over.");
-            // game manager switch to game over state
+            gameManager.HandleGameOver(true);
         }
     }
 }
