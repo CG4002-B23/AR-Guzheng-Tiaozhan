@@ -1174,6 +1174,7 @@ MonoBehaviour:
   pulseSpeed: 3
   minAlpha: 0.1
   maxAlpha: 0.6
+  estimatedGuzhengWidth: 0.6
 --- !u!4 &427778959
 Transform:
   m_ObjectHideFlags: 0
