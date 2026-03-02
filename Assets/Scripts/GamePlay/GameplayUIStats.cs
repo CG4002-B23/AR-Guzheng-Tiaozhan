@@ -9,20 +9,10 @@ public class GameplayUIStats : StateListener
     public Slider playerHealthBarSlider;
     public TextMeshProUGUI scoreText;
 
-    [Header("Enemy UI")]
-    public GameObject enemyHealthBarVisual;
-    public Slider enemyHealthBarSlider;
-
     public void UpdatePlayerHealth(int currentHealth, int maxHealth)
     {
         if (playerHealthBarSlider != null)
             playerHealthBarSlider.value = (float)currentHealth / maxHealth;
-    }
-
-    public void UpdateEnemyHealth(int currentHealth, int maxHealth)
-    {
-        if (enemyHealthBarSlider != null)
-            enemyHealthBarSlider.value = (float)currentHealth / maxHealth;
     }
 
     public void UpdateScore(int newScore)
@@ -36,13 +26,11 @@ public class GameplayUIStats : StateListener
         if (isPlaying)
         {
             playerHealthBarVisual.SetActive(true);
-            enemyHealthBarVisual.SetActive(true);
             scoreText.enabled = true;
         }
         else
         {
             playerHealthBarVisual.SetActive(false);
-            enemyHealthBarVisual.SetActive(false);
             scoreText.enabled = false;
         }
     }

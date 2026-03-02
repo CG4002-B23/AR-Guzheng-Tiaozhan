@@ -10,10 +10,6 @@ public class HealthManager : StateListener
     public int playerMaxHealth = 100;
     public int playerCurrentHealth;
 
-    [Header("Enemy Health")]
-    public int enemyMaxHealth = 100;
-    public int enemyCurrentHealth;
-
     void Awake()
     {
         ResetHealth();
@@ -30,13 +26,9 @@ public class HealthManager : StateListener
     public void ResetHealth()
     {
         playerCurrentHealth = playerMaxHealth;
-        enemyCurrentHealth = enemyMaxHealth;
 
         if (uiStatsManager != null)
-        {
             uiStatsManager.UpdatePlayerHealth(playerCurrentHealth, playerMaxHealth);
-            uiStatsManager.UpdateEnemyHealth(enemyCurrentHealth, enemyMaxHealth);
-        }
     }
 
     public void DamagePlayer(int amount)
@@ -49,19 +41,6 @@ public class HealthManager : StateListener
         {
             playerCurrentHealth = 0;
             gameManager.HandleGameOver(false);
-        }
-    }
-
-    public void DamageEnemy(int amount)
-    {
-        enemyCurrentHealth -= amount;
-
-        if (uiStatsManager != null) uiStatsManager.UpdateEnemyHealth(enemyCurrentHealth, enemyMaxHealth);
-
-        if (enemyCurrentHealth <= 0)
-        {
-            enemyCurrentHealth = 0;
-            gameManager.HandleGameOver(true);
         }
     }
 }

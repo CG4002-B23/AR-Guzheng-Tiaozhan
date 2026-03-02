@@ -140,9 +140,6 @@ public class PlayerCombatManager : StateListener
                     if (scoreManager != null)
                         scoreManager.RegisterHit(distanceToGuzheng, pNote.noteObject.transform.position);
 
-                    if (healthManager != null)
-                        healthManager.DamageEnemy(attackDamage);
-
                     enemyNoteManager.DestroyNoteFromBot(eNote); 
                     hitRegistered = true;
                     

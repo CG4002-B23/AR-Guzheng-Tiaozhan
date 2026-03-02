@@ -126,7 +126,6 @@ public class PlayerBotManager : StateListener
                 if (scoreManager != null)
                     scoreManager.RegisterHit(distanceToGuzheng, botNote.noteObject.transform.position);
 
-                healthManager.DamageEnemy(botDamage);
                 enemyNoteManager.DestroyNoteFromBot(botNote.targetEnemyNote);
                 playerSphereSpawner.ReturnSphere(botNote.noteObject);
                 activeBotNotes.RemoveAt(i);
