@@ -37,6 +37,8 @@ public class RightHandAnimationController : StateListener
         {
             case StateManager.GameState.StartMenu:
             case StateManager.GameState.Paused:
+            case StateManager.GameState.Victory:
+            case StateManager.GameState.Defeat:
                 UnsubscribeFromGestures();
                 SetHandTrigger("PointerTrigger");
                 break;

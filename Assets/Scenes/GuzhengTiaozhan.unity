@@ -5953,6 +5953,22 @@ PrefabInstance:
       propertyPath: loadingRing
       value: 
       objectReference: {fileID: 1656730965}
+    - target: {fileID: 4786090380632561012, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786090380632561012, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786090380632561012, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.data[3]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4786090380632561012, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.data[4]
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5219994368503409539, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.636048
@@ -5973,6 +5989,18 @@ PrefabInstance:
       propertyPath: pauseButtonRect
       value: 
       objectReference: {fileID: 996610821}
+    - target: {fileID: 8449261071925912535, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449261071925912535, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8449261071925912535, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: targetStates.Array.data[4]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8611872287478895451, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       propertyPath: m_Controller
       value: 
