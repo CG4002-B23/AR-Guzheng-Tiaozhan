@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // use object poolling to store the spheres so we don't instantiate and destroy spheres in every frame
-public class SphereSpawner : StateListener
+public class SphereSpawner : MonoBehaviour
 {
     [Header("Pool Settings")]
     public GameObject spherePrefab;

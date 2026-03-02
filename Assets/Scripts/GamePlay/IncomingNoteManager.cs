@@ -32,6 +32,7 @@ public class IncomingNoteManager : StateListener
     void Update()
     {
         if (!isActiveState) return;
+        if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
 
         HandleSpawning(); 
         MoveNotes();

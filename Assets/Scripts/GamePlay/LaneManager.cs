@@ -55,6 +55,7 @@ public class LaneManager : StateListener
     void Update()
     {
         if (!isActiveState) return;
+        if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
 
         UpdateLanes();
         PulseLanes();

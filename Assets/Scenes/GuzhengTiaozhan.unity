@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aaeb58be4820791cbc14b6edb001a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStates: 05000000
+  targetStates: 0500000006000000
   guzhengSpawner: {fileID: 4588598021487891123, guid: 0f2e137360fd14848b3884ee25701ced, type: 3}
   enemySpawner: {fileID: 3476179374824800027, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   connectionLanes:
@@ -4310,7 +4310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4610b934ce236d5d7909662e669eaa03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStates: 05000000
+  targetStates: 0500000006000000
   sphereSpawner: {fileID: 443796983}
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
