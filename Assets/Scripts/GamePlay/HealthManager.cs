@@ -21,7 +21,7 @@ public class HealthManager : StateListener
 
     protected override void OnStateToggled(bool isNowActive)
     {
-        if (isNowActive)
+        if (isNowActive && !targetStates.Contains(StateManager.Instance.PreviousState))
         {
             ResetHealth();
         }

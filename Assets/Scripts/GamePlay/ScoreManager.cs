@@ -28,7 +28,7 @@ public class ScoreManager : StateListener
 
     protected override void OnStateToggled(bool isNowActive)
     {
-        if (isNowActive)
+        if (isNowActive && !targetStates.Contains(StateManager.Instance.PreviousState))
         {
             ResetScore();
         }
