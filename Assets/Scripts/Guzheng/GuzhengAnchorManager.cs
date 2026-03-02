@@ -116,7 +116,7 @@ public class GuzhengAnchorManager : StateListener
         // reanchor guzheng
         guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
         
-        DebugStatusText = "Guzheng Auto-Aligned & Anchored";
+        // DebugStatusText = "Guzheng Auto-Aligned & Anchored";
     }
 
     // debug statements showing on phone screen
