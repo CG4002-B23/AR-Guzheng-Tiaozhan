@@ -12,6 +12,7 @@ public class GuzhengStringInteraction : MonoBehaviour
     private Color invisibleColor;
     private Material stringMaterial;
     private List<Collider> touchingHands = new List<Collider>(); // hand colliders currently inside the trigger
+    public bool IsTouched => touchingHands.Count > 0;
 
     void Start()
     {
