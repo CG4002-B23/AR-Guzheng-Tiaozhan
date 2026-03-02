@@ -22,7 +22,7 @@ public class MenuInteractionController : StateListener
     public Vector2 ringOffset = new Vector2(100f, 100f);
 
     private float hoverTimer = 0f;
-    private GameObject currentHoveredButton = null;
+    private GameObject currentHoveredElement = null;
     private PointerEventData pointerEventData;
 
     void Start()
@@ -64,22 +64,28 @@ public class MenuInteractionController : StateListener
         EventSystem.current.RaycastAll(pointerEventData, results);
 
         // check if we hit a button (first valid interactable button)
-        GameObject hitButton = null;
+        GameObject hitElement = null;
         foreach (RaycastResult result in results)
         {
             Button btn = result.gameObject.GetComponentInParent<Button>();  // handles cases where the text/image is hit instead of the root button object
-            
             if (btn != null && btn.interactable)
             {
-                hitButton = btn.gameObject;
+                hitElement = btn.gameObject;
                 break; // stop looking once we find the first valid button in the hierarchy
+            }
+
+            Toggle tgl = result.gameObject.GetComponentInParent<Toggle>();
+            if (tgl != null && tgl.interactable)
+            {
+                hitElement = tgl.gameObject;
+                break;
             }
         }
 
         // hover timer logic
-        if (hitButton != null)
+        if (hitElement != null)
         {
-            if (hitButton == currentHoveredButton)
+            if (hitElement == currentHoveredElement)
             {
                 hoverTimer += Time.deltaTime;
 
@@ -90,12 +96,12 @@ public class MenuInteractionController : StateListener
 
                 if (hoverTimer >= hoverDuration)
                 {
-                    ClickButton(hitButton);
+                    ClickElement(hitElement);
                 }
             }
             else // finger moved to a new button
             {
-                currentHoveredButton = hitButton;
+                currentHoveredElement = hitElement;
                 hoverTimer = 0f;
 
                 // Show the ring and reset its fill
@@ -108,16 +114,16 @@ public class MenuInteractionController : StateListener
         }
         else // finger not on a button
         {
-            if (currentHoveredButton != null)
+            if (currentHoveredElement != null)
             {
                 ResetHoverState();
             }
         }
     }
 
-    private void ClickButton(GameObject buttonToClick)
+    private void ClickElement(GameObject elementToClick)
     {
-        ExecuteEvents.Execute(buttonToClick, pointerEventData, ExecuteEvents.pointerClickHandler);
+        ExecuteEvents.Execute(elementToClick, pointerEventData, ExecuteEvents.pointerClickHandler);
 
         // reset the state so the button is not spam clicked
         ResetHoverState();
@@ -126,7 +132,7 @@ public class MenuInteractionController : StateListener
     private void ResetHoverState()
     {
         hoverTimer = 0f;
-        currentHoveredButton = null; 
+        currentHoveredElement = null; 
 
         if (loadingRing != null)
         {
