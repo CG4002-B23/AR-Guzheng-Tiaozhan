@@ -1171,10 +1171,10 @@ MonoBehaviour:
   - {fileID: 309691097}
   - {fileID: 594706716}
   translucentLaneColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.3}
+  estimatedGuzhengWidth: 0.6
   pulseSpeed: 3
   minAlpha: 0.1
   maxAlpha: 0.6
-  estimatedGuzhengWidth: 0.6
 --- !u!4 &427778959
 Transform:
   m_ObjectHideFlags: 0
@@ -2283,7 +2283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetStates: 0500000006000000
-  enemyNoteManager: {fileID: 1375489248}
+  enemyNoteManager: {fileID: 1375489250}
   playerSphereSpawner: {fileID: 443796983}
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}

@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerBotManager : StateListener
 {
     [Header("References")]
-    public MockIncomingNoteManager enemyNoteManager;
+    public IncomingNoteManager enemyNoteManager;
     public SphereSpawner playerSphereSpawner; 
     public LaneManager laneManager;
     public HealthManager healthManager;
@@ -25,7 +25,7 @@ public class PlayerBotManager : StateListener
     private class BotNote
     {
         public GameObject noteObject;
-        public MockIncomingNoteManager.ActiveNote targetEnemyNote;
+        public IncomingNoteManager.ActiveNote targetEnemyNote;
     }
 
     private List<BotNote> activeBotNotes = new List<BotNote>();
@@ -66,6 +66,7 @@ public class PlayerBotManager : StateListener
             Vector3 guzhengLaneStartPos = laneManager.LaneStarts[enemyNote.laneIndex];
             float distanceFromEnemyNote = Vector3.Distance(enemyNote.noteObject.transform.position, guzhengLaneStartPos);
 
+            Debug.Log("detected distance: " + distanceFromEnemyNote);
             if (distanceFromEnemyNote <= triggerDistance)
             {
                 enemyNote.isTargetedByBot = true;
@@ -74,7 +75,7 @@ public class PlayerBotManager : StateListener
         }
     }
 
-    private void SpawnBotNote(MockIncomingNoteManager.ActiveNote target)
+    private void SpawnBotNote(IncomingNoteManager.ActiveNote target)
     {
         GameObject newNote = playerSphereSpawner.GetSphere();
         newNote.transform.position = laneManager.LaneStarts[target.laneIndex];
