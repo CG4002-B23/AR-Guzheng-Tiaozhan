@@ -415,9 +415,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 978c68d7b517fcfb588af9f267ad4581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealthBar: {fileID: 1876191965}
+  targetStates: 0500000006000000
+  playerHealthBarVisual: {fileID: 1876191963}
+  playerHealthBarSlider: {fileID: 1876191965}
   scoreText: {fileID: 1493331242}
-  enemyHealthBar: {fileID: 1651256145}
+  enemyHealthBarVisual: {fileID: 1651256143}
+  enemyHealthBarSlider: {fileID: 1651256145}
 --- !u!4 &172989355
 Transform:
   m_ObjectHideFlags: 0
@@ -2408,6 +2411,7 @@ MonoBehaviour:
   startMenu: {fileID: 269944953}
   pauseMenu: {fileID: 1201677158}
   gameplayUI: {fileID: 1853408422}
+  gameplayUIStats: {fileID: 172989354}
   victoryScreen: {fileID: 22655691}
   defeatScreen: {fileID: 1075161562}
   gameplayUICanvasGroup: {fileID: 1853408426}

@@ -2,30 +2,48 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameplayUIStats : MonoBehaviour
+public class GameplayUIStats : StateListener
 {
     [Header("Player UI")]
-    public Slider playerHealthBar;
+    public GameObject playerHealthBarVisual;
+    public Slider playerHealthBarSlider;
     public TextMeshProUGUI scoreText;
 
     [Header("Enemy UI")]
-    public Slider enemyHealthBar;
+    public GameObject enemyHealthBarVisual;
+    public Slider enemyHealthBarSlider;
 
     public void UpdatePlayerHealth(int currentHealth, int maxHealth)
     {
-        if (playerHealthBar != null)
-            playerHealthBar.value = (float)currentHealth / maxHealth;
+        if (playerHealthBarSlider != null)
+            playerHealthBarSlider.value = (float)currentHealth / maxHealth;
     }
 
     public void UpdateEnemyHealth(int currentHealth, int maxHealth)
     {
-        if (enemyHealthBar != null)
-            enemyHealthBar.value = (float)currentHealth / maxHealth;
+        if (enemyHealthBarSlider != null)
+            enemyHealthBarSlider.value = (float)currentHealth / maxHealth;
     }
 
     public void UpdateScore(int newScore)
     {
         if (scoreText != null)
             scoreText.text = $"Score: {newScore}";
+    }
+
+    public void ShowStats(bool isPlaying)
+    {
+        if (isPlaying)
+        {
+            playerHealthBarVisual.SetActive(true);
+            enemyHealthBarVisual.SetActive(true);
+            scoreText.enabled = true;
+        }
+        else
+        {
+            playerHealthBarVisual.SetActive(false);
+            enemyHealthBarVisual.SetActive(false);
+            scoreText.enabled = false;
+        }
     }
 }

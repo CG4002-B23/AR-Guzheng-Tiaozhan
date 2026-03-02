@@ -21,6 +21,7 @@ public class GameplayUIManager : MonoBehaviour
     public GameObject startMenu;
     public GameObject pauseMenu;
     public GameObject gameplayUI;
+    public GameplayUIStats gameplayUIStats;
     public GameObject victoryScreen;
     public GameObject defeatScreen;
 
@@ -51,11 +52,15 @@ public class GameplayUIManager : MonoBehaviour
             newState == StateManager.GameState.GuzhengAlignment ||
             newState == StateManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
 
+        bool shouldGameplayUIStatsBeActive = 
+            newState == StateManager.GameState.Playing || 
+            newState == StateManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
+
         // set active only if the state needs to change
         if (gameplayUI.activeSelf != shouldGameplayUIBeActive)
-        {
             gameplayUI.SetActive(shouldGameplayUIBeActive);
-        }
+
+        gameplayUIStats.ShowStats(shouldGameplayUIStatsBeActive);
 
         // toggle interactivity for gameplayUI (when paused)
         if (gameplayUICanvasGroup != null)
