@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerCombatManager : StateListener
 {
     [Header("References")]
-    public IncomingNoteManager enemyNoteManager;
+    public MockIncomingNoteManager enemyNoteManager;
     public SphereSpawner playerSphereSpawner; 
     public LaneManager laneManager;
     public HealthManager healthManager;

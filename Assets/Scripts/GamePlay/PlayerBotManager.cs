@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerBotManager : StateListener
 {
     [Header("References")]
-    public IncomingNoteManager enemyNoteManager;
+    public MockIncomingNoteManager enemyNoteManager;
     public SphereSpawner playerSphereSpawner; 
     public LaneManager laneManager;
     public HealthManager healthManager;
@@ -25,7 +25,7 @@ public class PlayerBotManager : StateListener
     private class BotNote
     {
         public GameObject noteObject;
-        public IncomingNoteManager.ActiveNote targetEnemyNote;
+        public MockIncomingNoteManager.ActiveNote targetEnemyNote;
     }
 
     private List<BotNote> activeBotNotes = new List<BotNote>();
@@ -62,7 +62,7 @@ public class PlayerBotManager : StateListener
         }
     }
 
-    private void SpawnBotNote(IncomingNoteManager.ActiveNote target)
+    private void SpawnBotNote(MockIncomingNoteManager.ActiveNote target)
     {
         GameObject newNote = playerSphereSpawner.GetSphere();
         newNote.transform.position = laneManager.LaneStarts[target.laneIndex];

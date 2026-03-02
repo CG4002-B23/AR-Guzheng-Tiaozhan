@@ -1,23 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class BeatmapNote
+{
+    public float time;
+    public int @string; // 'string' is a reserved keyword in C#
+    public string gesture;
+}
+
+[System.Serializable]
+public class BeatmapData
+{
+    public List<BeatmapNote> notes;
+}
+
 public class IncomingNoteManager : StateListener
 {
     [Header("References")]
     public SphereSpawner sphereSpawner;
     public LaneManager laneManager;
     public HealthManager healthManager;
+    
+    [Header("Beatmap & Audio Settings")]
+    [Tooltip("Drop generated beatmap json here")]
+    public TextAsset beatmapJson; 
+    [Tooltip("The AudioSource playing the actual song")]
+    public AudioSource songAudioSource; 
 
     [Header("Spawning & Movement")]
-    public float spawnInterval = 1.0f;
     public float noteSpeed = 2.0f;
     public int missedNoteDamage = 5;
     public GameObject playerDamageEffectPrefab;
 
-    private float spawnTimer = 0f;
-
     private Color colorRightTuo = Color.green;
     private Color colorRightMuo = Color.blue;
+    private Color colorTremolo = new Color(1.0f, 0.5f, 0.0f); // orange
+
+    private List<BeatmapNote> upcomingNotes = new List<BeatmapNote>();
+    private int currentNoteIndex = 0;
 
     public class ActiveNote
     {
@@ -28,6 +49,50 @@ public class IncomingNoteManager : StateListener
     }
 
     public List<ActiveNote> activeNotes = new List<ActiveNote>();
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        LoadBeatmap();
+    }
+
+    private void LoadBeatmap()
+    {
+        if (beatmapJson == null)
+        {
+            Debug.LogError("No Beatmap JSON assigned to IncomingNoteManager!");
+            return;
+        }
+
+        // parse json input for beatmap
+        BeatmapData data = JsonUtility.FromJson<BeatmapData>(beatmapJson.text);
+        upcomingNotes.Clear();
+
+        foreach (BeatmapNote note in data.notes)
+        {
+            if (note.gesture == "tremolo")
+            {
+                // tremolo: 4 continuous notes in succession
+                for (int i = 0; i < 4; i++)
+                {
+                    upcomingNotes.Add(new BeatmapNote 
+                    { 
+                        time = note.time + (i * 0.08f), 
+                        @string = note.@string, 
+                        gesture = "tremolo" 
+                    });
+                }
+            }
+            else
+            {
+                upcomingNotes.Add(note);
+            }
+        }
+
+        // resort in case the injected tremolo notes got out of order
+        upcomingNotes.Sort((a, b) => a.time.CompareTo(b.time));
+        currentNoteIndex = 0;
+    }
 
     void Update()
     {
@@ -40,28 +105,50 @@ public class IncomingNoteManager : StateListener
 
     private void HandleSpawning()
     {
-        spawnTimer += Time.deltaTime;
-        if (spawnTimer >= spawnInterval)
+        if (songAudioSource == null || !songAudioSource.isPlaying) return;
+
+        float currentSongTime = songAudioSource.time;
+
+        // Check if it's time to spawn the next note in our list
+        while (currentNoteIndex < upcomingNotes.Count)
         {
-            SpawnNote();
-            spawnTimer = 0f;
+            BeatmapNote nextNote = upcomingNotes[currentNoteIndex];
+            
+            int laneIndex = nextNote.@string - 1; 
+
+            if (!laneManager.LaneEnds.ContainsKey(laneIndex) || !laneManager.LaneStarts.ContainsKey(laneIndex))
+            {
+                currentNoteIndex++;
+                continue;
+            }
+
+            // compute how long it takes for the note to travel down the lane
+            float travelDistance = Vector3.Distance(laneManager.LaneEnds[laneIndex], laneManager.LaneStarts[laneIndex]);
+            float timeToReachPlayer = travelDistance / noteSpeed;
+
+            // spawn the note at the correct time at the enemy side so by the time it reaches the guzheng, the timing is right
+            if (currentSongTime >= (nextNote.time - timeToReachPlayer))
+            {
+                SpawnNoteFromData(nextNote, laneIndex);
+                currentNoteIndex++;
+            }
+            else
+            {
+                // not time for this note yet, check again next frame
+                break; 
+            }
         }
     }
 
-    private void SpawnNote()
+    private void SpawnNoteFromData(BeatmapNote noteData, int laneIndex)
     {
-        if (laneManager.LaneEnds.Count == 0 || laneManager.LaneStarts.Count == 0) return;
-
-        int randomLane = Random.Range(0, 5); 
-
-        if (!laneManager.LaneEnds.ContainsKey(randomLane)) return;
-
         GameObject newNoteObj = sphereSpawner.GetSphere();
-        newNoteObj.transform.position = laneManager.LaneEnds[randomLane];
+        newNoteObj.transform.position = laneManager.LaneEnds[laneIndex];
 
-        // temporary logic for deciding which note to spawn
-        bool isRightTuo = Random.value > 0.5f; // 50% chance of spawning a right tuo
-        Color requiredNoteColor = isRightTuo ? colorRightTuo : colorRightMuo;
+        // determine color based on gesture
+        Color requiredNoteColor = colorRightMuo; // default 
+        if (noteData.gesture == "tuo") requiredNoteColor = colorRightTuo;
+        else if (noteData.gesture == "tremolo") requiredNoteColor = colorTremolo;
         
         Renderer rend = newNoteObj.GetComponent<Renderer>();
         if (rend != null)
@@ -71,15 +158,14 @@ public class IncomingNoteManager : StateListener
 
         activeNotes.Add(new ActiveNote { 
             noteObject = newNoteObj, 
-            laneIndex = randomLane,
+            laneIndex = laneIndex,
             noteColor = requiredNoteColor,
             isTargetedByBot = false
         });
     }
 
-    private void MoveNotes() // move the notes down their respective lanes
+    private void MoveNotes() 
     {
-        // Loop backwards so we can safely remove items from the list as they finish
         for (int i = activeNotes.Count - 1; i >= 0; i--)
         {
             ActiveNote note = activeNotes[i];
@@ -93,7 +179,6 @@ public class IncomingNoteManager : StateListener
                 noteSpeed * Time.deltaTime
             );
 
-            // sphere reaches guzheng (with tiny threshold)
             if (Vector3.Distance(note.noteObject.transform.position, targetPosition) < 0.05f)
             {
                 if (healthManager != null)
@@ -110,14 +195,22 @@ public class IncomingNoteManager : StateListener
 
     protected override void OnStateToggled(bool isNowActive)
     {
-        if (!isNowActive)
+        if (isNowActive)
         {
+            if (songAudioSource != null && !songAudioSource.isPlaying)
+                songAudioSource.Play(); // play/resume song when entering Play state
+        }
+        else
+        {
+            if (songAudioSource != null && songAudioSource.isPlaying)
+                songAudioSource.Pause(); // pause song if we exit play state (e.g. paused menu)
+
             foreach (var note in activeNotes)
             {
                 sphereSpawner.ReturnSphere(note.noteObject);
             }
             activeNotes.Clear();
-            spawnTimer = 0f;
+            currentNoteIndex = 0; // reset beatmap sequence
         }
     }
 
