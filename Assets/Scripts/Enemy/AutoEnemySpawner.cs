@@ -19,8 +19,8 @@ public class AutoEnemySpawner : StateListener
 
     private GuzhengAnchorGetter anchorGetter;
     private ARPlaneManager planeManager;
-    private GameObject spawnedObject;
-    private bool objectSpawned = false;
+    private GameObject spawnedEnemy;
+    private bool enemySpawned = false;
 
     void Awake()
     {
@@ -45,7 +45,7 @@ public class AutoEnemySpawner : StateListener
     {
         if (isNowActive)
         {
-            if (objectSpawned) return;
+            if (enemySpawned) return;
 
             planeManager.enabled = true; // allow planes to be created
 
@@ -65,7 +65,7 @@ public class AutoEnemySpawner : StateListener
 
     private void OnPlanesChanged(ARPlanesChangedEventArgs args)
     {
-        if (objectSpawned) return;
+        if (enemySpawned) return;
         if (guzhengTransform == null && anchorGetter != null) 
             guzhengTransform = anchorGetter.FindGuzhengAnchor();
         if (guzhengTransform == null) return; // if still don't have guzheng transform, we need to wait for it to be available
@@ -75,7 +75,7 @@ public class AutoEnemySpawner : StateListener
         {
             if (areaIsLargeEnough(plane))  {
                 SpawnObject(plane);
-                GameManager.Instance.ChangeState(GameManager.GameState.GuzhengAlignment);
+                StateManager.Instance.ChangeState(StateManager.GameState.GuzhengAlignment);
             }
         }
 
@@ -84,13 +84,13 @@ public class AutoEnemySpawner : StateListener
         {
             if (areaIsLargeEnough(plane)) {
                 SpawnObject(plane);
-                GameManager.Instance.ChangeState(GameManager.GameState.GuzhengAlignment);
+                StateManager.Instance.ChangeState(StateManager.GameState.GuzhengAlignment);
             }
         }
     }
     private bool areaIsLargeEnough(ARPlane plane)
     {
-        if (objectSpawned) return false;
+        if (enemySpawned) return false;
         if (plane.alignment != PlaneAlignment.HorizontalUp) return false; // ensure plane is horizontal
         float area = plane.size.x * plane.size.y;
 
@@ -103,7 +103,7 @@ public class AutoEnemySpawner : StateListener
 
     private void SpawnObject(ARPlane plane)
     {
-        if (objectSpawned) return;
+        if (enemySpawned) return;
 
         // convert boundary vertices of the plane to world space
         List<Vector3> worldBoundaryPoints = new List<Vector3>();
@@ -142,17 +142,21 @@ public class AutoEnemySpawner : StateListener
         Quaternion spawnRotation = Quaternion.LookRotation(directionToGuzheng);
 
         // Spawn the object at the furthest point from the guzheng
-        spawnedObject = Instantiate(objectToSpawn, spawnLocation, spawnRotation);
-        objectSpawned = true;
+        spawnedEnemy = Instantiate(objectToSpawn, spawnLocation, spawnRotation);
+        enemySpawned = true;
+
+        GuzhengAnchorManager anchorManager = FindFirstObjectByType<GuzhengAnchorManager>();
+        if (anchorManager != null)
+            anchorManager.AutoAlignGuzheng(spawnedEnemy.transform.position);
 
         // need to update the enemy spawner object for lane manager to get string information from
         LaneManager laneManager = FindFirstObjectByType<LaneManager>();
         if (laneManager != null)
-            laneManager.enemySpawner = spawnedObject.GetComponent<ARStringSpawner>();
+            laneManager.enemySpawner = spawnedEnemy.GetComponent<ARStringSpawner>();
 
         GuzhengAlignmentChecker alignmentChecker = FindFirstObjectByType<GuzhengAlignmentChecker>();
         if (alignmentChecker != null)
-            alignmentChecker.enemySpawner = spawnedObject.GetComponent<ARStringSpawner>();
+            alignmentChecker.enemySpawner = spawnedEnemy.GetComponent<ARStringSpawner>();
 
         // disable plane detection after spawning to save performance
         planeManager.enabled = false; 
@@ -162,5 +166,16 @@ public class AutoEnemySpawner : StateListener
         // {
         //     p.gameObject.SetActive(false);
         // }
+    }
+
+    public void DestroyEnemy()
+    {
+        if (spawnedEnemy != null)
+        {
+            Destroy(spawnedEnemy);
+            spawnedEnemy = null;
+            savedLocations.Clear();
+            enemySpawned = false;
+        }
     }
 }

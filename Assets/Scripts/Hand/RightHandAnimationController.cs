@@ -23,25 +23,27 @@ public class RightHandAnimationController : StateListener
     protected override void OnStateToggled(bool isNowActive)
     {
         base.OnStateToggled(isNowActive);
-        Debug.Log($"OnStateToggled called, current state: {GameManager.Instance.CurrentState}");
+        Debug.Log($"OnStateToggled called, current state: {StateManager.Instance.CurrentState}");
 
         // we need to handle the animations in every state, so isNowActive is irrelevant
-        ChangeHandGesture(GameManager.Instance.CurrentState);
+        ChangeHandGesture(StateManager.Instance.CurrentState);
     }
 
-    private void ChangeHandGesture(GameManager.GameState newState)
+    private void ChangeHandGesture(StateManager.GameState newState)
     {
         if (handAnimator == null) return;
 
         switch (newState)
         {
-            case GameManager.GameState.StartMenu:
-            case GameManager.GameState.Paused:
+            case StateManager.GameState.StartMenu:
+            case StateManager.GameState.Paused:
+            case StateManager.GameState.Victory:
+            case StateManager.GameState.Defeat:
                 UnsubscribeFromGestures();
                 SetHandTrigger("PointerTrigger");
                 break;
 
-            case GameManager.GameState.Playing:
+            case StateManager.GameState.Playing:
                 SetHandTrigger("IdleTrigger");
                 SubscribeToGestures();
                 break;

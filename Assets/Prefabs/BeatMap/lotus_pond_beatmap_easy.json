@@ -1,0 +1,819 @@
+{
+    "notes": [
+        {
+            "time": 0.0,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 0.655,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 1.158,
+            "string": 3,
+            "gesture": "tuo"
+        },
+        {
+            "time": 1.596,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 2.083,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 2.618,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 3.11,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 3.533,
+            "string": 2,
+            "gesture": "muo"
+        },
+        {
+            "time": 4.043,
+            "string": 5,
+            "gesture": "tuo"
+        },
+        {
+            "time": 4.473,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 5.039,
+            "string": 3,
+            "gesture": "tuo"
+        },
+        {
+            "time": 5.53,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 6.101,
+            "string": 5,
+            "gesture": "tuo"
+        },
+        {
+            "time": 6.505,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 7.041,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 7.499,
+            "string": 1,
+            "gesture": "muo"
+        },
+        {
+            "time": 8.073,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 8.476,
+            "string": 3,
+            "gesture": "tuo"
+        },
+        {
+            "time": 8.908,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 9.426,
+            "string": 1,
+            "gesture": "tuo"
+        },
+        {
+            "time": 10.409,
+            "string": 3,
+            "gesture": "tuo"
+        },
+        {
+            "time": 10.981,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 11.51,
+            "string": 1,
+            "gesture": "tuo"
+        },
+        {
+            "time": 12.042,
+            "string": 5,
+            "gesture": "tuo"
+        },
+        {
+            "time": 13.062,
+            "string": 3,
+            "gesture": "tuo"
+        },
+        {
+            "time": 13.567,
+            "string": 2,
+            "gesture": "muo"
+        },
+        {
+            "time": 13.93,
+            "string": 1,
+            "gesture": "tuo"
+        },
+        {
+            "time": 15.979,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 16.193,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 16.467,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 16.913,
+            "string": 2,
+            "gesture": "muo"
+        },
+        {
+            "time": 17.492,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 17.814,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 18.051,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 18.295,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 18.55,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 18.81,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 19.044,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 19.297,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 19.521,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 19.768,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 20.043,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 20.397,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 20.655,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 20.906,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 21.166,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 21.416,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 21.681,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 22.009,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 22.288,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 22.538,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 22.788,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 23.046,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 23.566,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 23.809,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 24.069,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 24.304,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 24.534,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 25.177,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 25.437,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 25.717,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 25.947,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 26.248,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 26.518,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 26.758,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 26.998,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 27.263,
+            "string": 1,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 27.513,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 27.756,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 28.09,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 28.345,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 28.58,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 28.814,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 29.044,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 29.314,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 29.55,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 29.79,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 30.03,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 30.281,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 30.541,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 30.796,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 31.061,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 31.994,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 32.174,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 32.464,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 33.005,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 33.276,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 34.131,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 34.383,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 34.671,
+            "string": 2,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 35.311,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 35.581,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 35.831,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 36.19,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 36.45,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 36.675,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 36.92,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 37.18,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 37.42,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 37.69,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 37.965,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 38.2,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 38.48,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 38.734,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 38.959,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 39.194,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 39.439,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 39.739,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 40.209,
+            "string": 5,
+            "gesture": "muo"
+        },
+        {
+            "time": 40.479,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 41.264,
+            "string": 1,
+            "gesture": "tuo"
+        },
+        {
+            "time": 41.698,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 42.117,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 42.352,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 42.597,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 42.837,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 43.314,
+            "string": 5,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 43.539,
+            "string": 5,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 43.784,
+            "string": 5,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 44.199,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 44.439,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 44.719,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 45.039,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 45.307,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 45.547,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 45.832,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 46.132,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 46.442,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 48.14,
+            "string": 4,
+            "gesture": "muo"
+        },
+        {
+            "time": 48.295,
+            "string": 3,
+            "gesture": "muo"
+        },
+        {
+            "time": 48.49,
+            "string": 2,
+            "gesture": "muo"
+        },
+        {
+            "time": 48.934,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 49.403,
+            "string": 4,
+            "gesture": "tuo"
+        },
+        {
+            "time": 49.854,
+            "string": 2,
+            "gesture": "tuo"
+        },
+        {
+            "time": 51.119,
+            "string": 4,
+            "gesture": "muo"
+        },
+        {
+            "time": 51.312,
+            "string": 4,
+            "gesture": "muo"
+        },
+        {
+            "time": 51.474,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 51.719,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 52.024,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 52.309,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 52.589,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 52.869,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 53.124,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 53.399,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 53.669,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 53.949,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 54.219,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 54.514,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 54.819,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 55.1,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 55.33,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 55.56,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 55.825,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 56.075,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 56.365,
+            "string": 3,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 57.623,
+            "string": 5,
+            "gesture": "muo"
+        },
+        {
+            "time": 58.173,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 59.054,
+            "string": 4,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 60.35,
+            "string": 5,
+            "gesture": "tremolo"
+        },
+        {
+            "time": 61.033,
+            "string": 5,
+            "gesture": "muo"
+        },
+        {
+            "time": 61.418,
+            "string": 4,
+            "gesture": "muo"
+        },
+        {
+            "time": 61.994,
+            "string": 2,
+            "gesture": "muo"
+        },
+        {
+            "time": 62.408,
+            "string": 3,
+            "gesture": "muo"
+        }
+    ]
+}

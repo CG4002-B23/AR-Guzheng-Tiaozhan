@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer), typeof(Collider))]
-public class GuzhengStringInteraction : MonoBehaviour
+public class GuzhengStringInteraction : StateListener
 {
     [Header("Visual Settings")]
     [Tooltip("The color and opacity of the string when touched.")]
@@ -12,6 +12,7 @@ public class GuzhengStringInteraction : MonoBehaviour
     private Color invisibleColor;
     private Material stringMaterial;
     private List<Collider> touchingHands = new List<Collider>(); // hand colliders currently inside the trigger
+    public bool IsTouched => touchingHands.Count > 0;
 
     void Start()
     {
@@ -25,6 +26,8 @@ public class GuzhengStringInteraction : MonoBehaviour
 
     void Update()
     {
+        if (!isActiveState) return;
+
         if (touchingHands.Count > 0)
         {
             bool listChanged = false;
@@ -48,6 +51,7 @@ public class GuzhengStringInteraction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (!isActiveState) return;
         if (other.CompareTag("Hand"))
         {
             if (!touchingHands.Contains(other))
@@ -55,17 +59,14 @@ public class GuzhengStringInteraction : MonoBehaviour
                 touchingHands.Add(other); // add the new finger that is touching the string
                 
                 if (touchingHands.Count == 1)
-                {
                     stringMaterial.color = highlightColor;
-                    
-                    // play guzheng note here
-                }
             }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
+        if (!isActiveState) return;
         if (other.CompareTag("Hand"))
         {
             if (touchingHands.Contains(other))
@@ -73,10 +74,21 @@ public class GuzhengStringInteraction : MonoBehaviour
                 touchingHands.Remove(other); // remove hand from list when exited normally
                 
                 if (touchingHands.Count == 0)
-                {
                     stringMaterial.color = invisibleColor;
-                }
             }
+        }
+    }
+
+    protected override void OnStateToggled(bool isNowActive)
+    {
+        base.OnStateToggled(isNowActive);
+        
+        // state becomes inactive while the player is touching a string
+        if (!isNowActive && touchingHands.Count > 0)
+        {
+            touchingHands.Clear();
+            if (stringMaterial != null)
+                stringMaterial.color = invisibleColor;
         }
     }
 }

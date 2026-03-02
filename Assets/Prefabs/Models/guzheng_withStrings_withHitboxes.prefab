@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &448463297226125841
 GameObject:
@@ -550,6 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &3017929015796619278
 GameObject:
@@ -669,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &3165291803702091179
 GameObject:
@@ -824,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &4450935959736206816
 GameObject:
@@ -943,6 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &4481682101801887339
 GameObject:
@@ -1334,6 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &7047476516371557023
 GameObject:
@@ -1453,6 +1459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &7754420075356211796
 GameObject:
@@ -1572,6 +1579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &8712880264753124092
 GameObject:
@@ -1691,6 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &9193211437343269825
 GameObject:
@@ -1946,6 +1955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1001 &4902832950461133078
 PrefabInstance:
@@ -2079,6 +2089,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 211280466716591218, guid: e6eff0c4cbabbf5bf8899f3e6c8f4f28, type: 3}
       insertIndex: -1
       addedObject: {fileID: 514610908457311104}
+    - targetCorrespondingSourceObject: {fileID: 211280466716591218, guid: e6eff0c4cbabbf5bf8899f3e6c8f4f28, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6716436799814678405}
   m_SourcePrefab: {fileID: -4161369568681901532, guid: e6eff0c4cbabbf5bf8899f3e6c8f4f28, type: 3}
 --- !u!4 &4783065271932610051 stripped
 Transform:
@@ -2127,3 +2140,21 @@ MonoBehaviour:
   guzhengSpawner: {fileID: 4588598021487891123}
   enemySpawner: {fileID: 3476179374824800027, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   alignmentToleranceDegrees: 10
+--- !u!114 &6716436799814678405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5108422147287545188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3ecfd4546abdf97d8cb82213ddef98f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stringsInOrder:
+  - {fileID: 21422341382594001}
+  - {fileID: 8948372428170127441}
+  - {fileID: 8414766883683866444}
+  - {fileID: 4556858102612807185}
+  - {fileID: 4876317557571718873}

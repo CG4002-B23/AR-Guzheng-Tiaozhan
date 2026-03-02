@@ -21,8 +21,6 @@ public class GuzhengAnchorManager : StateListener
     private float trackingTimer = 0f;
     private bool isAnchored = false;
 
-    public string DebugStatusText { get; private set; } = "";
-
     void Awake()
     {
         imageManager = GetComponent<ARTrackedImageManager>();
@@ -81,8 +79,7 @@ public class GuzhengAnchorManager : StateListener
             guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
 
         isAnchored = true;
-        DebugStatusText = "Guzheng Anchored";
-        GameManager.Instance.ChangeState(GameManager.GameState.FieldScanning);
+        StateManager.Instance.ChangeState(StateManager.GameState.FieldScanning);
     }
 
     public void DestroyGuzheng()
@@ -93,19 +90,26 @@ public class GuzhengAnchorManager : StateListener
             spawnedGuzheng = null;
             trackingTimer = 0f;
             isAnchored = false;
-            DebugStatusText = "";
         }
     }
 
-    // debug statements showing on phone screen
-    void OnGUI()
+    public void AutoAlignGuzheng(Vector3 targetPosition)
     {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 40;
-        style.normal.textColor = Color.green;
-        style.fontStyle = FontStyle.Bold;
+        if (spawnedGuzheng == null) return;
 
-        // Draw the debug info at the top right
-        GUI.Label(new Rect(800, 50, 800, 1000), DebugStatusText, style);
+        // remove current anchor
+        ARAnchor currentAnchor = spawnedGuzheng.GetComponent<ARAnchor>();
+        if (currentAnchor != null)
+            DestroyImmediate(currentAnchor); // so we can add a new one right away
+
+        // compute rotation to face enemy
+        Vector3 directionToEnemy = targetPosition - spawnedGuzheng.transform.position;
+        directionToEnemy.y = 0; // rotation along y axis
+        
+        if (directionToEnemy != Vector3.zero)
+            spawnedGuzheng.transform.rotation = Quaternion.LookRotation(directionToEnemy);
+
+        // reanchor guzheng
+        guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
     }
 }

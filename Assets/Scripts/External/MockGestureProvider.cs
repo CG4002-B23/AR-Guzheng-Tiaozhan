@@ -10,7 +10,8 @@ public class MockGestureProvider : MonoBehaviour
     public float switchInterval = 3.0f;
     private float timer = 0f;
     
-    private string[] gestureNames = { "Idle", "RightTuo", "Pointer" };
+    private string[] gestureNames = { "Idle", "RightTuo" };
+    // private string[] gestureNames = { "Idle", "RightTuo", "Pointer" };
     private int currentState = 0;
 
     public event Action<string> OnGestureReceived; // broadcast the gesture string to anyone listening

@@ -56,7 +56,7 @@ public class PauseController : StateListener
 
             if (RectTransformUtility.RectangleContainsScreenPoint(pauseButtonRect, screenPos, null))
             {
-                GameManager.Instance.ChangeState(GameManager.GameState.Paused);
+                StateManager.Instance.ChangeState(StateManager.GameState.Paused);
                 return; // no need to check remaining points
             }
         }

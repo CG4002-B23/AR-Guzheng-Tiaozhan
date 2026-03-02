@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 
 // Handles what state the game is currently in 
-public class GameManager : MonoBehaviour
+public class StateManager : MonoBehaviour
 {
     // singleton setup - ensure that there is only 1 instance of GameManager by providing global access to it
-    public static GameManager Instance { get; private set; }
+    public static StateManager Instance { get; private set; }
     void Awake()
     {
         // delete any extra instances of this object
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, GuzhengAlignment, Playing, Paused }
+    public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, GuzhengAlignment, Playing, Paused, Victory, Defeat }
 
     // other scripts tune in to this event
     public static event Action<GameState> OnGameStateChanged;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         ChangeState(PreviousState);
     }
 
-        // debug statements showing on phone screen
+    // debug statements showing on phone screen
     void OnGUI()
     {
         GUIStyle style = new GUIStyle();
@@ -69,6 +69,6 @@ public class GameManager : MonoBehaviour
         style.fontStyle = FontStyle.Bold;
 
         // Draw the debug info at the top right
-        GUI.Label(new Rect(1600, 50, 800, 1000), DebugStatusText, style);
+        GUI.Label(new Rect(1650, 900, 800, 1000), DebugStatusText, style);
     }
 }

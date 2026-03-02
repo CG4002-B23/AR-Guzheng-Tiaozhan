@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public abstract class StateListener : MonoBehaviour
 {
     [Tooltip("The state in which this script should be active.")]
-    public List<GameManager.GameState> targetStates;
+    public List<StateManager.GameState> targetStates;
 
     protected bool isActiveState = false; 
 
@@ -15,21 +15,21 @@ public abstract class StateListener : MonoBehaviour
     // to first run these function definitions in this file
     protected virtual void OnEnable()
     {
-        GameManager.OnGameStateChanged += HandleGameStateChange;
+        StateManager.OnGameStateChanged += HandleGameStateChange;
 
         // manually fetch current game state immediately so it doesn't miss any events
-        if (GameManager.Instance != null)
+        if (StateManager.Instance != null)
         {
-            HandleGameStateChange(GameManager.Instance.CurrentState);
+            HandleGameStateChange(StateManager.Instance.CurrentState);
         }
     }
 
     protected virtual void OnDisable()
     {
-        GameManager.OnGameStateChanged -= HandleGameStateChange;
+        StateManager.OnGameStateChanged -= HandleGameStateChange;
     }
 
-    private void HandleGameStateChange(GameManager.GameState newState) // (state receiver)
+    private void HandleGameStateChange(StateManager.GameState newState) // (state receiver)
     {
         isActiveState = targetStates.Contains(newState);
         OnStateToggled(isActiveState);

@@ -12,10 +12,14 @@ public class LaneManager : StateListener
     [Header("Lane Renderers (Translucent)")]
     [Tooltip("Assign 5 LineRenderers here for the connecting lanes")]
     public List<LineRenderer> connectionLanes;
-    
+
     [Tooltip("Color of the connected lanes")]
     public Color translucentLaneColor = new Color(0.7f, 0.7f, 0.7f, 0.4f); // Gray with 30% opacity
 
+    [Tooltip("Estimated guzheng width (short side)")]
+    [Range(0f, 1f)]
+    public float estimatedGuzhengWidth = 0.6f;
+    
     [Header("Pulse Effect")]
     [Tooltip("How fast the lanes pulse")]
     public float pulseSpeed = 3.0f;
@@ -28,6 +32,8 @@ public class LaneManager : StateListener
     [Range(0f, 1f)]
     public float maxAlpha = 0.6f;
 
+    private Vector3 guzhengOffset;
+
     // Key = Index of the lane (0 to 4), Value = World position
     // LaneStarts mirrors guzheng StringStarts, LaneEnds mirrors enemy StringStarts
     public Dictionary<int, Vector3> LaneStarts { get; private set; } = new Dictionary<int, Vector3>();
@@ -38,6 +44,8 @@ public class LaneManager : StateListener
     void Awake()
     {
         InitLanes();  
+        guzhengOffset = new Vector3(0.0f, 0.0f, 0.5f * estimatedGuzhengWidth);
+        
     }
 
     protected override void OnStateToggled(bool isNowActive)
@@ -55,6 +63,7 @@ public class LaneManager : StateListener
     void Update()
     {
         if (!isActiveState) return;
+        if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
 
         UpdateLanes();
         PulseLanes();
@@ -85,7 +94,7 @@ public class LaneManager : StateListener
         {
             if (i >= guzhengSpawner.StringStarts.Count || i >= enemySpawner.StringStarts.Count) break;
 
-            Vector3 start = guzhengSpawner.StringStarts[i];
+            Vector3 start = guzhengSpawner.StringStarts[i] + guzhengOffset;
             Vector3 end   = enemySpawner.StringStarts[enemySpawner.StringStarts.Count - 1 - i];
 
             if (!LaneStarts.ContainsKey(i))
