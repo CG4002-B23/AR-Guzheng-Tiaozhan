@@ -97,6 +97,28 @@ public class GuzhengAnchorManager : StateListener
         }
     }
 
+    public void AutoAlignGuzheng(Vector3 targetPosition)
+    {
+        if (spawnedGuzheng == null) return;
+
+        // remove current anchor
+        ARAnchor currentAnchor = spawnedGuzheng.GetComponent<ARAnchor>();
+        if (currentAnchor != null)
+            DestroyImmediate(currentAnchor); // so we can add a new one right away
+
+        // compute rotation to face enemy
+        Vector3 directionToEnemy = targetPosition - spawnedGuzheng.transform.position;
+        directionToEnemy.y = 0; // rotation along y axis
+        
+        if (directionToEnemy != Vector3.zero)
+            spawnedGuzheng.transform.rotation = Quaternion.LookRotation(directionToEnemy);
+
+        // reanchor guzheng
+        guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
+        
+        DebugStatusText = "Guzheng Auto-Aligned & Anchored";
+    }
+
     // debug statements showing on phone screen
     void OnGUI()
     {

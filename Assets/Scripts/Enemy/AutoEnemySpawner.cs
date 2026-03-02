@@ -145,6 +145,10 @@ public class AutoEnemySpawner : StateListener
         spawnedEnemy = Instantiate(objectToSpawn, spawnLocation, spawnRotation);
         enemySpawned = true;
 
+        GuzhengAnchorManager anchorManager = FindFirstObjectByType<GuzhengAnchorManager>();
+        if (anchorManager != null)
+            anchorManager.AutoAlignGuzheng(spawnedEnemy.transform.position);
+
         // need to update the enemy spawner object for lane manager to get string information from
         LaneManager laneManager = FindFirstObjectByType<LaneManager>();
         if (laneManager != null)
