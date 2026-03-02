@@ -66,7 +66,6 @@ public class PlayerBotManager : StateListener
             Vector3 guzhengLaneStartPos = laneManager.LaneStarts[enemyNote.laneIndex];
             float distanceFromEnemyNote = Vector3.Distance(enemyNote.noteObject.transform.position, guzhengLaneStartPos);
 
-            Debug.Log("detected distance: " + distanceFromEnemyNote);
             if (distanceFromEnemyNote <= triggerDistance)
             {
                 enemyNote.isTargetedByBot = true;
