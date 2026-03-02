@@ -50,6 +50,7 @@ public class IncomingNoteManager : StateListener
         public int laneIndex;
         public Color noteColor;
         public bool isTargetedByBot;
+        public float hitTime;
     }
 
     public List<ActiveNote> activeNotes = new List<ActiveNote>();
@@ -195,7 +196,8 @@ public class IncomingNoteManager : StateListener
             noteObject = newNoteObj, 
             laneIndex = laneIndex,
             noteColor = requiredNoteColor,
-            isTargetedByBot = false
+            isTargetedByBot = false,
+            hitTime = noteData.time
         });
     }
 
@@ -205,16 +207,19 @@ public class IncomingNoteManager : StateListener
         {
             ActiveNote note = activeNotes[i];
 
-            if (!laneManager.LaneStarts.ContainsKey(note.laneIndex)) continue;
+            if (!laneManager.LaneStarts.ContainsKey(note.laneIndex) || !laneManager.LaneEnds.ContainsKey(note.laneIndex)) continue;
 
             Vector3 targetPosition = laneManager.LaneStarts[note.laneIndex]; 
-            note.noteObject.transform.position = Vector3.MoveTowards(
-                note.noteObject.transform.position, 
-                targetPosition, 
-                noteSpeed * Time.deltaTime
-            );
+            Vector3 startPosition = laneManager.LaneEnds[note.laneIndex];
 
-            if (Vector3.Distance(note.noteObject.transform.position, targetPosition) < 0.05f)
+            float timeRemainingToNoteHit = note.hitTime - internalSongTime;
+
+            // calc exact position that the note should be on the lane
+            Vector3 directionToStart = (startPosition - targetPosition).normalized;
+            float distanceFromTarget = timeRemainingToNoteHit * noteSpeed;
+            note.noteObject.transform.position = targetPosition + (directionToStart * distanceFromTarget);
+
+            if (timeRemainingToNoteHit <= 0f) // note has reached player
             {
                 if (healthManager != null)
                     healthManager.DamagePlayer(missedNoteDamage);
