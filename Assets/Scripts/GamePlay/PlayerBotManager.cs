@@ -30,6 +30,18 @@ public class PlayerBotManager : StateListener
 
     private List<BotNote> activeBotNotes = new List<BotNote>();
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        foreach (var note in activeBotNotes)
+        {
+            if (note.noteObject != null)
+                playerSphereSpawner.ReturnSphere(note.noteObject); // clean up bot notes immediately
+        }
+        activeBotNotes.Clear();
+    }
+
     void Update()
     {
         if (!isActiveState) return;

@@ -44,6 +44,13 @@ public class PlayerCombatManager : StateListener
         base.OnDisable();
         if (gestureProvider != null)
             gestureProvider.OnGestureReceived -= HandleGesture;
+
+        foreach (var note in activePlayerNotes)
+        {
+            if (note.noteObject != null)
+                playerSphereSpawner.ReturnSphere(note.noteObject); // clean up notes immediately when script is disabled
+        }
+        activePlayerNotes.Clear();
     }
 
     private void HandleGesture(string gesture)

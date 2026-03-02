@@ -44,7 +44,10 @@ public class SphereSpawner : MonoBehaviour
 
     public void ReturnSphere(GameObject obj)
     {
-        obj.SetActive(false);
-        pool.Enqueue(obj);
+        if (!pool.Contains(obj)) // don't take the sphere back if already in queue
+        {
+            obj.SetActive(false);
+            pool.Enqueue(obj);
+        }
     }
 }
