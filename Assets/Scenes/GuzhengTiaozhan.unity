@@ -1279,7 +1279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ce5835ea1c6b584ea0c841f0b9ea688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetStates: 05000000
   spherePrefab: {fileID: 5400601534774202354, guid: b70223106d1a542a3ad55b5688c2374e, type: 3}
   poolSize: 40
 --- !u!4 &443796984
@@ -2405,6 +2404,7 @@ MonoBehaviour:
   gameManager: {fileID: 309348962}
   arSession: {fileID: 1167446572}
   guzhengAnchorManager: {fileID: 2512387470422636673}
+  enemySpawnerManager: {fileID: 2512387470422636671}
   startMenu: {fileID: 269944953}
   pauseMenu: {fileID: 1201677158}
   gameplayUI: {fileID: 1853408422}

@@ -13,6 +13,9 @@ public class GameplayUIManager : MonoBehaviour
     [Tooltip("Reference to the GuzhengAnchorManager")]
     public GuzhengAnchorManager guzhengAnchorManager;
 
+    [Tooltip("Reference to the EnemySpawner")]
+    public AutoEnemySpawner enemySpawnerManager;
+
     [Header("UI Canvases")]
     [Tooltip("Drag Canvas panel objects here")]
     public GameObject startMenu;
@@ -84,6 +87,7 @@ public class GameplayUIManager : MonoBehaviour
     public void OnRestartButtonClicked()
     {
         guzhengAnchorManager.DestroyGuzheng();
+        enemySpawnerManager.DestroyEnemy();
         StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
         arSession.Reset();
     }
@@ -91,6 +95,7 @@ public class GameplayUIManager : MonoBehaviour
     public void OnMainMenuButtonClicked()
     {
         guzhengAnchorManager.DestroyGuzheng();
+        enemySpawnerManager.DestroyEnemy();
         StateManager.Instance.ChangeState(StateManager.GameState.StartMenu);
         arSession.Reset();
     }
