@@ -23,7 +23,6 @@ public class AudioManager : MonoBehaviour
         Instance = this;
 
         audioSource = GetComponent<AudioSource>();
-        audioSource.loop = true;
         audioSource.playOnAwake = false; 
     }
 
@@ -46,6 +45,7 @@ public class AudioManager : MonoBehaviour
 
         if (newState == StateManager.GameState.Playing)
         {
+            audioSource.loop = false; // disable looping for gameplay
             if (audioSource.clip != gameplayMusic)
             {
                 // switch to gameplay music
@@ -66,6 +66,7 @@ public class AudioManager : MonoBehaviour
                  newState == StateManager.GameState.Victory ||
                  newState == StateManager.GameState.Defeat)
         {
+            audioSource.loop = true; // enable looping for menus
             if (audioSource.clip != menuMusic)
             {
                 audioSource.clip = menuMusic;

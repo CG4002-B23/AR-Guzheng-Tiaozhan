@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     {
         if (playerWon)
         {
-            Debug.Log("Enemy defeated! Player Wins!");
+            Debug.Log("Player finished song without dying!");
             StateManager.Instance.ChangeState(StateManager.GameState.Victory);
         }
         else

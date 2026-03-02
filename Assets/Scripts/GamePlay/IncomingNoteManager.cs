@@ -21,6 +21,7 @@ public class IncomingNoteManager : StateListener
     public SphereSpawner sphereSpawner;
     public LaneManager laneManager;
     public HealthManager healthManager;
+    public GameManager gameManager;
     
     [Header("Beatmap & Audio Settings")]
     [Tooltip("Drop generated beatmap json here")]
@@ -122,12 +123,24 @@ public class IncomingNoteManager : StateListener
 
         internalSongTime += Time.deltaTime; // start music once value is positive
 
-        if (internalSongTime >= 0f && AudioManager.Instance != null && !AudioManager.Instance.IsPlaying())
-            AudioManager.Instance.PlayGameplayMusic();
+        if (AudioManager.Instance != null)
+        {
+            float songLength = AudioManager.Instance.gameplayMusic != null ? AudioManager.Instance.gameplayMusic.length : float.MaxValue;
 
-        // force synchronisation between internal clock and real audio
-        if (internalSongTime > 0f && AudioManager.Instance != null && AudioManager.Instance.IsPlaying())
-            internalSongTime = AudioManager.Instance.GetPlaybackTime();
+            if (internalSongTime >= 0f && !AudioManager.Instance.IsPlaying() && internalSongTime < 1.0f) // 1.0f ensure that song doesn't restart at end of song
+                AudioManager.Instance.PlayGameplayMusic();
+
+            // force synchronisation when playing the game
+            if (internalSongTime > 0f && AudioManager.Instance.IsPlaying())
+                internalSongTime = AudioManager.Instance.GetPlaybackTime();
+
+            if (internalSongTime >= songLength) 
+            {
+                isSequenceRunning = false;
+                gameManager.HandleGameOver(true);
+                return; 
+            }
+        }
 
         HandleSpawning(internalSongTime); 
         MoveNotes();

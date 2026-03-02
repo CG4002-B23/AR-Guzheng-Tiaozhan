@@ -417,8 +417,6 @@ MonoBehaviour:
   playerHealthBarVisual: {fileID: 1651256143}
   playerHealthBarSlider: {fileID: 1651256145}
   scoreText: {fileID: 1493331242}
-  enemyHealthBarVisual: {fileID: 1651256143}
-  enemyHealthBarSlider: {fileID: 1651256145}
 --- !u!4 &172989355
 Transform:
   m_ObjectHideFlags: 0
@@ -4229,6 +4227,7 @@ MonoBehaviour:
   sphereSpawner: {fileID: 443796983}
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
+  gameManager: {fileID: 1951860612}
   beatmapJson: {fileID: 4900000, guid: e006936f7231eecfeb3b90d8de5cc7ec, type: 3}
   noteSpeed: 0.5
   missedNoteDamage: 5
