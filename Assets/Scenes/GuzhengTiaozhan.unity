@@ -2214,7 +2214,7 @@ MonoBehaviour:
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
   hitDistanceFromGuzheng: 0.2
-  playerNoteSpeed: 10
+  playerNoteSpeed: 5
   botDamage: 10
   collisionDistanceThreshold: 0.05
 --- !u!4 &735639759
@@ -2428,7 +2428,7 @@ MonoBehaviour:
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
   guzhengStrings:
   - {fileID: 0}
-  playerNoteSpeed: 10
+  playerNoteSpeed: 5
   attackDamage: 10
   collisionDistanceThreshold: 0.05
 --- !u!1 &871859318
@@ -4301,7 +4301,7 @@ MonoBehaviour:
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
   spawnInterval: 1
-  noteSpeed: 2
+  noteSpeed: 0.5
   missedNoteDamage: 5
   playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
 --- !u!4 &1375489249
@@ -5125,7 +5125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab6f053a783499d39c4719563b85e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchInterval: 3
+  switchInterval: 0.5
 --- !u!4 &1735430945
 Transform:
   m_ObjectHideFlags: 0
@@ -7083,7 +7083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStates: 03000000
   objectToSpawn: {fileID: 1027182576545114604, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
-  minPlaneArea: 2
+  minPlaneArea: 4
   guzhengTransform: {fileID: 0}
   savedLocations: []
 --- !u!114 &2512387470422636672
