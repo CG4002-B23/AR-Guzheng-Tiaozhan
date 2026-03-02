@@ -25,8 +25,6 @@ public class IncomingNoteManager : StateListener
     [Header("Beatmap & Audio Settings")]
     [Tooltip("Drop generated beatmap json here")]
     public TextAsset beatmapJson; 
-    [Tooltip("The AudioSource playing the actual song")]
-    public AudioSource songAudioSource; 
 
     [Header("Spawning & Movement")]
     public float noteSpeed = 2.0f;
@@ -39,6 +37,7 @@ public class IncomingNoteManager : StateListener
 
     private List<BeatmapNote> upcomingNotes = new List<BeatmapNote>();
     private int currentNoteIndex = 0;
+    private bool beatmapLoaded = false;
 
     public class ActiveNote
     {
@@ -50,10 +49,9 @@ public class IncomingNoteManager : StateListener
 
     public List<ActiveNote> activeNotes = new List<ActiveNote>();
 
-    protected override void OnEnable()
+    void Awake()
     {
-        base.OnEnable();
-        LoadBeatmap();
+        LoadBeatmap();  
     }
 
     private void LoadBeatmap()
@@ -92,12 +90,14 @@ public class IncomingNoteManager : StateListener
         // resort in case the injected tremolo notes got out of order
         upcomingNotes.Sort((a, b) => a.time.CompareTo(b.time));
         currentNoteIndex = 0;
+        beatmapLoaded = true;
     }
 
     void Update()
     {
         if (!isActiveState) return;
         if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
+        if (!beatmapLoaded) return;
 
         HandleSpawning(); 
         MoveNotes();
@@ -105,15 +105,12 @@ public class IncomingNoteManager : StateListener
 
     private void HandleSpawning()
     {
-        if (songAudioSource == null || !songAudioSource.isPlaying) return;
+        if (AudioManager.Instance == null || !AudioManager.Instance.IsPlaying()) return;
 
-        float currentSongTime = songAudioSource.time;
-
-        // Check if it's time to spawn the next note in our list
+        float currentSongTime = AudioManager.Instance.GetPlaybackTime();
         while (currentNoteIndex < upcomingNotes.Count)
         {
             BeatmapNote nextNote = upcomingNotes[currentNoteIndex];
-            
             int laneIndex = nextNote.@string - 1; 
 
             if (!laneManager.LaneEnds.ContainsKey(laneIndex) || !laneManager.LaneStarts.ContainsKey(laneIndex))
@@ -152,9 +149,7 @@ public class IncomingNoteManager : StateListener
         
         Renderer rend = newNoteObj.GetComponent<Renderer>();
         if (rend != null)
-        {
             rend.material.color = requiredNoteColor;
-        }
 
         activeNotes.Add(new ActiveNote { 
             noteObject = newNoteObj, 
@@ -195,22 +190,13 @@ public class IncomingNoteManager : StateListener
 
     protected override void OnStateToggled(bool isNowActive)
     {
-        if (isNowActive)
+        if (!isNowActive && StateManager.Instance.CurrentState != StateManager.GameState.Paused)
         {
-            if (songAudioSource != null && !songAudioSource.isPlaying)
-                songAudioSource.Play(); // play/resume song when entering Play state
-        }
-        else
-        {
-            if (songAudioSource != null && songAudioSource.isPlaying)
-                songAudioSource.Pause(); // pause song if we exit play state (e.g. paused menu)
-
+            // Only clear notes and reset sequence if we are leaving the play state entirely (not just pausing)
             foreach (var note in activeNotes)
-            {
                 sphereSpawner.ReturnSphere(note.noteObject);
-            }
             activeNotes.Clear();
-            currentNoteIndex = 0; // reset beatmap sequence
+            currentNoteIndex = 0; 
         }
     }
 
