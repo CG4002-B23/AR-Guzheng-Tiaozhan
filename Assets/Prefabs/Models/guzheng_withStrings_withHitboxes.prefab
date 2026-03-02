@@ -118,6 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &448463297226125841
 GameObject:
@@ -550,6 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &3017929015796619278
 GameObject:
@@ -669,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &3165291803702091179
 GameObject:
@@ -824,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &4450935959736206816
 GameObject:
@@ -943,6 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &4481682101801887339
 GameObject:
@@ -1334,6 +1339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &7047476516371557023
 GameObject:
@@ -1453,6 +1459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &7754420075356211796
 GameObject:
@@ -1572,6 +1579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &8712880264753124092
 GameObject:
@@ -1691,6 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1 &9193211437343269825
 GameObject:
@@ -1946,6 +1955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa845fdc14c9f15d9cd087fdae889f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetStates: 02000000030000000400000005000000
   highlightColor: {r: 0, g: 1, b: 1, a: 0.5}
 --- !u!1001 &4902832950461133078
 PrefabInstance:
