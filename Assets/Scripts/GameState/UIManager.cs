@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.UI;
 
 // handles which button is clicked
 public class GameplayUIManager : MonoBehaviour
@@ -28,6 +29,14 @@ public class GameplayUIManager : MonoBehaviour
     [Tooltip("Drag the gameplayUI object here again to link its Canvas Group")]
     public CanvasGroup gameplayUICanvasGroup;
 
+    [Header("Bot vs Player Mode")]
+    [Tooltip("Drag the 'Enable Bot' Toggle UI element here")]
+    public Toggle enableBotToggle;
+    [Tooltip("Drag the GameObject holding the PlayerBotManager here")]
+    public PlayerBotManager playerBotManager;
+    [Tooltip("Drag the GameObject holding the PlayerCombatManager here")]
+    public PlayerCombatManager playerCombatManager;
+
     void OnEnable()
     {
         StateManager.OnGameStateChanged += HandleGameStateChange;
@@ -36,6 +45,15 @@ public class GameplayUIManager : MonoBehaviour
     void OnDisable()
     {
         StateManager.OnGameStateChanged -= HandleGameStateChange;
+    }
+
+    void Start()
+    {
+        if (enableBotToggle != null)
+        {
+            OnEnableBotToggled(enableBotToggle.isOn);
+            enableBotToggle.onValueChanged.AddListener(OnEnableBotToggled); // auto listen for when the player clicks the checkbox
+        }
     }
 
     private void HandleGameStateChange(StateManager.GameState newState)
@@ -71,6 +89,12 @@ public class GameplayUIManager : MonoBehaviour
             gameplayUICanvasGroup.interactable = canInteract;
             gameplayUICanvasGroup.blocksRaycasts = canInteract;
         }
+    }
+
+    public void OnEnableBotToggled(bool isBotEnabled)
+    {
+        if (playerBotManager != null) playerBotManager.enabled = isBotEnabled;
+        if (playerCombatManager != null) playerCombatManager.enabled = !isBotEnabled;
     }
 
     // hook each of these functions to the OnClick() list of the buttons in the menus
