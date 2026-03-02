@@ -60,7 +60,7 @@ public class StateManager : MonoBehaviour
         ChangeState(PreviousState);
     }
 
-        // debug statements showing on phone screen
+    // debug statements showing on phone screen
     void OnGUI()
     {
         GUIStyle style = new GUIStyle();
@@ -69,6 +69,6 @@ public class StateManager : MonoBehaviour
         style.fontStyle = FontStyle.Bold;
 
         // Draw the debug info at the top right
-        GUI.Label(new Rect(1600, 50, 800, 1000), DebugStatusText, style);
+        GUI.Label(new Rect(1650, 900, 800, 1000), DebugStatusText, style);
     }
 }

@@ -21,8 +21,6 @@ public class GuzhengAnchorManager : StateListener
     private float trackingTimer = 0f;
     private bool isAnchored = false;
 
-    public string DebugStatusText { get; private set; } = "";
-
     void Awake()
     {
         imageManager = GetComponent<ARTrackedImageManager>();
@@ -81,7 +79,6 @@ public class GuzhengAnchorManager : StateListener
             guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
 
         isAnchored = true;
-        DebugStatusText = "Guzheng Anchored";
         StateManager.Instance.ChangeState(StateManager.GameState.FieldScanning);
     }
 
@@ -93,7 +90,6 @@ public class GuzhengAnchorManager : StateListener
             spawnedGuzheng = null;
             trackingTimer = 0f;
             isAnchored = false;
-            DebugStatusText = "";
         }
     }
 
@@ -115,19 +111,5 @@ public class GuzhengAnchorManager : StateListener
 
         // reanchor guzheng
         guzhengAnchor = spawnedGuzheng.AddComponent<ARAnchor>();
-        
-        // DebugStatusText = "Guzheng Auto-Aligned & Anchored";
-    }
-
-    // debug statements showing on phone screen
-    void OnGUI()
-    {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 40;
-        style.normal.textColor = Color.green;
-        style.fontStyle = FontStyle.Bold;
-
-        // Draw the debug info at the top right
-        GUI.Label(new Rect(800, 50, 800, 1000), DebugStatusText, style);
     }
 }
