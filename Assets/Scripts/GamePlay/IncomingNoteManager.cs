@@ -39,6 +39,10 @@ public class IncomingNoteManager : StateListener
     private int currentNoteIndex = 0;
     private bool beatmapLoaded = false;
 
+    private float internalSongTime = 0f;
+    private bool isSequenceRunning = false;
+    private bool waitingForLanes = false;
+
     public class ActiveNote
     {
         public GameObject noteObject;
@@ -99,15 +103,38 @@ public class IncomingNoteManager : StateListener
         if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
         if (!beatmapLoaded) return;
 
-        HandleSpawning(); 
+        if (waitingForLanes)
+        {
+            if (laneManager.LaneEnds.ContainsKey(0) && laneManager.LaneStarts.ContainsKey(0))
+            {
+                float travelDistance = Vector3.Distance(laneManager.LaneEnds[0], laneManager.LaneStarts[0]);
+                float timeToReachPlayer = travelDistance / noteSpeed;
+                
+                internalSongTime = -timeToReachPlayer; // ensure the music starts at the right time, so the first note hits correctly
+                
+                waitingForLanes = false;
+                isSequenceRunning = true;
+            }
+            return; // Don't do anything else until lanes are ready
+        }
+
+        if (!isSequenceRunning) return;
+
+        internalSongTime += Time.deltaTime; // start music once value is positive
+
+        if (internalSongTime >= 0f && AudioManager.Instance != null && !AudioManager.Instance.IsPlaying())
+            AudioManager.Instance.PlayGameplayMusic();
+
+        // force synchronisation between internal clock and real audio
+        if (internalSongTime > 0f && AudioManager.Instance != null && AudioManager.Instance.IsPlaying())
+            internalSongTime = AudioManager.Instance.GetPlaybackTime();
+
+        HandleSpawning(internalSongTime); 
         MoveNotes();
     }
 
-    private void HandleSpawning()
+    private void HandleSpawning(float currentSongTime)
     {
-        if (AudioManager.Instance == null || !AudioManager.Instance.IsPlaying()) return;
-
-        float currentSongTime = AudioManager.Instance.GetPlaybackTime();
         while (currentNoteIndex < upcomingNotes.Count)
         {
             BeatmapNote nextNote = upcomingNotes[currentNoteIndex];
@@ -195,9 +222,14 @@ public class IncomingNoteManager : StateListener
             // Only clear notes and reset sequence if we are leaving the play state entirely (not just pausing)
             foreach (var note in activeNotes)
                 sphereSpawner.ReturnSphere(note.noteObject);
+
             activeNotes.Clear();
             currentNoteIndex = 0; 
+            isSequenceRunning = false;
+            waitingForLanes = false;
         }
+        else if (isNowActive && beatmapLoaded && currentNoteIndex == 0)
+            waitingForLanes = true; // starting new game, wait for AR lanes to generate
     }
 
     public void DestroyNoteFromBot(ActiveNote note)

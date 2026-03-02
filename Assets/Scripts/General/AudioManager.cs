@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     [Tooltip("Assign some music here to play in the game")]
     public AudioClip gameplayMusic;
 
+    private bool hasGameplayMusicStarted = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -47,11 +49,12 @@ public class AudioManager : MonoBehaviour
             if (audioSource.clip != gameplayMusic)
             {
                 // switch to gameplay music
+                audioSource.Stop(); // don't play it yet
                 audioSource.clip = gameplayMusic;
                 audioSource.time = 0f; // start from beginning
-                audioSource.Play();
+                hasGameplayMusicStarted = false;
             }
-            else if (!audioSource.isPlaying)
+            else if (!audioSource.isPlaying && hasGameplayMusicStarted)
                 audioSource.Play(); // resume from pause
         }
         else if (newState == StateManager.GameState.Paused)
@@ -72,6 +75,15 @@ public class AudioManager : MonoBehaviour
         else
         {
             audioSource.Stop();
+        }
+    }
+
+    public void PlayGameplayMusic()
+    {
+        if (audioSource != null && audioSource.clip == gameplayMusic && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+            hasGameplayMusicStarted = true;
         }
     }
 

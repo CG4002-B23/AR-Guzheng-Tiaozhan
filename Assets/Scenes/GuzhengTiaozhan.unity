@@ -1358,7 +1358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spherePrefab: {fileID: 5400601534774202354, guid: b70223106d1a542a3ad55b5688c2374e, type: 3}
-  poolSize: 40
+  poolSize: 200
 --- !u!4 &443796984
 Transform:
   m_ObjectHideFlags: 0
