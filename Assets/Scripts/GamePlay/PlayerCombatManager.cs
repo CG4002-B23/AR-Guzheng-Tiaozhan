@@ -27,6 +27,7 @@ public class PlayerCombatManager : StateListener
     {
         public GameObject noteObject;
         public int laneIndex;
+        public Color noteColor;
     }
 
     private List<PlayerNote> activePlayerNotes = new List<PlayerNote>();
@@ -70,7 +71,11 @@ public class PlayerCombatManager : StateListener
         Renderer rend = newNote.GetComponent<Renderer>();
         if (rend != null) rend.material.color = rightTuoColor; // Default to green for now
 
-        activePlayerNotes.Add(new PlayerNote { noteObject = newNote, laneIndex = laneIndex });
+        activePlayerNotes.Add(new PlayerNote { 
+            noteObject = newNote, 
+            laneIndex = laneIndex,
+            noteColor = rightTuoColor 
+        });
     }
 
     void Update()
@@ -110,6 +115,7 @@ public class PlayerCombatManager : StateListener
                 var eNote = enemyNoteManager.activeNotes[j];
                 
                 if (eNote.laneIndex != pNote.laneIndex) continue; // only check collisions that are in the same lane
+                if (eNote.noteColor != pNote.noteColor) continue; // only notes of the same color can collide
 
                 float dist = Vector3.Distance(pNote.noteObject.transform.position, eNote.noteObject.transform.position);
 
