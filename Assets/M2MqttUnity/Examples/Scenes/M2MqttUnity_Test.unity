@@ -3021,78 +3021,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!1 &1699045181
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1699045183}
-  - component: {fileID: 1699045182}
-  m_Layer: 0
-  m_Name: M2MQTT
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1699045182
+--- !u!114 &1699045182 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+  m_PrefabInstance: {fileID: 3893690864465387031}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1699045181}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbaa80705124f9e439d56ca6d5e6db69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  caCertName: ca.crt
-  clientPfxName: unity.pfx
-  pfxPassword: 12345
-  brokerAddress: 172.20.10.4
-  brokerPort: 8883
-  isEncrypted: 0
-  certificateName: 
-  connectionDelay: 500
-  timeoutOnConnection: 30000
-  autoConnect: 0
-  mqttUserName: 
-  mqttPassword: 
-  autoTest: 0
-  consoleInputField: {fileID: 221991987}
-  encryptedToggle: {fileID: 1740149083}
-  addressInputField: {fileID: 1275266004}
-  portInputField: {fileID: 613148239}
-  connectButton: {fileID: 1680008176}
-  disconnectButton: {fileID: 584712945}
-  testPublishButton: {fileID: 669316352}
-  clearButton: {fileID: 1573663948}
-  subscribeTopic: ar/visualizer
-  publishTopic: unity/to_broker
-  caCertPath: certificates/ca.crt
-  clientCertPath: certificates/client.crt
-  clientKeyPath: certificates/client.key
-  connectionStatusText: {fileID: 0}
-  lastPredictionText: {fileID: 0}
---- !u!4 &1699045183
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1699045181}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.24}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1740149081
 GameObject:
   m_ObjectHideFlags: 0
@@ -3878,6 +3817,95 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2147175854}
   m_CullTransparentMesh: 1
+--- !u!1001 &3893690864465387031
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419191821152298550, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: clearButton
+      value: 
+      objectReference: {fileID: 1573663948}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: connectButton
+      value: 
+      objectReference: {fileID: 1680008176}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: portInputField
+      value: 
+      objectReference: {fileID: 613148239}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: encryptedToggle
+      value: 
+      objectReference: {fileID: 1740149083}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: disconnectButton
+      value: 
+      objectReference: {fileID: 584712945}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: addressInputField
+      value: 
+      objectReference: {fileID: 1275266004}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: consoleInputField
+      value: 
+      objectReference: {fileID: 221991987}
+    - target: {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: testPublishButton
+      value: 
+      objectReference: {fileID: 669316352}
+    - target: {fileID: 8201009411884224591, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      propertyPath: m_Name
+      value: M2MQTT
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -3885,4 +3913,4 @@ SceneRoots:
   - {fileID: 799155159}
   - {fileID: 1397764005}
   - {fileID: 1472311455}
-  - {fileID: 1699045183}
+  - {fileID: 3893690864465387031}
