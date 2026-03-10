@@ -57,8 +57,11 @@ public class GuzhengStringInteraction : StateListener
             if (!touchingHands.Contains(other))
             {
                 touchingHands.Add(other); // add the new finger that is touching the string
+
+                if (MockHardwareDataPoller.Instance != null)
+                    MockHardwareDataPoller.Instance.TriggerSignal = true;
                 
-                if (touchingHands.Count == 1)
+                if (touchingHands.Count >= 1)
                     stringMaterial.color = highlightColor;
             }
         }
