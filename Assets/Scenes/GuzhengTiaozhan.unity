@@ -5118,11 +5118,60 @@ PrefabInstance:
       propertyPath: m_Name
       value: M2MQTT
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 575408186976028394, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8201009411884224591, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1708282222}
   m_SourcePrefab: {fileID: 100100000, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+--- !u!1 &1708282221 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8201009411884224591, guid: 44989a15e705228f3a517c8be1b6c3dc, type: 3}
+  m_PrefabInstance: {fileID: 1708282220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1708282222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708282221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087c665c0c30c0ac2a985a5421ba4e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  caCertName: ca.crt
+  clientPfxName: unity.pfx
+  pfxPassword: 12345
+  brokerAddress: 172.20.10.4
+  brokerPort: 8883
+  isEncrypted: 1
+  certificateName: 
+  connectionDelay: 500
+  timeoutOnConnection: 30000
+  autoConnect: 0
+  mqttUserName: 
+  mqttPassword: 
+  autoTest: 0
+  consoleInputField: {fileID: 0}
+  encryptedToggle: {fileID: 0}
+  addressInputField: {fileID: 0}
+  portInputField: {fileID: 0}
+  connectButton: {fileID: 0}
+  disconnectButton: {fileID: 0}
+  testPublishButton: {fileID: 0}
+  clearButton: {fileID: 0}
+  subscribeTopic: ar/visualizer
+  publishTopic: unity/to_broker
+  caCertPath: certificates/ca.crt
+  clientCertPath: certificates/client.crt
+  clientKeyPath: certificates/client.key
+  connectionStatusText: {fileID: 0}
+  lastPredictionText: {fileID: 0}
 --- !u!1 &1735430943
 GameObject:
   m_ObjectHideFlags: 0

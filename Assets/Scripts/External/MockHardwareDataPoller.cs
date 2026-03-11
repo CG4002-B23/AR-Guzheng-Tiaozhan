@@ -1,22 +1,27 @@
 using System;
+using M2MqttUnity.Examples;
 using UnityEngine;
 
 public class MockHardwareDataPoller : MonoBehaviour
 {
     public static MockHardwareDataPoller Instance { get; private set; }
 
-    public event Action OnHardwareSignalTriggered;
-
-    private bool _triggerSignal;
-    public bool TriggerSignal
+    public void SendPluckSignal(bool isPlucked)
     {
-        get => _triggerSignal;
-        set
+        // OnHardwareSignalTriggered?.Invoke(isPlucked);
+        // _triggerSignal = isPlucked; // Only if you actually need to store the state
+        Debug.Log("HardwareDataPoller: Guzheng string plucked! Sending MQTT signal...");
+
+        if (isPlucked)
         {
-            if (value == true)
-                OnHardwareSignalTriggered?.Invoke();
-            
-            _triggerSignal = false;  // reset for the next trigger
+            M2MqttUnityTest.Instance.SetStreamState(true, "FB_001");
+            Debug.Log("String plucked");
+
+        }
+        else
+        {
+            M2MqttUnityTest.Instance.SetStreamState(false, "FB_001");
+            Debug.Log("String not plucked");
         }
     }
 
@@ -27,21 +32,5 @@ public class MockHardwareDataPoller : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        OnHardwareSignalTriggered += HandleSignalTriggered; // subscribe
-    }
-
-    private void OnDisable()
-    {
-        OnHardwareSignalTriggered -= HandleSignalTriggered; //  unsubscribe to prevent memory leaks
-    }
-
-    private void HandleSignalTriggered()
-    {
-        // replace with MQTT publishing logic
-        Debug.Log("HardwareDataPoller: Guzheng string plucked! Sending MQTT signal...");
     }
 }

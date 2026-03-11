@@ -13,6 +13,8 @@ namespace M2MqttUnity.Examples
 {
     public class M2MqttUnityTest : M2MqttUnityClient
     {
+        public static M2MqttUnityTest Instance { get; private set; }
+
         public bool autoTest = false;
         
         [Header("User Interface")]
@@ -37,6 +39,15 @@ namespace M2MqttUnity.Examples
         [Header("Display Elements")]
         public Text connectionStatusText;
         public Text lastPredictionText;
+
+        // CHANGES
+        private bool isStreamActive = false;  // Current stream state
+        private bool lastStreamState = false; // Previous state to detect changes
+
+        private string handToTrigger = "FB_001"; //default to left hand
+
+        private const string ESP32_LEFT = "FB_001";   // Left hand
+        private const string ESP32_RIGHT = "FB_002";  // Right hand
 
         private List<string> eventMessages = new List<string>();
         private bool updateUI = false;
@@ -189,6 +200,10 @@ namespace M2MqttUnity.Examples
             AddToConsole("Disconnected from broker");
             if (connectionStatusText != null)
                 connectionStatusText.text = "Disconnected";
+            
+            // Reset stream state
+            isStreamActive = false;
+            lastStreamState = false;
             updateUI = true;
         }
 
@@ -197,6 +212,9 @@ namespace M2MqttUnity.Examples
             AddToConsole("Connection lost");
             if (connectionStatusText != null)
                 connectionStatusText.text = "Connection Lost";
+            
+            isStreamActive = false;
+            lastStreamState = false;
             updateUI = true;
         }
 
@@ -256,6 +274,103 @@ namespace M2MqttUnity.Examples
                 connectionStatusText.text = "Status: " + msg;
         }
 
+        //CHANGES
+        public void SetStreamState(bool active, string hand)
+        {
+            isStreamActive = active;
+            handToTrigger = hand;
+        }
+
+
+        // public void SendPlayerAction(int action, float value = 0, int player = 1)
+        // {
+        //     if (client == null || !client.IsConnected)
+        //     {
+        //         AddToConsole("Not connected - cannot send action");
+        //         return;
+        //     }
+
+        //     var actionMsg = new UnityMessage
+        //     {
+        //         type = "player_action",
+        //         client_id = clientId,
+        //         player = player,
+        //         timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+        //         data = $"{{\"action\":{action},\"value\":{value}}}"
+        //     };
+
+        //     string jsonMsg = JsonUtility.ToJson(actionMsg);
+        //     client.Publish(publishTopic, System.Text.Encoding.UTF8.GetBytes(jsonMsg), 
+        //                   MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            
+        //     AddToConsole($"Sent action: {action} (Player {player})");
+        // }
+
+        //CHANGES
+        private void SendStreamTrigger(bool start)
+        {
+            if (client == null || !client.IsConnected) return;
+
+            string action = start ? "start" : "stop";
+            
+            var triggerMsg = new TriggerMessage
+            {
+                type = "trigger",
+                target_device = handToTrigger,  // Single player, always FB_001
+                action = action,
+                timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+            };
+
+            string jsonMsg = JsonUtility.ToJson(triggerMsg);
+            client.Publish(publishTopic, System.Text.Encoding.UTF8.GetBytes(jsonMsg), 
+                          MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            
+            AddToConsole($"Stream {action} triggered for ESP32");
+        }
+
+        
+        // HAPTIC FEEDBACK METHODS
+
+        public void SendHapticFeedbackLeft(int duration = 500)
+        {
+            SendHapticFeedback(ESP32_LEFT, duration);
+        }
+
+        public void SendHapticFeedbackRight(int duration = 500)
+        {
+            SendHapticFeedback(ESP32_RIGHT, duration);
+        }
+
+        public void SendHapticFeedbackBoth( int duration = 500)
+        {
+            SendHapticFeedback(ESP32_LEFT, duration);
+            SendHapticFeedback(ESP32_RIGHT, duration);
+        }
+
+        private void SendHapticFeedback(string targetDevice, int duration)
+        {
+            if (client == null || !client.IsConnected)
+            {
+                AddToConsole("Not connected - cannot send haptic feedback");
+                return;
+            }
+            
+            var hapticMsg = new HapticMessage
+            {
+                type = "haptic",
+                target_device = targetDevice,
+                duration = duration,       // Duration in milliseconds
+                timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+            };
+
+            string jsonMsg = JsonUtility.ToJson(hapticMsg);
+            client.Publish(publishTopic, System.Text.Encoding.UTF8.GetBytes(jsonMsg), 
+                          MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            
+            string deviceName = targetDevice == ESP32_LEFT ? "Left" : "Right";
+            AddToConsole($"Haptic feedback sent to {deviceName} ESP32 (Duration: {duration}ms)");
+        }
+
         // ============================================================================
         // OUTGOING MESSAGES
         // ============================================================================
@@ -277,30 +392,6 @@ namespace M2MqttUnity.Examples
                           MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
             
             AddToConsole($"Sent connection status: {status}");
-        }
-
-        public void SendPlayerAction(int action, float value = 0, int player = 1)
-        {
-            if (client == null || !client.IsConnected)
-            {
-                AddToConsole("Not connected - cannot send action");
-                return;
-            }
-
-            var actionMsg = new UnityMessage
-            {
-                type = "player_action",
-                client_id = clientId,
-                player = player,
-                timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-                data = $"{{\"action\":{action},\"value\":{value}}}"
-            };
-
-            string jsonMsg = JsonUtility.ToJson(actionMsg);
-            client.Publish(publishTopic, System.Text.Encoding.UTF8.GetBytes(jsonMsg), 
-                          MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
-            
-            AddToConsole($"Sent action: {action} (Player {player})");
         }
 
         public void TestPublish()
@@ -332,6 +423,13 @@ namespace M2MqttUnity.Examples
         // ============================================================================
         public new void Disconnect()
         {
+            // Send stop trigger if stream was active
+            //CHANGES
+            if (isStreamActive)
+            {
+                SendStreamTrigger(false);
+            }
+            
             AddToConsole("Disconnecting...");
             base.Disconnect();
             updateUI = true;
@@ -417,6 +515,7 @@ namespace M2MqttUnity.Examples
             updateUI = false;
         }
 
+        // CHANGES
         protected override void Update()
         {
             base.Update();
@@ -425,11 +524,29 @@ namespace M2MqttUnity.Examples
             {
                 UpdateUI();
             }
+            
+            // Check if stream state has changed
+            if (isStreamActive != lastStreamState)
+            {
+                if (client != null && client.IsConnected)
+                {
+                    SendStreamTrigger(isStreamActive);
+                }
+                lastStreamState = isStreamActive;
+            }
         }
 
         protected override void Awake()
         {
             base.Awake();
+
+            Connect();
+            
+            // singleton
+            if (Instance == null)
+                Instance = this;
+            else 
+                Destroy(gameObject);
             
             if (isEncrypted)
             {
@@ -461,6 +578,10 @@ namespace M2MqttUnity.Examples
         {
             if (client != null && client.IsConnected)
             {
+                if (isStreamActive)
+                {
+                    SendStreamTrigger(false);
+                }
                 SendConnectionStatus("disconnected");
                 Disconnect();
                 AddToConsole("Disconnected");
@@ -499,6 +620,25 @@ namespace M2MqttUnity.Examples
             public int player;
             public long timestamp;
             public string data;
+        }
+        
+        // CHANGES
+        [Serializable]
+        public class TriggerMessage
+        {
+            public string type;
+            public string target_device;
+            public string action;
+            public long timestamp;
+        }
+
+        [Serializable]
+        public class HapticMessage
+        {
+            public string type;
+            public string target_device;
+            public int duration;      // Duration in milliseconds
+            public long timestamp;
         }
     }
 }
