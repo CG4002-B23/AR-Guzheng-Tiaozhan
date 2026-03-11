@@ -6,10 +6,17 @@ public class MockHardwareDataPoller : MonoBehaviour
 {
     public static MockHardwareDataPoller Instance { get; private set; }
 
+    private void Awake()
+    {
+        // singleton setup
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     public void SendPluckSignal(bool isPlucked)
     {
-        // OnHardwareSignalTriggered?.Invoke(isPlucked);
-        // _triggerSignal = isPlucked; // Only if you actually need to store the state
         Debug.Log("HardwareDataPoller: Guzheng string plucked! Sending MQTT signal...");
 
         if (isPlucked)
@@ -23,14 +30,5 @@ public class MockHardwareDataPoller : MonoBehaviour
             M2MqttUnityTest.Instance.SetStreamState(false, "FB_001");
             Debug.Log("String not plucked");
         }
-    }
-
-    private void Awake()
-    {
-        // singleton setup
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
     }
 }
