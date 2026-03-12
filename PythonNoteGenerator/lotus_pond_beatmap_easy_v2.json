@@ -153,6 +153,12 @@
             "gesture": "thumb"
         },
         {
+            "time": 14.729,
+            "string": 1,
+            "gesture": "mute",
+            "duration": 0.075
+        },
+        {
             "time": 15.979,
             "string": 4,
             "gesture": "thumb"
@@ -217,9 +223,9 @@
             "duration": 0.874
         },
         {
-            "time": 24.179,
-            "string": 4,
-            "gesture": "middle",
+            "time": 24.381,
+            "string": 2,
+            "gesture": "mute",
             "duration": 0.075
         },
         {
@@ -251,6 +257,12 @@
             "string": 3,
             "gesture": "tremolo",
             "duration": 3.165
+        },
+        {
+            "time": 31.405,
+            "string": 3,
+            "gesture": "mute",
+            "duration": 0.075
         },
         {
             "time": 31.994,
@@ -386,25 +398,43 @@
             "time": 52.024,
             "string": 3,
             "gesture": "tremolo",
-            "duration": 4.371
+            "duration": 3.453
+        },
+        {
+            "time": 56.191,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 56.406,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 57.093,
+            "string": 4,
+            "gesture": "ring",
+            "duration": 0.075
         },
         {
             "time": 57.623,
             "string": 5,
-            "gesture": "ring",
+            "gesture": "index",
             "duration": 0.075
         },
         {
             "time": 58.173,
             "string": 4,
-            "gesture": "middle",
-            "duration": 0.075
+            "gesture": "tremolo",
+            "duration": 0.605
         },
         {
             "time": 59.055,
             "string": 3,
-            "gesture": "middle",
-            "duration": 0.075
+            "gesture": "tremolo",
+            "duration": 0.888
         },
         {
             "time": 60.39,
