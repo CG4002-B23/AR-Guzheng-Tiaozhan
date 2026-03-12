@@ -15,6 +15,11 @@ SLIDER_X = WIDTH - SLIDER_WIDTH - 20     # Positions it neatly in the right marg
 SLIDER_Y_MARGIN = 50                     # Padding from top and bottom
 SLIDER_TRACK_HEIGHT = HEIGHT - (SLIDER_Y_MARGIN * 2)
 
+VOL_SLIDER_WIDTH = 290
+VOL_SLIDER_X = 20
+VOL_SLIDER_Y = HEIGHT - 40
+VOL_SLIDER_HEIGHT = 10
+
 # Centers the 5 lanes (500px) within the right 2/3 of the screen
 LANE_START_X = PANEL_WIDTH + ((WIDTH - PANEL_WIDTH) - (5 * LANE_WIDTH)) // 2 
 PLAYHEAD_Y = 480         
@@ -64,6 +69,8 @@ class GuzhengBeatmapper:
         self.dragging_note_idx = None
         self.dragging_slider = False
         self.was_playing_before_drag = False
+        self.volume = 0.5            
+        self.dragging_volume = False
 
         # Speed state
         self.playback_speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5]
@@ -115,7 +122,7 @@ class GuzhengBeatmapper:
         try:
             current_file = self.temp_audio_files[self.playback_speed]
             pygame.mixer.music.load(current_file)
-            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.set_volume(self.volume)
         except Exception as e:
             print(f"Error loading audio: {e}")
             sys.exit()
@@ -126,6 +133,28 @@ class GuzhengBeatmapper:
         
         progress = 1.0 - ((clamped_y - SLIDER_Y_MARGIN) / SLIDER_TRACK_HEIGHT)
         self.playhead_time = progress * self.audio_length
+
+    def _update_volume_visual(self, mouse_x):
+        """Updates the volume level based on the slider position."""
+        clamped_x = max(VOL_SLIDER_X, min(mouse_x, VOL_SLIDER_X + VOL_SLIDER_WIDTH))
+        self.volume = (clamped_x - VOL_SLIDER_X) / VOL_SLIDER_WIDTH
+        pygame.mixer.music.set_volume(self.volume)
+
+    def draw_volume_slider(self):
+        """Renders the horizontal volume slider in the bottom left panel."""
+        # Draw Label
+        vol_text = self.font.render(f"Volume: {int(self.volume * 100)}%", True, TEXT_COLOR)
+        self.screen.blit(vol_text, (VOL_SLIDER_X, VOL_SLIDER_Y - 25))
+        
+        # Draw Track
+        track_rect = (VOL_SLIDER_X, VOL_SLIDER_Y, VOL_SLIDER_WIDTH, VOL_SLIDER_HEIGHT)
+        pygame.draw.rect(self.screen, (50, 50, 50), track_rect, border_radius=5)
+        
+        # Draw Knob
+        knob_x = VOL_SLIDER_X + (self.volume * VOL_SLIDER_WIDTH)
+        knob_rect = (knob_x - 5, VOL_SLIDER_Y - 5, 10, VOL_SLIDER_HEIGHT + 10)
+        knob_color = (200, 200, 200) if self.dragging_volume else (120, 120, 120)
+        pygame.draw.rect(self.screen, knob_color, knob_rect, border_radius=3)
 
     def draw_slider(self):
         """Renders the vertical scrollbar on the right margin."""
@@ -265,6 +294,12 @@ class GuzhengBeatmapper:
                         self._update_slider_visual(mouse_y)
                         continue # Skip the rest of the click logic
 
+                    vol_rect = pygame.Rect(VOL_SLIDER_X - 10, VOL_SLIDER_Y - 10, VOL_SLIDER_WIDTH + 20, VOL_SLIDER_HEIGHT + 20)
+                    if vol_rect.collidepoint(mouse_x, mouse_y):
+                        self.dragging_volume = True
+                        self._update_volume_visual(mouse_x)
+                        continue
+
                 clicked_note_idx = None
                 clicked_edge = False
                 
@@ -280,7 +315,7 @@ class GuzhengBeatmapper:
                     note_width = LANE_WIDTH - 20
                     
                     note_rect = pygame.Rect(note_x, note_end_y, note_width, note_height)
-                    edge_rect = pygame.Rect(note_x, note_end_y - 5, note_width, 15) 
+                    edge_rect = pygame.Rect(note_x, note_end_y - 10, note_width, 30) 
                     
                     if edge_rect.collidepoint(mouse_x, mouse_y) and note["gesture"] == "tremolo":
                         clicked_note_idx = i
@@ -320,6 +355,8 @@ class GuzhengBeatmapper:
             elif event.type == pygame.MOUSEMOTION:
                 if self.dragging_slider:
                     self._update_slider_visual(event.pos[1])
+                elif self.dragging_volume:               
+                    self._update_volume_visual(event.pos[0])
                 elif self.dragging_note_idx is not None:
                     _, mouse_y = event.pos
                     note = self.notes[self.dragging_note_idx]
@@ -341,7 +378,8 @@ class GuzhengBeatmapper:
                     if self.dragging_slider:
                         self.dragging_slider = False
                         self.is_playing = self.was_playing_before_drag
-                        self.seek_audio(self.playhead_time) # Commit the drag and resume audio
+                        self.seek_audio(self.playhead_time)
+                    self.dragging_volume = False
                     self.dragging_note_idx = None
 
             elif event.type == pygame.KEYDOWN:
@@ -423,8 +461,8 @@ class GuzhengBeatmapper:
                 
                 # 3. Draw a visual drag handle at the TOP of Tremolo notes
                 if note["gesture"] == "tremolo":
-                    handle_rect = (note_x + 10, note_end_y, note_width - 20, 8)
-                    pygame.draw.rect(self.screen, (255, 255, 255), handle_rect, border_radius=2)
+                    handle_rect = (note_x + 10, note_end_y, note_width - 20, 15)
+                    pygame.draw.rect(self.screen, (255, 255, 255), handle_rect, border_radius=4)
 
     def draw_ui(self):
         """Renders the left control panel, instructions, and horizontal playhead line."""
@@ -475,7 +513,7 @@ class GuzhengBeatmapper:
         for line in instructions:
             color = (180, 180, 200) if line.endswith(":") or line.startswith("---") else (130, 130, 130)
             self.screen.blit(self.font.render(line, True, color), (20, y_offset))
-            y_offset += 20
+            y_offset += 17
 
     def run(self):
         """The main application loop."""
@@ -495,6 +533,7 @@ class GuzhengBeatmapper:
             self.draw_notes()
             self.draw_ui()
             self.draw_slider()
+            self.draw_volume_slider()
             
             pygame.display.flip()
             self.clock.tick(60) 
