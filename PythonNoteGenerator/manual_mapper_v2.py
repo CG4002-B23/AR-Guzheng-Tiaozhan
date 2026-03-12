@@ -3,6 +3,7 @@ import json
 import sys
 import argparse
 import os
+import tempfile
 
 # --- Visual Layout Constants ---
 WIDTH, HEIGHT = 1000, 600
@@ -55,10 +56,100 @@ class GuzhengBeatmapper:
         self.audio_length = 0.0
         self.running = True
         self.dragging_note_idx = None
+
+        # Speed state
+        self.playback_speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5]
+        self.speed_idx = 3 # Defaults to 1.0x
+        self.playback_speed = self.playback_speeds[self.speed_idx]
+        self.temp_audio_files = {}  # <-- New: Tracks our generated audio files
         
         self._init_pygame()
+        self._prepare_audio_speeds() # <-- New: Process speeds before loading
         self._load_audio()
         self._load_existing_beatmap()
+
+    def _prepare_audio_speeds(self):
+        """Uses pydub to physically stretch the audio and caches temporary WAV files."""
+        print(">>> Pre-processing audio speeds (this may take a few seconds)... <<<")
+        try:
+            from pydub import AudioSegment
+            base_audio = AudioSegment.from_file(self.audio_file)
+            original_fr = base_audio.frame_rate
+            
+            for speed in self.playback_speeds:
+                if speed == 1.0:
+                    self.temp_audio_files[speed] = self.audio_file
+                else:
+                    # Alter frame rate to change speed/pitch, then resample back to standard
+                    new_fr = int(original_fr * speed)
+                    altered_audio = base_audio._spawn(base_audio.raw_data, overrides={"frame_rate": new_fr})
+                    stretched_audio = altered_audio.set_frame_rate(original_fr)
+                    
+                    # Save as a temporary WAV file
+                    temp_fd, temp_path = tempfile.mkstemp(suffix=".wav")
+                    os.close(temp_fd)
+                    stretched_audio.export(temp_path, format="wav")
+                    self.temp_audio_files[speed] = temp_path
+                    
+            self.audio_length = len(base_audio) / 1000.0 
+            print(">>> Audio pre-processing complete! <<<")
+            
+        except ImportError:
+            print(">>> ERROR: 'pydub' is not installed. Run: pip install pydub <<<")
+            sys.exit()
+        except Exception as e:
+            print(f">>> ERROR processing audio: {e} <<<")
+            print("Ensure you have ffmpeg installed on your system to read MP3 files.")
+            sys.exit()
+
+    def _load_audio(self):
+        """Loads the pre-processed audio file for the current speed."""
+        try:
+            current_file = self.temp_audio_files[self.playback_speed]
+            pygame.mixer.music.load(current_file)
+            pygame.mixer.music.set_volume(0.5)
+        except Exception as e:
+            print(f"Error loading audio: {e}")
+            sys.exit()
+
+    def seek_audio(self, target_time):
+        """Safely scrubs the audio to a new timestamp, adjusting for physical file length."""
+        self.playhead_time = max(0.0, min(target_time, self.audio_length))
+        
+        # Scale the start time to match the physically stretched audio file
+        scaled_start_time = self.playhead_time / self.playback_speed
+        
+        pygame.mixer.music.play(0, start=scaled_start_time)
+        if not self.is_playing:
+            pygame.mixer.music.pause()
+
+    def change_speed(self, direction):
+        """Switches to the pre-processed audio file for the new speed."""
+        new_idx = max(0, min(len(self.playback_speeds) - 1, self.speed_idx + direction))
+        
+        if new_idx != self.speed_idx:
+            self.speed_idx = new_idx
+            self.playback_speed = self.playback_speeds[self.speed_idx]
+            
+            was_playing = self.is_playing
+            self._load_audio() 
+            
+            if was_playing:
+                self.seek_audio(self.playhead_time)
+            elif self.playhead_time > 0:
+                # Even if paused, we need to prep the correct position in the new file
+                self.seek_audio(self.playhead_time)
+                pygame.mixer.music.pause()
+
+    def clean_up(self):
+        """Deletes the temporary WAV files generated for playback speed."""
+        print("\nCleaning up temporary audio files...")
+        for speed, path in self.temp_audio_files.items():
+            if speed != 1.0 and os.path.exists(path):
+                try:
+                    os.remove(path)
+                except Exception as e:
+                    pass
 
     def _init_pygame(self):
         """Initializes Pygame, the window, and fonts."""
@@ -69,16 +160,6 @@ class GuzhengBeatmapper:
         self.font = pygame.font.SysFont(None, 24)
         self.large_font = pygame.font.SysFont(None, 36)
         self.clock = pygame.time.Clock()
-
-    def _load_audio(self):
-        """Loads the MP3 and calculates its total length."""
-        try:
-            pygame.mixer.music.load(self.audio_file)
-            pygame.mixer.music.set_volume(0.5)
-            self.audio_length = pygame.mixer.Sound(self.audio_file).get_length() 
-        except Exception as e:
-            print(f"Error loading audio '{self.audio_file}'. Error: {e}")
-            sys.exit()
 
     def _load_existing_beatmap(self):
         """Checks for an existing JSON and loads it if found."""
@@ -119,13 +200,6 @@ class GuzhengBeatmapper:
         with open(self.output_file, 'w') as f:
             json.dump(beatmap, f, indent=4)
         print(f"\n>>> SUCCESS: Saved {len(sorted_notes)} notes to '{self.output_file}' <<<")
-
-    def seek_audio(self, target_time):
-        """Safely scrubs the audio to a new timestamp."""
-        self.playhead_time = max(0.0, min(target_time, self.audio_length))
-        pygame.mixer.music.play(0, start=self.playhead_time)
-        if not self.is_playing:
-            pygame.mixer.music.pause()
 
     def add_note(self, string_num, gesture):
         """Records a note at the current playhead time with a duration property."""
@@ -239,11 +313,15 @@ class GuzhengBeatmapper:
                 elif event.key == pygame.K_3: self.add_note(3, "thumb")
                 elif event.key == pygame.K_4: self.add_note(4, "thumb")
                 elif event.key == pygame.K_5: self.add_note(5, "thumb")
+                elif event.key == pygame.K_UP: self.change_speed(1)
+                elif event.key == pygame.K_DOWN: self.change_speed(-1)
 
     def update(self, delta_time):
         """Updates the game state (like moving the playhead)."""
         if self.is_playing:
-            self.playhead_time += delta_time
+            # Scale the time passage by the current playback speed
+            self.playhead_time += (delta_time * self.playback_speed)
+            
             if self.playhead_time >= self.audio_length:
                 self.playhead_time = self.audio_length
                 self.is_playing = False
@@ -320,6 +398,9 @@ class GuzhengBeatmapper:
         self.screen.blit(self.large_font.render(f"> {status}", True, status_color), (20, 20))
         self.screen.blit(self.font.render(f"Time: {self.playhead_time:.2f}s / {self.audio_length:.2f}s", True, TEXT_COLOR), (20, 60))
         self.screen.blit(self.font.render(f"Notes Total: {len(self.notes)}", True, TEXT_COLOR), (20, 85))
+
+        speed_color = (150, 255, 255) if self.playback_speed != 1.0 else TEXT_COLOR
+        self.screen.blit(self.font.render(f"Speed: {self.playback_speed}x", True, speed_color), (20, 110))
         
         # 4. Instruction List (Formatted to fit the left panel)
         instructions = [
@@ -327,6 +408,7 @@ class GuzhengBeatmapper:
             "",
             "PLAYBACK:",
             "[SPACE] Play / Pause",
+            "[UP / DOWN] Change Speed",
             "[Left Click Lane] Scrub Timeline",
             "",
             "ADDING NOTES (Drops at Playhead):",
@@ -347,9 +429,8 @@ class GuzhengBeatmapper:
             "[ESC] Save & Quit"
         ]
         
-        y_offset = 130
+        y_offset = 145
         for line in instructions:
-            # Color headers differently from standard instructions
             color = (180, 180, 200) if line.endswith(":") or line.startswith("---") else (130, 130, 130)
             self.screen.blit(self.font.render(line, True, color), (20, y_offset))
             y_offset += 20
@@ -376,6 +457,7 @@ class GuzhengBeatmapper:
             self.clock.tick(60) 
 
         self.save_beatmap()
+        self.clean_up()
         pygame.quit()
 
 
