@@ -32,6 +32,16 @@ COLOR_TREMOLO = (255, 150, 0)
 ALL_GESTURES = ["thumb", "index", "middle", "ring", "pinky", "mute", "tremolo"]
 FIXED_DURATION_GESTURES = ["thumb", "index", "middle", "ring", "pinky", "mute"]
 
+GESTURE_SYMBOLS = {
+    "thumb": "1",
+    "index": "2",
+    "middle": "3",
+    "ring": "4",
+    "pinky": "5",
+    "mute": "X",
+    "tremolo": "#"
+}
+
 
 class GuzhengBeatmapper:
     def __init__(self, audio_file, output_file):
@@ -249,7 +259,7 @@ class GuzhengBeatmapper:
             self.screen.blit(label, (x + 15, HEIGHT - 30))
 
     def draw_notes(self):
-        """Renders the recorded notes and drag handles falling towards the playhead."""
+        """Renders the recorded notes, symbols, and drag handles falling towards the playhead."""
         for note in self.notes:
             note_duration = note.get("duration", (15 if note["gesture"] in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC)
             note_height = note_duration * PX_PER_SEC
@@ -271,9 +281,25 @@ class GuzhengBeatmapper:
                 elif note["gesture"] == "mute": color = COLOR_MUTE
                 else: color = COLOR_TREMOLO
                     
+                # 1. Draw the note rectangle
                 pygame.draw.rect(self.screen, color, (note_x, note_end_y, note_width, note_height), border_radius=4)
                 
-                # Draw a visual drag handle at the TOP of Tremolo notes
+                # 2. Draw the symbol text
+                symbol = GESTURE_SYMBOLS.get(note["gesture"], "?")
+                text_surface = self.font.render(symbol, True, (30, 30, 30)) # Dark gray text for contrast
+                text_rect = text_surface.get_rect()
+                
+                text_rect.centerx = note_x + (note_width // 2)
+                
+                # Center vertically for short notes, anchor near bottom for stretched tremolos
+                if note_height <= 30:
+                    text_rect.centery = note_end_y + (note_height // 2)
+                else:
+                    text_rect.bottom = note_start_y - 5
+                    
+                self.screen.blit(text_surface, text_rect)
+                
+                # 3. Draw a visual drag handle at the TOP of Tremolo notes
                 if note["gesture"] == "tremolo":
                     handle_rect = (note_x + 10, note_end_y, note_width - 20, 8)
                     pygame.draw.rect(self.screen, (255, 255, 255), handle_rect, border_radius=2)
