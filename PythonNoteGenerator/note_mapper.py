@@ -76,10 +76,10 @@ class GuzhengBeatmapper:
         self.playback_speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5]
         self.speed_idx = 3 # Defaults to 1.0x
         self.playback_speed = self.playback_speeds[self.speed_idx]
-        self.temp_audio_files = {}  # <-- New: Tracks our generated audio files
+        self.temp_audio_files = {}  
         
         self._init_pygame()
-        self._prepare_audio_speeds() # <-- New: Process speeds before loading
+        self._prepare_audio_speeds() 
         self._load_audio()
         self._load_existing_beatmap()
 
@@ -130,7 +130,6 @@ class GuzhengBeatmapper:
     def _update_slider_visual(self, mouse_y):
         """Updates the playhead time visually without restarting the audio stream."""
         clamped_y = max(SLIDER_Y_MARGIN, min(mouse_y, SLIDER_Y_MARGIN + SLIDER_TRACK_HEIGHT))
-        
         progress = 1.0 - ((clamped_y - SLIDER_Y_MARGIN) / SLIDER_TRACK_HEIGHT)
         self.playhead_time = progress * self.audio_length
 
@@ -142,15 +141,12 @@ class GuzhengBeatmapper:
 
     def draw_volume_slider(self):
         """Renders the horizontal volume slider in the bottom left panel."""
-        # Draw Label
         vol_text = self.font.render(f"Volume: {int(self.volume * 100)}%", True, TEXT_COLOR)
         self.screen.blit(vol_text, (VOL_SLIDER_X, VOL_SLIDER_Y - 25))
         
-        # Draw Track
         track_rect = (VOL_SLIDER_X, VOL_SLIDER_Y, VOL_SLIDER_WIDTH, VOL_SLIDER_HEIGHT)
         pygame.draw.rect(self.screen, (50, 50, 50), track_rect, border_radius=5)
         
-        # Draw Knob
         knob_x = VOL_SLIDER_X + (self.volume * VOL_SLIDER_WIDTH)
         knob_rect = (knob_x - 5, VOL_SLIDER_Y - 5, 10, VOL_SLIDER_HEIGHT + 10)
         knob_color = (200, 200, 200) if self.dragging_volume else (120, 120, 120)
@@ -158,11 +154,9 @@ class GuzhengBeatmapper:
 
     def draw_slider(self):
         """Renders the vertical scrollbar on the right margin."""
-        # 1. Draw Track
         track_rect = (SLIDER_X, SLIDER_Y_MARGIN, SLIDER_WIDTH, SLIDER_TRACK_HEIGHT)
         pygame.draw.rect(self.screen, (50, 50, 50), track_rect, border_radius=8)
         
-        # 2. Draw Knob
         progress = self.playhead_time / self.audio_length if self.audio_length > 0 else 0
         knob_y = SLIDER_Y_MARGIN + ((1.0 - progress) * SLIDER_TRACK_HEIGHT)
         
@@ -173,8 +167,6 @@ class GuzhengBeatmapper:
     def seek_audio(self, target_time):
         """Safely scrubs the audio to a new timestamp, adjusting for physical file length."""
         self.playhead_time = max(0.0, min(target_time, self.audio_length))
-        
-        # Scale the start time to match the physically stretched audio file
         scaled_start_time = self.playhead_time / self.playback_speed
         
         pygame.mixer.music.play(0, start=scaled_start_time)
@@ -195,7 +187,6 @@ class GuzhengBeatmapper:
             if was_playing:
                 self.seek_audio(self.playhead_time)
             elif self.playhead_time > 0:
-                # Even if paused, we need to prep the correct position in the new file
                 self.seek_audio(self.playhead_time)
                 pygame.mixer.music.pause()
 
@@ -243,20 +234,34 @@ class GuzhengBeatmapper:
                 continue
                 
             if note["string"] == string_num:
-                # Use saved duration, or fallback to default if loading an older JSON
                 existing_duration = note.get("duration", (15 if note["gesture"] in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC)
-                
                 if (target_time < note["time"] + existing_duration) and (note["time"] < target_time + target_duration):
                     return True
                     
         return False
 
     def save_beatmap(self):
-        """Sorts and saves all recorded notes to the JSON file."""
-        sorted_notes = sorted(self.notes, key=lambda x: x["time"])
+        """Sorts, standardizes, and saves all recorded notes to the JSON file."""
+        standardized_notes = []
+        
+        for note in self.notes:
+            gesture = note.get("gesture", "thumb")
+            default_duration = (15 if gesture in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC
+            standardized_note = {
+                "time": note.get("time", 0.0),
+                "string": note.get("string", 1),
+                "gesture": gesture,
+                "duration": round(note.get("duration", default_duration), 3),
+                "vibrato": note.get("vibrato", "none")
+            }
+            standardized_notes.append(standardized_note)
+
+        sorted_notes = sorted(standardized_notes, key=lambda x: x["time"])
         beatmap = {"notes": sorted_notes}
+        
         with open(self.output_file, 'w') as f:
             json.dump(beatmap, f, indent=4)
+            
         print(f"\n>>> SUCCESS: Saved {len(sorted_notes)} notes to '{self.output_file}' <<<")
 
     def add_note(self, string_num, gesture):
@@ -272,7 +277,8 @@ class GuzhengBeatmapper:
                 "time": new_time,
                 "string": string_num,
                 "gesture": gesture,
-                "duration": round(duration, 3)
+                "duration": round(duration, 3),
+                "vibrato": "none"
             })
 
     def handle_events(self):
@@ -290,9 +296,9 @@ class GuzhengBeatmapper:
                         self.dragging_slider = True
                         self.was_playing_before_drag = self.is_playing
                         self.is_playing = False
-                        pygame.mixer.music.pause() # Pause audio to prevent stuttering
+                        pygame.mixer.music.pause()
                         self._update_slider_visual(mouse_y)
-                        continue # Skip the rest of the click logic
+                        continue
 
                     vol_rect = pygame.Rect(VOL_SLIDER_X - 10, VOL_SLIDER_Y - 10, VOL_SLIDER_WIDTH + 20, VOL_SLIDER_HEIGHT + 20)
                     if vol_rect.collidepoint(mouse_x, mouse_y):
@@ -330,24 +336,32 @@ class GuzhengBeatmapper:
                         if clicked_edge:
                             self.dragging_note_idx = clicked_note_idx 
                         else:
-                            gestures = ALL_GESTURES
-                            current = self.notes[clicked_note_idx]["gesture"]
-                            next_idx = (gestures.index(current) + 1) % len(gestures)
-                            proposed_gesture = gestures[next_idx]
-                            proposed_duration = (15 if proposed_gesture in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC
-                            
-                            if not self._is_overlapping(self.notes[clicked_note_idx]["time"], 
-                                                        self.notes[clicked_note_idx]["string"], 
-                                                        proposed_gesture, 
-                                                        target_duration=proposed_duration,
-                                                        ignore_idx=clicked_note_idx):
-                                self.notes[clicked_note_idx]["gesture"] = proposed_gesture
-                                self.notes[clicked_note_idx]["duration"] = proposed_duration
+                            mods = pygame.key.get_mods()
+                            if mods & pygame.KMOD_SHIFT:
+                                # --- Cycle vibrato ---
+                                vib_states = ["none", "light", "heavy"]
+                                current_vib = self.notes[clicked_note_idx].get("vibrato", "none")
+                                next_vib = vib_states[(vib_states.index(current_vib) + 1) % len(vib_states)]
+                                self.notes[clicked_note_idx]["vibrato"] = next_vib
+                            else:
+                                # --- Cycle gesture ---
+                                gestures = ALL_GESTURES
+                                current = self.notes[clicked_note_idx]["gesture"]
+                                next_idx = (gestures.index(current) + 1) % len(gestures)
+                                proposed_gesture = gestures[next_idx]
+                                proposed_duration = (15 if proposed_gesture in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC
+                                
+                                if not self._is_overlapping(self.notes[clicked_note_idx]["time"], 
+                                                            self.notes[clicked_note_idx]["string"], 
+                                                            proposed_gesture, 
+                                                            target_duration=proposed_duration,
+                                                            ignore_idx=clicked_note_idx):
+                                    self.notes[clicked_note_idx]["gesture"] = proposed_gesture
+                                    self.notes[clicked_note_idx]["duration"] = proposed_duration
                                 
                     elif event.button == 3:  
                         self.notes.pop(clicked_note_idx)
                 else:
-                    # Updated: Prevent scrubbing if clicking the left panel OR the new slider area
                     if event.button == 1 and PANEL_WIDTH < mouse_x < SLIDER_X - 10: 
                         time_offset = (PLAYHEAD_Y - mouse_y) / PX_PER_SEC
                         self.seek_audio(self.playhead_time + time_offset)
@@ -401,7 +415,6 @@ class GuzhengBeatmapper:
     def update(self, delta_time):
         """Updates the game state (like moving the playhead)."""
         if self.is_playing:
-            # Scale the time passage by the current playback speed
             self.playhead_time += (delta_time * self.playback_speed)
             
             if self.playhead_time >= self.audio_length:
@@ -424,9 +437,7 @@ class GuzhengBeatmapper:
             note_duration = note.get("duration", (15 if note["gesture"] in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC)
             note_height = note_duration * PX_PER_SEC
             
-            # The bottom of the note hits the playhead at note["time"]
             note_start_y = PLAYHEAD_Y - ((note["time"] - self.playhead_time) * PX_PER_SEC)
-            # The top of the note is higher up on the screen (lower Y value)
             note_end_y = note_start_y - note_height 
             
             if -note_height < note_start_y < HEIGHT + note_height:
@@ -441,17 +452,22 @@ class GuzhengBeatmapper:
                 elif note["gesture"] == "mute": color = COLOR_MUTE
                 else: color = COLOR_TREMOLO
                     
-                # 1. Draw the note rectangle
-                pygame.draw.rect(self.screen, color, (note_x, note_end_y, note_width, note_height), border_radius=4)
+                # 1. Draw the main note rectangle
+                rect_tuple = (note_x, note_end_y, note_width, note_height)
+                pygame.draw.rect(self.screen, color, rect_tuple, border_radius=4)
                 
+                vibrato = note.get("vibrato", "none")
+                if vibrato == "light":
+                    pygame.draw.rect(self.screen, (170, 170, 170), rect_tuple, width=2, border_radius=4)
+                elif vibrato == "heavy":
+                    pygame.draw.rect(self.screen, (255, 255, 255), rect_tuple, width=3, border_radius=4)
+
                 # 2. Draw the symbol text
                 symbol = GESTURE_SYMBOLS.get(note["gesture"], "?")
-                text_surface = self.font.render(symbol, True, (30, 30, 30)) # Dark gray text for contrast
+                text_surface = self.font.render(symbol, True, (30, 30, 30)) 
                 text_rect = text_surface.get_rect()
-                
                 text_rect.centerx = note_x + (note_width // 2)
                 
-                # Center vertically for short notes, anchor near bottom for stretched tremolos
                 if note_height <= 30:
                     text_rect.centery = note_end_y + (note_height // 2)
                 else:
@@ -466,14 +482,11 @@ class GuzhengBeatmapper:
 
     def draw_ui(self):
         """Renders the left control panel, instructions, and horizontal playhead line."""
-        # 1. Left Control Panel Background
         pygame.draw.rect(self.screen, PANEL_BG_COLOR, (0, 0, PANEL_WIDTH, HEIGHT))
         pygame.draw.line(self.screen, (60, 65, 75), (PANEL_WIDTH, 0), (PANEL_WIDTH, HEIGHT), 2)
 
-        # 2. Playhead Line (Only across the lanes)
         pygame.draw.line(self.screen, PLAYHEAD_COLOR, (LANE_START_X - 20, PLAYHEAD_Y), (LANE_START_X + (5 * LANE_WIDTH) + 20, PLAYHEAD_Y), 3)
 
-        # 3. Dynamic Status Elements
         status = "PLAYING" if self.is_playing else "PAUSED"
         status_color = (100, 255, 100) if self.is_playing else (255, 255, 100)
         
@@ -484,7 +497,7 @@ class GuzhengBeatmapper:
         speed_color = (150, 255, 255) if self.playback_speed != 1.0 else TEXT_COLOR
         self.screen.blit(self.font.render(f"Speed: {self.playback_speed}x", True, speed_color), (20, 100))
         
-        # 4. Instruction List (Formatted to fit the left panel)
+        # --- UPDATED: Added Shift+Click instruction ---
         instructions = [
             "PLAYBACK:",
             "[SPACE] Play / Pause",
@@ -501,6 +514,7 @@ class GuzhengBeatmapper:
             "",
             "EDITING NOTES:",
             "[Left Click Note] Cycle Gesture",
+            "[Shift + Left Click] Cycle Vibrato", 
             "[Right Click Note] Delete",
             "[Drag Note Top] Stretch Tremolo",
             "[Z] Undo Last Added Note",
@@ -527,7 +541,6 @@ class GuzhengBeatmapper:
             self.handle_events()
             self.update(delta_time)
 
-            # Rendering
             self.screen.fill(BG_COLOR)
             self.draw_lanes()
             self.draw_notes()
@@ -549,7 +562,6 @@ def main():
     parser.add_argument("-o", "--output", required=True, help="Path to the output JSON file")
     args = parser.parse_args()
 
-    # Instantiate and run our mapped application
     app = GuzhengBeatmapper(args.input, args.output)
     app.run()
 

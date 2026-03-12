@@ -37,10 +37,15 @@ The interface is divided into a control panel on the left and a vertical, scroll
 Notes are dropped exactly at the red playhead line.
 * **[1, 2, 3, 4, 5]** - Drop a note on String 1 (Highest Pitch) to String 5 (Lowest Pitch). Defaults to the "Thumb" gesture.
 * **[Left Click Note]** - Cycle the note's gesture style (Thumb -> Index -> Middle -> Ring -> Pinky -> Mute -> Tremolo).
+* **[Shift + Left Click Note]** - Cycle the note's vibrato style (None -> Light -> Heavy).
 * **[Right Click Note]** - Delete the clicked note.
 * **[Drag Tremolo Handle]** - Tremolo notes (`#`) have a white handle at the top. Click and drag this handle to stretch the duration of the tremolo.
 * **[Z]** - Undo the last added note.
 * **[ESC]** - Save and exit the tool.
+
+### Note Visuals
+* **Note Colors** - Each gesture type has a unique color for easy identification.
+* **Note Symbols** - Regular notes are numbered (based on finger number), tremolo notes are represented as `#` symbols with adjustable duration, mute notes are represented as `X`, and vibrato notes have an outline indicating their vibrato intensity (light or heavy).
 
 > [!CAUTION]
 > DO NOT press Ctrl + C to exit the program in the terminal, as this will not save your progress. Always use `[ESC]` to ensure your notes are saved properly.
