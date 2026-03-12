@@ -513,7 +513,7 @@ class GuzhengBeatmapper:
         for line in instructions:
             color = (180, 180, 200) if line.endswith(":") or line.startswith("---") else (130, 130, 130)
             self.screen.blit(self.font.render(line, True, color), (20, y_offset))
-            y_offset += 17
+            y_offset += 18
 
     def run(self):
         """The main application loop."""
