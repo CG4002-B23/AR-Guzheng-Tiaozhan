@@ -129,6 +129,32 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
+--- !u!1102 &-1616849324880543152
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RightMute
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 6ead170bfe8efb8639c7fb092e44ad44, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-288402020660287048
 AnimatorState:
   serializedVersion: 6
@@ -305,6 +331,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -288402020660287048}
     m_Position: {x: 84.57074, y: 237.48315, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1616849324880543152}
+    m_Position: {x: 12.968018, y: 177.33685, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 665774424280812229}
