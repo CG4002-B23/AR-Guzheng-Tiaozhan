@@ -9,6 +9,12 @@ import tempfile
 WIDTH, HEIGHT = 1000, 600
 PANEL_WIDTH = 330        # The left 1/3 UI panel
 LANE_WIDTH = 100         # Width of each vertical string lane
+
+SLIDER_WIDTH = 15
+SLIDER_X = WIDTH - SLIDER_WIDTH - 20     # Positions it neatly in the right margin
+SLIDER_Y_MARGIN = 50                     # Padding from top and bottom
+SLIDER_TRACK_HEIGHT = HEIGHT - (SLIDER_Y_MARGIN * 2)
+
 # Centers the 5 lanes (500px) within the right 2/3 of the screen
 LANE_START_X = PANEL_WIDTH + ((WIDTH - PANEL_WIDTH) - (5 * LANE_WIDTH)) // 2 
 PLAYHEAD_Y = 480         
@@ -56,6 +62,8 @@ class GuzhengBeatmapper:
         self.audio_length = 0.0
         self.running = True
         self.dragging_note_idx = None
+        self.dragging_slider = False
+        self.was_playing_before_drag = False
 
         # Speed state
         self.playback_speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5]
@@ -111,6 +119,27 @@ class GuzhengBeatmapper:
         except Exception as e:
             print(f"Error loading audio: {e}")
             sys.exit()
+
+    def _update_slider_visual(self, mouse_y):
+        """Updates the playhead time visually without restarting the audio stream."""
+        clamped_y = max(SLIDER_Y_MARGIN, min(mouse_y, SLIDER_Y_MARGIN + SLIDER_TRACK_HEIGHT))
+        
+        progress = 1.0 - ((clamped_y - SLIDER_Y_MARGIN) / SLIDER_TRACK_HEIGHT)
+        self.playhead_time = progress * self.audio_length
+
+    def draw_slider(self):
+        """Renders the vertical scrollbar on the right margin."""
+        # 1. Draw Track
+        track_rect = (SLIDER_X, SLIDER_Y_MARGIN, SLIDER_WIDTH, SLIDER_TRACK_HEIGHT)
+        pygame.draw.rect(self.screen, (50, 50, 50), track_rect, border_radius=8)
+        
+        # 2. Draw Knob
+        progress = self.playhead_time / self.audio_length if self.audio_length > 0 else 0
+        knob_y = SLIDER_Y_MARGIN + ((1.0 - progress) * SLIDER_TRACK_HEIGHT)
+        
+        knob_rect = (SLIDER_X - 2, knob_y - 15, SLIDER_WIDTH + 4, 30)
+        knob_color = (200, 200, 200) if self.dragging_slider else (120, 120, 120)
+        pygame.draw.rect(self.screen, knob_color, knob_rect, border_radius=5)
 
     def seek_audio(self, target_time):
         """Safely scrubs the audio to a new timestamp, adjusting for physical file length."""
@@ -225,6 +254,17 @@ class GuzhengBeatmapper:
                 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = event.pos
+                
+                if event.button == 1:
+                    slider_rect = pygame.Rect(SLIDER_X - 10, SLIDER_Y_MARGIN, SLIDER_WIDTH + 20, SLIDER_TRACK_HEIGHT)
+                    if slider_rect.collidepoint(mouse_x, mouse_y):
+                        self.dragging_slider = True
+                        self.was_playing_before_drag = self.is_playing
+                        self.is_playing = False
+                        pygame.mixer.music.pause() # Pause audio to prevent stuttering
+                        self._update_slider_visual(mouse_y)
+                        continue # Skip the rest of the click logic
+
                 clicked_note_idx = None
                 clicked_edge = False
                 
@@ -240,7 +280,6 @@ class GuzhengBeatmapper:
                     note_width = LANE_WIDTH - 20
                     
                     note_rect = pygame.Rect(note_x, note_end_y, note_width, note_height)
-                    # The edge handle is now at the top of the note (note_end_y)
                     edge_rect = pygame.Rect(note_x, note_end_y - 5, note_width, 15) 
                     
                     if edge_rect.collidepoint(mouse_x, mouse_y) and note["gesture"] == "tremolo":
@@ -273,18 +312,19 @@ class GuzhengBeatmapper:
                     elif event.button == 3:  
                         self.notes.pop(clicked_note_idx)
                 else:
-                    # Only scrub if clicking in the lane area (right 2/3)
-                    if event.button == 1 and mouse_x > PANEL_WIDTH: 
+                    # Updated: Prevent scrubbing if clicking the left panel OR the new slider area
+                    if event.button == 1 and PANEL_WIDTH < mouse_x < SLIDER_X - 10: 
                         time_offset = (PLAYHEAD_Y - mouse_y) / PX_PER_SEC
                         self.seek_audio(self.playhead_time + time_offset)
             
             elif event.type == pygame.MOUSEMOTION:
-                if self.dragging_note_idx is not None:
+                if self.dragging_slider:
+                    self._update_slider_visual(event.pos[1])
+                elif self.dragging_note_idx is not None:
                     _, mouse_y = event.pos
                     note = self.notes[self.dragging_note_idx]
                     
                     note_start_y = PLAYHEAD_Y - ((note["time"] - self.playhead_time) * PX_PER_SEC)
-                    # Moving mouse UP decreases Y, increasing height
                     new_height = max(20, note_start_y - mouse_y) 
                     new_duration = new_height / PX_PER_SEC
                     
@@ -298,6 +338,10 @@ class GuzhengBeatmapper:
 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
+                    if self.dragging_slider:
+                        self.dragging_slider = False
+                        self.is_playing = self.was_playing_before_drag
+                        self.seek_audio(self.playhead_time) # Commit the drag and resume audio
                     self.dragging_note_idx = None
 
             elif event.type == pygame.KEYDOWN:
@@ -397,26 +441,24 @@ class GuzhengBeatmapper:
         
         self.screen.blit(self.large_font.render(f"> {status}", True, status_color), (20, 20))
         self.screen.blit(self.font.render(f"Time: {self.playhead_time:.2f}s / {self.audio_length:.2f}s", True, TEXT_COLOR), (20, 60))
-        self.screen.blit(self.font.render(f"Notes Total: {len(self.notes)}", True, TEXT_COLOR), (20, 85))
+        self.screen.blit(self.font.render(f"Notes Total: {len(self.notes)}", True, TEXT_COLOR), (20, 80))
 
         speed_color = (150, 255, 255) if self.playback_speed != 1.0 else TEXT_COLOR
-        self.screen.blit(self.font.render(f"Speed: {self.playback_speed}x", True, speed_color), (20, 110))
+        self.screen.blit(self.font.render(f"Speed: {self.playback_speed}x", True, speed_color), (20, 100))
         
         # 4. Instruction List (Formatted to fit the left panel)
         instructions = [
-            "--- CONTROLS ---",
-            "",
             "PLAYBACK:",
             "[SPACE] Play / Pause",
             "[UP / DOWN] Change Speed",
             "[Left Click Lane] Scrub Timeline",
             "",
             "ADDING NOTES (Drops at Playhead):",
-            "[1] String 1 (Left / Highest Pitch)",
+            "[1] String 1 (Left / Lowest Pitch)",
             "[2] String 2",
             "[3] String 3",
             "[4] String 4",
-            "[5] String 5 (Right / Lowest Pitch)",
+            "[5] String 5 (Right / Highest Pitch)",
             "    * Defaults to Thumb style",
             "",
             "EDITING NOTES:",
@@ -429,7 +471,7 @@ class GuzhengBeatmapper:
             "[ESC] Save & Quit"
         ]
         
-        y_offset = 145
+        y_offset = 130
         for line in instructions:
             color = (180, 180, 200) if line.endswith(":") or line.startswith("---") else (130, 130, 130)
             self.screen.blit(self.font.render(line, True, color), (20, y_offset))
@@ -452,6 +494,7 @@ class GuzhengBeatmapper:
             self.draw_lanes()
             self.draw_notes()
             self.draw_ui()
+            self.draw_slider()
             
             pygame.display.flip()
             self.clock.tick(60) 
