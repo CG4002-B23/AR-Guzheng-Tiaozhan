@@ -80,6 +80,8 @@ namespace M2MqttUnity
         private bool mqttClientConnectionClosed = false;
         private bool mqttClientConnected = false;
 
+        private string DebugStatusText = "";
+
         /// <summary>
         /// Event fired when a connection is successfully established
         /// </summary>
@@ -441,11 +443,13 @@ namespace M2MqttUnity
         {
             client.Connect(clientId, mqttUserName, mqttPassword);
             Debug.Log("✅ Connection attempt completed");
+            DebugStatusText = "MQTT: Connected";
         }
         catch (Exception e)
         {
             client = null;
             Debug.LogErrorFormat("❌ Failed to connect to {0}:{1}:\n{2}", brokerAddress, brokerPort, e.ToString());
+            DebugStatusText = "MQTT: Failed to connect";
             OnConnectionFailed(e.Message);
             yield break;
         }
@@ -526,5 +530,17 @@ namespace M2MqttUnity
             }
         }
 #endif
+
+        // debug statements showing on phone screen
+        void OnGUI()
+        {
+            GUIStyle style = new GUIStyle();
+            style.fontSize = 40;
+            style.normal.textColor = Color.green;
+            style.fontStyle = FontStyle.Bold;
+
+            // Draw the debug info at the top right
+            GUI.Label(new Rect(200, 900, 800, 1000), DebugStatusText, style);
+        }
     }
 }

@@ -250,6 +250,7 @@ namespace M2MqttUnity.Examples
                                       $"ID: {predMsg.request_id}";
                     
                     AddToConsole(displayMsg);
+                    Debug.Log(displayMsg);
                     
                     if (lastPredictionText != null)
                         lastPredictionText.text = displayMsg;
