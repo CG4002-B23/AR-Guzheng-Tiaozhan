@@ -21,7 +21,14 @@ public class PlayerCombatManager : StateListener
     public int attackDamage = 10;
     public float collisionDistanceThreshold = 0.2f;
 
-    private Color rightTuoColor = Color.green;
+    [Header("Gesture Colors (Must match IncomingNoteManager)")]
+    public Color colorThumb = Color.green;
+    public Color colorIndex = Color.blue;
+    public Color colorMiddle = Color.red;
+    public Color colorRing = Color.yellow;
+    public Color colorPinky = Color.magenta;
+    public Color colorMute = Color.gray;
+    public Color colorTremolo = new Color(1.0f, 0.5f, 0.0f); // orange
 
     private class PlayerNote
     {
@@ -31,6 +38,8 @@ public class PlayerCombatManager : StateListener
     }
 
     private List<PlayerNote> activePlayerNotes = new List<PlayerNote>();
+
+    private List<string> validGestures = new List<string> { "thumb", "index", "middle", "ring", "pinky", "mute", "tremolo" };
 
     protected override void OnEnable()
     {
@@ -56,32 +65,41 @@ public class PlayerCombatManager : StateListener
     private void HandleGesture(string gesture)
     {
         if (!isActiveState) return;
+        if (!validGestures.Contains(gesture)) return;
 
-        // treat right tuo as both right tuo and right muo for now
-        if (gesture == "RightTuo")
+        for (int i = 0; i < guzhengStrings.Count; i++)
         {
-            for (int i = 0; i < guzhengStrings.Count; i++)
-            {
-                if (guzhengStrings[i] != null && guzhengStrings[i].IsTouched) // touching this string and making gesture
-                    FireNote(i);
-            }
+            if (guzhengStrings[i] != null && guzhengStrings[i].IsTouched) // touching the string and making gesture
+                FireNote(i, gesture);
         }
     }
 
-    private void FireNote(int laneIndex)
+    private void FireNote(int laneIndex, string gesture)
     {
         if (!laneManager.LaneStarts.ContainsKey(laneIndex) || !laneManager.LaneEnds.ContainsKey(laneIndex)) return;
 
         GameObject newNote = playerSphereSpawner.GetSphere();
         newNote.transform.position = laneManager.LaneStarts[laneIndex];
 
+        Color mappedColor = colorIndex; // default
+        switch (gesture)
+        {
+            case "thumb": mappedColor = colorThumb; break;
+            case "index": mappedColor = colorIndex; break;
+            case "middle": mappedColor = colorMiddle; break;
+            case "ring": mappedColor = colorRing; break;
+            case "pinky": mappedColor = colorPinky; break;
+            case "mute": mappedColor = colorMute; break;
+            case "tremolo": mappedColor = colorTremolo; break;
+        }
+
         Renderer rend = newNote.GetComponent<Renderer>();
-        if (rend != null) rend.material.color = rightTuoColor; // Default to green for now
+        if (rend != null) rend.material.color = mappedColor;
 
         activePlayerNotes.Add(new PlayerNote { 
             noteObject = newNote, 
             laneIndex = laneIndex,
-            noteColor = rightTuoColor 
+            noteColor = mappedColor 
         });
     }
 

@@ -7,6 +7,8 @@ public class BeatmapNote
     public float time;
     public int @string; // 'string' is a reserved keyword in C#
     public string gesture;
+    public float duration;
+    public string vibrato;
 }
 
 [System.Serializable]
@@ -32,9 +34,17 @@ public class IncomingNoteManager : StateListener
     public int missedNoteDamage = 5;
     public GameObject playerDamageEffectPrefab;
 
-    private Color colorRightTuo = Color.green;
-    private Color colorRightMuo = Color.blue;
-    private Color colorTremolo = new Color(1.0f, 0.5f, 0.0f); // orange
+    public Color colorThumb = Color.green;
+    public Color colorIndex = Color.blue;
+    public Color colorMiddle = Color.red;
+    public Color colorRing = Color.yellow;
+    public Color colorPinky = Color.magenta;
+    public Color colorMute = Color.gray;
+    public Color colorTremolo = new Color(1.0f, 0.5f, 0.0f); // orange
+
+    [Header("Vibrato Visuals")]
+    public GameObject lightVibratoPrefab;
+    public GameObject heavyVibratoPrefab;
 
     private List<BeatmapNote> upcomingNotes = new List<BeatmapNote>();
     private int currentNoteIndex = 0;
@@ -51,6 +61,7 @@ public class IncomingNoteManager : StateListener
         public Color noteColor;
         public bool isTargetedByBot;
         public float hitTime;
+        public GameObject vibratoEffectObj;
     }
 
     public List<ActiveNote> activeNotes = new List<ActiveNote>();
@@ -76,14 +87,17 @@ public class IncomingNoteManager : StateListener
         {
             if (note.gesture == "tremolo")
             {
-                // tremolo: 4 continuous notes in succession
-                for (int i = 0; i < 4; i++)
+                // how many  tremolo notes to include within the duration of the tremolo
+                int tremoloCount = Mathf.Max(1, Mathf.RoundToInt(note.duration / 0.08f));
+                for (int i = 0; i < tremoloCount; i++)
                 {
                     upcomingNotes.Add(new BeatmapNote 
                     { 
                         time = note.time + (i * 0.08f), 
                         @string = note.@string, 
-                        gesture = "tremolo" 
+                        gesture = "tremolo",
+                        duration = 0.075f, 
+                        vibrato = note.vibrato
                     });
                 }
             }
@@ -183,21 +197,47 @@ public class IncomingNoteManager : StateListener
         GameObject newNoteObj = sphereSpawner.GetSphere();
         newNoteObj.transform.position = laneManager.LaneEnds[laneIndex];
 
-        // determine color based on gesture
-        Color requiredNoteColor = colorRightMuo; // default 
-        if (noteData.gesture == "tuo") requiredNoteColor = colorRightTuo;
-        else if (noteData.gesture == "tremolo") requiredNoteColor = colorTremolo;
+        Color requiredNoteColor = colorIndex; // default to index
+        switch (noteData.gesture)
+        {
+            case "thumb": requiredNoteColor = colorThumb; break;
+            case "index": requiredNoteColor = colorIndex; break;
+            case "middle": requiredNoteColor = colorMiddle; break;
+            case "ring": requiredNoteColor = colorRing; break;
+            case "pinky": requiredNoteColor = colorPinky; break;
+            case "mute": requiredNoteColor = colorMute; break;
+            case "tremolo": requiredNoteColor = colorTremolo; break;
+        }
         
         Renderer rend = newNoteObj.GetComponent<Renderer>();
         if (rend != null)
             rend.material.color = requiredNoteColor;
+
+        GameObject vibratoObj = null;
+        if (noteData.vibrato == "light" && lightVibratoPrefab != null)
+            vibratoObj = Instantiate(lightVibratoPrefab, newNoteObj.transform);
+        else if (noteData.vibrato == "heavy" && heavyVibratoPrefab != null)
+            vibratoObj = Instantiate(heavyVibratoPrefab, newNoteObj.transform);
+
+        if (vibratoObj != null)
+        {
+            vibratoObj.transform.localPosition = Vector3.zero; // centre on the note
+            Renderer vibratoRend = vibratoObj.GetComponent<Renderer>();
+            if (vibratoRend != null)
+            {
+                vibratoRend.material.color = requiredNoteColor;
+                float glowIntensity = 2.5f; 
+                vibratoRend.material.SetColor("_EmissionColor", requiredNoteColor * glowIntensity);
+            }
+        }
 
         activeNotes.Add(new ActiveNote { 
             noteObject = newNoteObj, 
             laneIndex = laneIndex,
             noteColor = requiredNoteColor,
             isTargetedByBot = false,
-            hitTime = noteData.time
+            hitTime = noteData.time,
+            vibratoEffectObj = vibratoObj
         });
     }
 
@@ -227,6 +267,8 @@ public class IncomingNoteManager : StateListener
                 if (playerDamageEffectPrefab != null)
                     Instantiate(playerDamageEffectPrefab, targetPosition, Quaternion.identity);
 
+                if (note.vibratoEffectObj != null) Destroy(note.vibratoEffectObj);
+
                 sphereSpawner.ReturnSphere(note.noteObject);
                 activeNotes.RemoveAt(i);
             }
@@ -239,7 +281,10 @@ public class IncomingNoteManager : StateListener
         {
             // Only clear notes and reset sequence if we are leaving the play state entirely (not just pausing)
             foreach (var note in activeNotes)
+            {
+                if (note.vibratoEffectObj != null) Destroy(note.vibratoEffectObj);
                 sphereSpawner.ReturnSphere(note.noteObject);
+            }
 
             activeNotes.Clear();
             currentNoteIndex = 0; 
@@ -254,6 +299,7 @@ public class IncomingNoteManager : StateListener
     {
         if (activeNotes.Contains(note))
         {
+            if (note.vibratoEffectObj != null) Destroy(note.vibratoEffectObj);
             sphereSpawner.ReturnSphere(note.noteObject);
             activeNotes.Remove(note);
         }
