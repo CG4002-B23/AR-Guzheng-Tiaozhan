@@ -219,6 +219,18 @@ public class IncomingNoteManager : StateListener
         else if (noteData.vibrato == "heavy" && heavyVibratoPrefab != null)
             vibratoObj = Instantiate(heavyVibratoPrefab, newNoteObj.transform);
 
+        if (vibratoObj != null)
+        {
+            vibratoObj.transform.localPosition = Vector3.zero; // centre on the note
+            Renderer vibratoRend = vibratoObj.GetComponent<Renderer>();
+            if (vibratoRend != null)
+            {
+                vibratoRend.material.color = requiredNoteColor;
+                float glowIntensity = 2.5f; 
+                vibratoRend.material.SetColor("_EmissionColor", requiredNoteColor * glowIntensity);
+            }
+        }
+
         activeNotes.Add(new ActiveNote { 
             noteObject = newNoteObj, 
             laneIndex = laneIndex,
