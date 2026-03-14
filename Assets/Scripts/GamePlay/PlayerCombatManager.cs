@@ -39,8 +39,6 @@ public class PlayerCombatManager : StateListener
 
     private List<PlayerNote> activePlayerNotes = new List<PlayerNote>();
 
-    private List<string> validGestures = new List<string> { "thumb", "index", "middle", "ring", "pinky", "mute", "tremolo" };
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -65,7 +63,8 @@ public class PlayerCombatManager : StateListener
     private void HandleGesture(string gesture)
     {
         if (!isActiveState) return;
-        if (!validGestures.Contains(gesture)) return;
+        if (!gestureProvider.gestureNames.Contains(gesture)) return;
+        if (gesture == "Idle") return;
 
         for (int i = 0; i < guzhengStrings.Count; i++)
         {
