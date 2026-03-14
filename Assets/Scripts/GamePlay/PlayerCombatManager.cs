@@ -83,13 +83,13 @@ public class PlayerCombatManager : StateListener
         Color mappedColor = colorIndex; // default
         switch (gesture)
         {
-            case "thumb": mappedColor = colorThumb; break;
-            case "index": mappedColor = colorIndex; break;
-            case "middle": mappedColor = colorMiddle; break;
-            case "ring": mappedColor = colorRing; break;
-            case "pinky": mappedColor = colorPinky; break;
-            case "mute": mappedColor = colorMute; break;
-            case "tremolo": mappedColor = colorTremolo; break;
+            case "RightTuo": mappedColor = colorThumb; break;
+            case "RightIndex": mappedColor = colorIndex; break;
+            case "RightMiddle": mappedColor = colorMiddle; break;
+            case "RightRing": mappedColor = colorRing; break;
+            case "RightPinky": mappedColor = colorPinky; break;
+            case "RightMute": mappedColor = colorMute; break;
+            case "RightYaoZhi": mappedColor = colorTremolo; break;
         }
 
         Renderer rend = newNote.GetComponent<Renderer>();
