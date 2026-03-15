@@ -21,6 +21,8 @@ public class StateManager : MonoBehaviour
 
     public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, GuzhengAlignment, Playing, Paused, Victory, Defeat }
 
+    public bool isTutorialMode = false;
+
     // other scripts tune in to this event
     public static event Action<GameState> OnGameStateChanged;
 
