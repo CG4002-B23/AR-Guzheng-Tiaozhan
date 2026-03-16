@@ -6,18 +6,21 @@ using UnityEngine;
 public class TutorialModalMapping
 {
     public StateManager.GameState state;
-    public GameObject modalPanel;
+    [Tooltip("Drag the modals here in the order they should appear.")]
+    public List<GameObject> modalPanels;
 }
 
 public class TutorialUIManager : MonoBehaviour
 {
     [Header("UI Mappings")]
-    [Tooltip("Map each GameState to its corresponding tutorial UI panel.")]
     public List<TutorialModalMapping> modalMappings;
 
-    private GameObject currentActiveModal = null;
-
+    [Header("Interaction Override")]
     public MenuInteractionController menuInteractionController;
+
+    private TutorialModalMapping currentSequence = null;
+    private int currentModalIndex = 0;
+    private GameObject currentActiveModal = null;
 
     private void OnEnable()
     {
@@ -31,43 +34,69 @@ public class TutorialUIManager : MonoBehaviour
 
     private void Start()
     {
-        // hide all tutorial modals when the scene starts
         foreach (var mapping in modalMappings)
         {
-            if (mapping.modalPanel != null)
-                mapping.modalPanel.SetActive(false);
+            foreach (var panel in mapping.modalPanels)
+            {
+                if (panel != null) panel.SetActive(false);
+            }
         }
     }
 
     private void HandleGameStateChange(StateManager.GameState newState)
     {
-        if (StateManager.Instance != null && !StateManager.Instance.isTutorialMode) return;
+        if (StateManager.Instance != null && !StateManager.Instance.isTutorialMode) 
+            return;
 
-        CloseCurrentModal();
+        EndCurrentSequence();
 
-        // show modal for this specific state
         foreach (var mapping in modalMappings)
         {
-            if (mapping.state == newState && mapping.modalPanel != null)
+            if (mapping.state == newState && mapping.modalPanels.Count > 0)
             {
-                currentActiveModal = mapping.modalPanel;
-                currentActiveModal.SetActive(true);
-                Debug.Log("modal has been set active");
+                currentSequence = mapping;
+                currentModalIndex = 0;
+                ShowCurrentModal();
                 break;
             }
         }
-
-        if (currentActiveModal != null && menuInteractionController != null)
-            menuInteractionController.isTutorialUIOverrideActive = true;
     }
 
-    // call from button presses
-    public void CloseCurrentModal()
+    private void ShowCurrentModal()
+    {
+        currentActiveModal = currentSequence.modalPanels[currentModalIndex];
+        currentActiveModal.SetActive(true);
+
+        if (menuInteractionController != null)
+            menuInteractionController.isTutorialUIOverrideActive = true; // turn on finger hover raycasting
+    }
+
+    // Onclick event
+    public void AdvanceOrCloseModal()
+    {
+        if (currentActiveModal != null)
+            currentActiveModal.SetActive(false);
+
+        currentModalIndex++;
+
+        if (currentSequence != null && currentModalIndex < currentSequence.modalPanels.Count)
+            ShowCurrentModal(); // show the next modal in the sequence
+        else // Sequence is finished
+            EndCurrentSequence();
+    }
+
+    private void EndCurrentSequence()
     {
         if (currentActiveModal != null)
         {
             currentActiveModal.SetActive(false);
             currentActiveModal = null;
         }
+
+        currentSequence = null;
+        currentModalIndex = 0;
+
+        if (menuInteractionController != null)
+            menuInteractionController.isTutorialUIOverrideActive = false; // turn off finger hover raycasting
     }
 }

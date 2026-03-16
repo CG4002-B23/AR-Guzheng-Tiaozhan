@@ -604,7 +604,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1340632398}
         m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
-        m_MethodName: CloseCurrentModal
+        m_MethodName: AdvanceOrCloseModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1056,7 +1056,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1340632398}
         m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
-        m_MethodName: CloseCurrentModal
+        m_MethodName: AdvanceOrCloseModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1189,7 +1189,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1340632398}
         m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
-        m_MethodName: CloseCurrentModal
+        m_MethodName: AdvanceOrCloseModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1684,7 +1684,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1340632398}
         m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
-        m_MethodName: CloseCurrentModal
+        m_MethodName: AdvanceOrCloseModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6326,13 +6326,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modalMappings:
   - state: 2
-    modalPanel: {fileID: 711371187}
-  - state: 2
-    modalPanel: {fileID: 783957498}
+    modalPanels:
+    - {fileID: 711371187}
+    - {fileID: 783957498}
   - state: 3
-    modalPanel: {fileID: 1252095609}
+    modalPanels:
+    - {fileID: 1252095609}
   - state: 5
-    modalPanel: {fileID: 699195929}
+    modalPanels: []
+  - state: 5
+    modalPanels:
+    - {fileID: 699195929}
   menuInteractionController: {fileID: 2028187192}
 --- !u!4 &1340632399
 Transform:
