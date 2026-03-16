@@ -97,4 +97,14 @@ public class AudioManager : MonoBehaviour
     {
         return audioSource != null && audioSource.isPlaying;
     }
+
+    public void ToggleTutorialPause(bool isPaused)
+    {
+        if (audioSource == null || audioSource.clip != gameplayMusic) return;
+
+        if (isPaused && audioSource.isPlaying)
+            audioSource.Pause();
+        else if (!isPaused && !audioSource.isPlaying && hasGameplayMusicStarted)
+            audioSource.Play();
+    }
 }
