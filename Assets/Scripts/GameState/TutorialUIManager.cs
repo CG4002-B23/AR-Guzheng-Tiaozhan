@@ -22,6 +22,8 @@ public class TutorialUIManager : MonoBehaviour
     private int currentModalIndex = 0;
     private GameObject currentActiveModal = null;
 
+    private HashSet<StateManager.GameState> completedTutorialStates = new HashSet<StateManager.GameState>();
+
     private void OnEnable()
     {
         StateManager.OnGameStateChanged += HandleGameStateChange;
@@ -45,8 +47,10 @@ public class TutorialUIManager : MonoBehaviour
 
     private void HandleGameStateChange(StateManager.GameState newState)
     {
-        if (StateManager.Instance != null && !StateManager.Instance.isTutorialMode) 
-            return;
+        if (newState == StateManager.GameState.StartMenu) completedTutorialStates.Clear();
+
+        if (StateManager.Instance != null && !StateManager.Instance.isTutorialMode) return;
+        if (completedTutorialStates.Contains(newState)) return;
 
         EndCurrentSequence();
 
@@ -64,14 +68,17 @@ public class TutorialUIManager : MonoBehaviour
 
     private void ShowCurrentModal()
     {
-        StateManager.Instance.IsTutorialPaused = true;
-        AudioManager.Instance.ToggleTutorialPause(true);
-
         currentActiveModal = currentSequence.modalPanels[currentModalIndex];
         currentActiveModal.SetActive(true);
 
         if (menuInteractionController != null)
             menuInteractionController.isTutorialUIOverrideActive = true; // turn on finger hover raycasting
+
+        if (StateManager.Instance != null)
+            StateManager.Instance.IsTutorialPaused = true;
+
+        if (AudioManager.Instance != null) 
+            AudioManager.Instance.ToggleTutorialPause(true);
     }
 
     // Onclick event
@@ -90,8 +97,8 @@ public class TutorialUIManager : MonoBehaviour
 
     private void EndCurrentSequence()
     {
-        StateManager.Instance.IsTutorialPaused = false;
-        AudioManager.Instance.ToggleTutorialPause(false);
+        if (currentSequence != null)
+            completedTutorialStates.Add(currentSequence.state);
 
         if (currentActiveModal != null)
         {
@@ -104,5 +111,11 @@ public class TutorialUIManager : MonoBehaviour
 
         if (menuInteractionController != null)
             menuInteractionController.isTutorialUIOverrideActive = false; // turn off finger hover raycasting
+
+        if (StateManager.Instance != null)
+            StateManager.Instance.IsTutorialPaused = false;
+
+        if (AudioManager.Instance != null) 
+            AudioManager.Instance.ToggleTutorialPause(false);
     }
 }
