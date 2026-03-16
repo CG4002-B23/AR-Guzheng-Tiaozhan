@@ -97,8 +97,7 @@ public class TutorialUIManager : MonoBehaviour
 
     private void EndCurrentSequence()
     {
-        if (currentSequence != null)
-            completedTutorialStates.Add(currentSequence.state);
+        bool wasTutorialActive = (currentSequence != null); 
 
         if (currentActiveModal != null)
         {
@@ -106,16 +105,22 @@ public class TutorialUIManager : MonoBehaviour
             currentActiveModal = null;
         }
 
+        if (currentSequence != null)
+            completedTutorialStates.Add(currentSequence.state);
+
         currentSequence = null;
         currentModalIndex = 0;
 
         if (menuInteractionController != null)
-            menuInteractionController.isTutorialUIOverrideActive = false; // turn off finger hover raycasting
+            menuInteractionController.isTutorialUIOverrideActive = false;
 
         if (StateManager.Instance != null)
             StateManager.Instance.IsTutorialPaused = false;
 
-        if (AudioManager.Instance != null) 
-            AudioManager.Instance.ToggleTutorialPause(false);
+        if (wasTutorialActive && StateManager.Instance != null && StateManager.Instance.CurrentState == StateManager.GameState.Playing)
+        {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.ToggleTutorialPause(false);
+        }
     }
 }
