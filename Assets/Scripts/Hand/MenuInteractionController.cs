@@ -21,6 +21,9 @@ public class MenuInteractionController : StateListener
     [Tooltip("Offset the ring's position in screen pixels (X, Y) relative to the finger.")]
     public Vector2 ringOffset = new Vector2(100f, 100f);
 
+    [HideInInspector]
+    public bool isTutorialUIOverrideActive = false;
+
     private float hoverTimer = 0f;
     private GameObject currentHoveredElement = null;
     private PointerEventData pointerEventData;
@@ -47,7 +50,7 @@ public class MenuInteractionController : StateListener
 
     void Update()
     {
-        if (!isActiveState || indexFinger == null || EventSystem.current == null) return;
+        if ((!isActiveState && !isTutorialUIOverrideActive) || indexFinger == null || EventSystem.current == null) return;
 
         // 3d finger position --> 2d screen coord
         Vector2 screenPos = mainCamera.WorldToScreenPoint(indexFinger.position);

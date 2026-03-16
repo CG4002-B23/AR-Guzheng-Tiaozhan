@@ -17,6 +17,8 @@ public class TutorialUIManager : MonoBehaviour
 
     private GameObject currentActiveModal = null;
 
+    public MenuInteractionController menuInteractionController;
+
     private void OnEnable()
     {
         StateManager.OnGameStateChanged += HandleGameStateChange;
@@ -50,12 +52,16 @@ public class TutorialUIManager : MonoBehaviour
             {
                 currentActiveModal = mapping.modalPanel;
                 currentActiveModal.SetActive(true);
+                Debug.Log("modal has been set active");
                 break;
             }
         }
+
+        if (currentActiveModal != null && menuInteractionController != null)
+            menuInteractionController.isTutorialUIOverrideActive = true;
     }
 
-    // OnClick() call from the x buttons
+    // call from button presses
     public void CloseCurrentModal()
     {
         if (currentActiveModal != null)

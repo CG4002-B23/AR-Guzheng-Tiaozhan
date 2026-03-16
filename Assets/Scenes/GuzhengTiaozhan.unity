@@ -602,9 +602,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnRestartButtonClicked
+      - m_Target: {fileID: 1340632398}
+        m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
+        m_MethodName: CloseCurrentModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1054,9 +1054,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnRestartButtonClicked
+      - m_Target: {fileID: 1340632398}
+        m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
+        m_MethodName: CloseCurrentModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1187,9 +1187,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnRestartButtonClicked
+      - m_Target: {fileID: 1340632398}
+        m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
+        m_MethodName: CloseCurrentModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1682,9 +1682,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnRestartButtonClicked
+      - m_Target: {fileID: 1340632398}
+        m_TargetAssemblyTypeName: TutorialUIManager, Assembly-CSharp
+        m_MethodName: CloseCurrentModal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6324,7 +6324,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810b92bf13c2cc99e9d444c0ed4c6a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modalMappings: []
+  modalMappings:
+  - state: 2
+    modalPanel: {fileID: 711371187}
+  - state: 2
+    modalPanel: {fileID: 783957498}
+  - state: 3
+    modalPanel: {fileID: 1252095609}
+  - state: 5
+    modalPanel: {fileID: 699195929}
+  menuInteractionController: {fileID: 2028187192}
 --- !u!4 &1340632399
 Transform:
   m_ObjectHideFlags: 0
@@ -6422,7 +6431,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1358820626}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859319}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnTutorialButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1358820626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8668,6 +8689,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3269934931636048784, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
   m_PrefabInstance: {fileID: 2028187190}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2028187192 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4786090380632561012, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+  m_PrefabInstance: {fileID: 2028187190}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2ebaf2c1fc2c99a99725ce23f6a64f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2057676630
 GameObject:
   m_ObjectHideFlags: 0
