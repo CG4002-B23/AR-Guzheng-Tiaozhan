@@ -64,6 +64,8 @@ public class TutorialUIManager : MonoBehaviour
 
     private void ShowCurrentModal()
     {
+        StateManager.Instance.IsTutorialPaused = true;
+
         currentActiveModal = currentSequence.modalPanels[currentModalIndex];
         currentActiveModal.SetActive(true);
 
@@ -87,6 +89,8 @@ public class TutorialUIManager : MonoBehaviour
 
     private void EndCurrentSequence()
     {
+        StateManager.Instance.IsTutorialPaused = false;
+
         if (currentActiveModal != null)
         {
             currentActiveModal.SetActive(false);
