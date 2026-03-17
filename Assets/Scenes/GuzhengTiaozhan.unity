@@ -8229,7 +8229,23 @@ MonoBehaviour:
   - triggerTime: 1.3
     targetLaneIndex: 0
     gestureTriggerName: RightTuoTrigger
-    modalPanel: {fileID: 699195929}
+    modalPanel: {fileID: 904484114}
+  - triggerTime: 15.2
+    targetLaneIndex: 1
+    gestureTriggerName: RightIndexTrigger
+    modalPanel: {fileID: 746877320}
+  - triggerTime: 31.1
+    targetLaneIndex: 3
+    gestureTriggerName: RightYaoZhiTrigger
+    modalPanel: {fileID: 2090755735}
+  - triggerTime: 56.2
+    targetLaneIndex: 2
+    gestureTriggerName: RightMuteTrigger
+    modalPanel: {fileID: 625628119}
+  - triggerTime: 70.3
+    targetLaneIndex: 2
+    gestureTriggerName: IdleTrigger
+    modalPanel: {fileID: 1430283723}
   noteManager: {fileID: 1375489250}
   laneManager: {fileID: 427778958}
   menuInteractionController: {fileID: 2028187192}
