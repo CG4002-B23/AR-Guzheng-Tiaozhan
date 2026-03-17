@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip menuMusic;
     [Tooltip("Assign some music here to play in the game")]
     public AudioClip gameplayMusic;
+    [Tooltip("Assign the TUTORIAL music here")]
+    public AudioClip tutorialMusic;
 
     private bool hasGameplayMusicStarted = false;
 
@@ -46,11 +48,12 @@ public class AudioManager : MonoBehaviour
         if (newState == StateManager.GameState.Playing)
         {
             audioSource.loop = false; // disable looping for gameplay
-            if (audioSource.clip != gameplayMusic)
+            AudioClip activeTrack = GetActiveGameplayTrack();
+            if (audioSource.clip != activeTrack)
             {
                 // switch to gameplay music
                 audioSource.Stop(); // don't play it yet
-                audioSource.clip = gameplayMusic;
+                audioSource.clip = activeTrack;
                 audioSource.time = 0f; // start from beginning
                 hasGameplayMusicStarted = false;
             }
@@ -81,7 +84,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlayGameplayMusic()
     {
-        if (audioSource != null && audioSource.clip == gameplayMusic && !audioSource.isPlaying)
+        AudioClip activeTrack = GetActiveGameplayTrack();
+        if (audioSource != null && audioSource.clip == activeTrack && !audioSource.isPlaying)
         {
             audioSource.Play();
             hasGameplayMusicStarted = true;
@@ -106,5 +110,12 @@ public class AudioManager : MonoBehaviour
             audioSource.Pause();
         else if (!isPaused && !audioSource.isPlaying && hasGameplayMusicStarted)
             audioSource.Play();
+    }
+
+    private AudioClip GetActiveGameplayTrack()
+    {
+        if (StateManager.Instance != null && StateManager.Instance.isTutorialMode && tutorialMusic != null)
+            return tutorialMusic;
+        return gameplayMusic;
     }
 }

@@ -2751,6 +2751,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuMusic: {fileID: 8300000, guid: 6cf2cf95169f152588c8a42db59fa3aa, type: 3}
   gameplayMusic: {fileID: 8300000, guid: 85195baaae19a9d22b4c585a46feba92, type: 3}
+  tutorialMusic: {fileID: 8300000, guid: 9bcff1e3925f182cd837598a9b0f6bc9, type: 3}
 --- !u!82 &546071929
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6557,6 +6558,7 @@ MonoBehaviour:
   healthManager: {fileID: 84735140}
   gameManager: {fileID: 1951860612}
   beatmapJson: {fileID: 4900000, guid: 3d6d482015f6b077d9855a1c4fed2f58, type: 3}
+  tutorialBeatmapJson: {fileID: 4900000, guid: 05b8bbb4e6082dad1a32027c3e9ab871, type: 3}
   noteSpeed: 0.5
   missedNoteDamage: 5
   playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
