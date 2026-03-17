@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // replace this file entirely during integration with fpga
@@ -10,7 +11,7 @@ public class MockGestureProvider : MonoBehaviour
     public float switchInterval = 3.0f;
     private float timer = 0f;
     
-    private string[] gestureNames = { "Idle", "RightTuo", "RightIndex", "RightMiddle", "RightRing", "RightPinky", "RightYaoZhi", "RightMute" };
+    public readonly List<string> gestureNames = new List<string> { "Idle", "RightTuo", "RightIndex", "RightMiddle", "RightRing", "RightPinky", "RightYaoZhi", "RightMute" };
     private int currentState = 0;
 
     public event Action<string> OnGestureReceived; // broadcast the gesture string to anyone listening
@@ -29,7 +30,7 @@ public class MockGestureProvider : MonoBehaviour
     void CycleNextGesture()
     {
         currentState++;
-        if (currentState >= gestureNames.Length) currentState = 0;
+        if (currentState >= gestureNames.Count) currentState = 0;
 
         string detectedGesture = gestureNames[currentState];
         

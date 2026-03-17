@@ -28,6 +28,8 @@ public class IncomingNoteManager : StateListener
     [Header("Beatmap & Audio Settings")]
     [Tooltip("Drop generated beatmap json here")]
     public TextAsset beatmapJson; 
+    [Tooltip("Drop the TUTORIAL beatmap json here")]
+    public TextAsset tutorialBeatmapJson;
 
     [Header("Spawning & Movement")]
     public float noteSpeed = 2.0f;
@@ -51,6 +53,7 @@ public class IncomingNoteManager : StateListener
     private bool beatmapLoaded = false;
 
     private float internalSongTime = 0f;
+    public float CurrentSongTime => internalSongTime;
     private bool isSequenceRunning = false;
     private bool waitingForLanes = false;
 
@@ -66,21 +69,45 @@ public class IncomingNoteManager : StateListener
 
     public List<ActiveNote> activeNotes = new List<ActiveNote>();
 
-    void Awake()
+    protected override void OnEnable()
     {
-        LoadBeatmap();  
+        base.OnEnable();
+        StateManager.OnGameStateChanged += PrepareBeatmapOnGameStart;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        StateManager.OnGameStateChanged -= PrepareBeatmapOnGameStart;
+    }
+
+    private void PrepareBeatmapOnGameStart(StateManager.GameState newState)
+    {
+        // transitioning out of the start menu: set the beatmap 
+        if (StateManager.Instance != null && 
+            StateManager.Instance.PreviousState == StateManager.GameState.StartMenu && 
+            newState != StateManager.GameState.StartMenu)
+        {
+            LoadBeatmap();
+            internalSongTime = 0f;
+        }
     }
 
     private void LoadBeatmap()
     {
-        if (beatmapJson == null)
+        // determine beatmap file to use based on game mode
+        TextAsset targetJson = beatmapJson;
+        if (StateManager.Instance != null && StateManager.Instance.isTutorialMode && tutorialBeatmapJson != null)
+            targetJson = tutorialBeatmapJson;
+
+        if (targetJson == null)
         {
             Debug.LogError("No Beatmap JSON assigned to IncomingNoteManager!");
             return;
         }
 
-        // parse json input for beatmap
-        BeatmapData data = JsonUtility.FromJson<BeatmapData>(beatmapJson.text);
+        // Parse json input for beatmap using the targetJson
+        BeatmapData data = JsonUtility.FromJson<BeatmapData>(targetJson.text);
         upcomingNotes.Clear();
 
         foreach (BeatmapNote note in data.notes)
@@ -116,6 +143,7 @@ public class IncomingNoteManager : StateListener
     void Update()
     {
         if (!isActiveState) return;
+        if (StateManager.Instance.IsTutorialPaused) return;
         if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
         if (!beatmapLoaded) return;
 
@@ -140,7 +168,8 @@ public class IncomingNoteManager : StateListener
 
         if (AudioManager.Instance != null)
         {
-            float songLength = AudioManager.Instance.gameplayMusic != null ? AudioManager.Instance.gameplayMusic.length : float.MaxValue;
+            AudioClip activeTrack = AudioManager.Instance.GetActiveGameplayTrack();
+            float songLength = activeTrack != null ? activeTrack.length : float.MaxValue;
 
             if (internalSongTime >= 0f && !AudioManager.Instance.IsPlaying() && internalSongTime < 1.0f) // 1.0f ensure that song doesn't restart at end of song
                 AudioManager.Instance.PlayGameplayMusic();
@@ -293,6 +322,8 @@ public class IncomingNoteManager : StateListener
         }
         else if (isNowActive && beatmapLoaded && currentNoteIndex == 0)
             waitingForLanes = true; // starting new game, wait for AR lanes to generate
+        else if (StateManager.Instance.CurrentState == StateManager.GameState.StartMenu)
+            beatmapLoaded = false;
     }
 
     public void DestroyNoteFromBot(ActiveNote note)

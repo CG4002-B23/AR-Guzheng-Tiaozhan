@@ -100,6 +100,13 @@ public class GameplayUIManager : MonoBehaviour
     // hook each of these functions to the OnClick() list of the buttons in the menus
     public void OnStartButtonClicked()
     {
+        StateManager.Instance.isTutorialMode = false;
+        StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
+    }
+
+    public void OnTutorialButtonClicked()
+    {
+        StateManager.Instance.isTutorialMode = true;
         StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
     }
 

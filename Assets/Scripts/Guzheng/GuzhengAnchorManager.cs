@@ -29,6 +29,7 @@ public class GuzhengAnchorManager : StateListener
     void Update()
     {
         if (!isActiveState) return;
+        if (StateManager.Instance.IsTutorialPaused) return;
 
         foreach (var trackedImage in imageManager.trackables)
         {
