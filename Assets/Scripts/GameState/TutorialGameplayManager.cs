@@ -73,10 +73,13 @@ public class TutorialGameplayManager : StateListener
         if (tutorialEvent.modalPanel != null) tutorialEvent.modalPanel.SetActive(true);
         if (menuInteractionController != null) menuInteractionController.isTutorialUIOverrideActive = true;
 
-        if (ghostHandController != null && laneManager.LaneStarts.ContainsKey(tutorialEvent.targetLaneIndex))
+        if (ghostHandController != null && 
+            laneManager.LaneStarts.ContainsKey(tutorialEvent.targetLaneIndex) && 
+            laneManager.LaneEnds.ContainsKey(tutorialEvent.targetLaneIndex))
         {
-            Vector3 stringPos = laneManager.LaneStarts[tutorialEvent.targetLaneIndex];
-            ghostHandController.StartSequence(tutorialEvent.gestureTriggerName, stringPos);
+            Vector3 startPos = laneManager.LaneStarts[tutorialEvent.targetLaneIndex];
+            Vector3 endPos = laneManager.LaneEnds[tutorialEvent.targetLaneIndex];
+            ghostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
         }
     }
 

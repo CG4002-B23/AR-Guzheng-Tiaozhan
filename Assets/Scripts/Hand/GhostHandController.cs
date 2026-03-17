@@ -31,16 +31,22 @@ public class GhostHandController : MonoBehaviour
         }
     }
 
-    public void StartSequence(string gestureTriggerName, Vector3 targetStringPos)
+    public void StartSequence(string gestureTriggerName, Vector3 laneStartPos, Vector3 laneEndPos)
     {
         if (ghostHandContainer == null) return;
 
         // Clean up any existing sequences before starting a new one
         StopSequence(); 
 
+        Vector3 lookDirection = laneEndPos - laneStartPos;
+        lookDirection.y = 0; // ensure the hand does not tilt up or down
+
+        if (lookDirection != Vector3.zero)
+            ghostHandContainer.transform.rotation = Quaternion.LookRotation(lookDirection);
+
         isAnimating = true;
         ghostHandContainer.SetActive(true);
-        activeHandLoop = StartCoroutine(GhostHandRoutine(gestureTriggerName, targetStringPos));
+        activeHandLoop = StartCoroutine(GhostHandRoutine(gestureTriggerName, laneStartPos));
     }
 
     public void StopSequence()
