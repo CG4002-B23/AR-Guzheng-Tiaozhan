@@ -91,7 +91,7 @@ public class TutorialGameplayManager : StateListener
             if (ghostHandAnimator != null)
             {
                 // Reset to idle first just in case, then trigger the new gesture
-                ghostHandAnimator.SetTrigger("Idle"); 
+                ghostHandAnimator.SetTrigger("IdleTrigger"); 
                 ghostHandAnimator.SetTrigger(tutorialEvent.gestureTriggerName);
             }
         }
