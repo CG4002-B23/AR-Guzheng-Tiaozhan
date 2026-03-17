@@ -50,12 +50,13 @@ public class TutorialARUIManager : MonoBehaviour
 
     private void HandleGameStateChange(StateManager.GameState newState)
     {
-        if (newState == StateManager.GameState.StartMenu) completedTutorialStates.Clear();
+        EndCurrentSequence();
+
+        if (newState == StateManager.GameState.StartMenu || newState == StateManager.GameState.GuzhengPlacing) 
+            completedTutorialStates.Clear();
 
         if (StateManager.Instance != null && !StateManager.Instance.isTutorialMode) return;
         if (completedTutorialStates.Contains(newState)) return;
-
-        EndCurrentSequence();
 
         foreach (var mapping in modalMappings)
         {
@@ -122,11 +123,13 @@ public class TutorialARUIManager : MonoBehaviour
         if (StateManager.Instance != null)
             StateManager.Instance.IsTutorialPaused = false;
 
-        if (wasTutorialActive && StateManager.Instance != null && StateManager.Instance.CurrentState == StateManager.GameState.Playing)
+        if (wasTutorialActive)
         {
-            if (AudioManager.Instance != null)
-                AudioManager.Instance.ToggleTutorialPause(false);
             if (gameUIPanel != null) gameUIPanel.SetActive(true);
+
+            // touch audio only if we are actually in the playing state
+            if (AudioManager.Instance != null && StateManager.Instance != null && StateManager.Instance.CurrentState == StateManager.GameState.Playing)
+                AudioManager.Instance.ToggleTutorialPause(false);
         }
     }
 }

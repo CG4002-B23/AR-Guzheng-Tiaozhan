@@ -28,6 +28,36 @@ public class TutorialGameplayUIManager : StateListener
     private int currentEventIndex = 0;
     private bool isHandlingEvent = false;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        StateManager.OnGameStateChanged += HandleStateReset;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        StateManager.OnGameStateChanged -= HandleStateReset;
+    }
+
+    private void HandleStateReset(StateManager.GameState newState)
+    {
+        // hard reset if the player restarts game from pause menu
+        if (newState == StateManager.GameState.StartMenu || newState == StateManager.GameState.GuzhengPlacing)
+        {
+            currentEventIndex = 0;
+            isHandlingEvent = false;
+
+            if (ghostHandController != null) ghostHandController.StopSequence();
+
+            foreach (var ev in tutorialEvents) // hide all modals
+                if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
+
+            if (StateManager.Instance != null) StateManager.Instance.IsTutorialPaused = false;
+            if (gameUIPanel != null) gameUIPanel.SetActive(true);
+        }
+    }
+
     private void Start()
     {
         foreach (var ev in tutorialEvents)
@@ -45,8 +75,10 @@ public class TutorialGameplayUIManager : StateListener
 
             if (ghostHandController != null) ghostHandController.StopSequence();
 
-            if (currentEventIndex < tutorialEvents.Count && tutorialEvents[currentEventIndex].modalPanel != null)
-                tutorialEvents[currentEventIndex].modalPanel.SetActive(false);
+            foreach (var ev in tutorialEvents) // hide panels
+                if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
+                
+            if (gameUIPanel != null) gameUIPanel.SetActive(true);
         }
     }
 
