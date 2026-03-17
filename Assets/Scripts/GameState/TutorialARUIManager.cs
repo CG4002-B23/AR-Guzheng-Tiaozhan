@@ -10,7 +10,7 @@ public class TutorialModalMapping
     public List<GameObject> modalPanels;
 }
 
-public class TutorialUIManager : MonoBehaviour
+public class TutorialARUIManager : MonoBehaviour
 {
     [Header("UI Mappings")]
     public List<TutorialModalMapping> modalMappings;

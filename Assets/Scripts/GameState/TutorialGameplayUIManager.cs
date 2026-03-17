@@ -11,7 +11,7 @@ public class GameplayTutorialEvent
     public GameObject modalPanel;
 }
 
-public class TutorialGameplayManager : StateListener
+public class TutorialGameplayUIManager : StateListener
 {
     [Header("Tutorial Timeline")]
     public List<GameplayTutorialEvent> tutorialEvents;
