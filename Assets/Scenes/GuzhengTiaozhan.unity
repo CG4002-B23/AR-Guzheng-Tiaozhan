@@ -8164,6 +8164,7 @@ GameObject:
   - component: {fileID: 1340632399}
   - component: {fileID: 1340632398}
   - component: {fileID: 1340632400}
+  - component: {fileID: 1340632401}
   m_Layer: 0
   m_Name: TutorialManager
   m_TagString: Untagged
@@ -8252,9 +8253,27 @@ MonoBehaviour:
   laneManager: {fileID: 427778958}
   menuInteractionController: {fileID: 2028187192}
   gameUIPanel: {fileID: 1853408422}
+  ghostHandController: {fileID: 1340632401}
+--- !u!114 &1340632401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340632397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e984a706833368d787d6bbad78a4f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   ghostHandContainer: {fileID: 1715868753}
   ghostHandAnimator: {fileID: 1715868752}
   handOffset: {x: 0, y: 0.3, z: -0.3}
+  hoverHeight: 0.15
+  hoverDuration: 0.5
+  gestureHoldTime: 1
+  loopPauseTime: 1
+  maxHandOpacity: 0.5
 --- !u!1 &1358820623
 GameObject:
   m_ObjectHideFlags: 0
