@@ -293,6 +293,9 @@ public class IncomingNoteManager : StateListener
                 if (healthManager != null)
                     healthManager.DamagePlayer(missedNoteDamage);
 
+                if (MockHapticFeedbackCaller.Instance != null)
+                    MockHapticFeedbackCaller.Instance.TriggerSignal = true;
+ 
                 if (playerDamageEffectPrefab != null)
                     Instantiate(playerDamageEffectPrefab, targetPosition, Quaternion.identity);
 
