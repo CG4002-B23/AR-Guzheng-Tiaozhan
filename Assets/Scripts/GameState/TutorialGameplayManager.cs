@@ -34,12 +34,31 @@ public class TutorialGameplayManager : StateListener
     public Animator ghostHandAnimator;
     public Vector3 handOffset = new Vector3(0, 0.1f, 0); // Hover slightly above the string
 
+    [Header("Ghost Hand Animation Settings")]
+    [Tooltip("How high above the target position the hand starts")]
+    public float hoverHeight = 0.15f; 
+    [Tooltip("How many seconds it takes to hover down and fade in")]
+    public float hoverDuration = 0.5f;
+    [Tooltip("How long to wait at the string while the gesture animation plays")]
+    public float gestureHoldTime = 1.0f;
+    [Tooltip("How long to pause while invisible before repeating the loop")]
+    public float loopPauseTime = 1.0f;
+    [Tooltip("Max opacity (0-1)")]
+    public float maxHandOpacity = 0.5f;
+
+    private Coroutine activeHandLoop;
+    private Renderer[] handRenderers;
+
     private int currentEventIndex = 0;
     private bool isHandlingEvent = false;
 
     private void Start()
     {
-        if (ghostHandContainer != null) ghostHandContainer.SetActive(false);
+        if (ghostHandContainer != null) 
+        {
+            ghostHandContainer.SetActive(false);
+            handRenderers = ghostHandContainer.GetComponentsInChildren<Renderer>();
+        }
         
         foreach (var ev in tutorialEvents)
             if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
@@ -86,26 +105,26 @@ public class TutorialGameplayManager : StateListener
         if (tutorialEvent.modalPanel != null) tutorialEvent.modalPanel.SetActive(true);
         if (menuInteractionController != null) menuInteractionController.isTutorialUIOverrideActive = true;
 
+        if (activeHandLoop != null) StopCoroutine(activeHandLoop);
+
         if (ghostHandContainer != null && laneManager.LaneStarts.ContainsKey(tutorialEvent.targetLaneIndex))
         {
-            // Move hand to the AR string position on the player's side
             Vector3 stringPos = laneManager.LaneStarts[tutorialEvent.targetLaneIndex];
-            ghostHandContainer.transform.position = stringPos + handOffset;
-            
-            // Activate and animate
             ghostHandContainer.SetActive(true);
-            if (ghostHandAnimator != null)
-            {
-                // Reset to idle first just in case, then trigger the new gesture
-                ghostHandAnimator.SetTrigger("IdleTrigger"); 
-                ghostHandAnimator.SetTrigger(tutorialEvent.gestureTriggerName);
-            }
+            
+            activeHandLoop = StartCoroutine(GhostHandRoutine(tutorialEvent, stringPos));
         }
     }
 
     // on continue
     public void ResumeGameplay()
     {
+        if (activeHandLoop != null) 
+        {
+            StopCoroutine(activeHandLoop);
+            activeHandLoop = null;
+        }
+
         if (currentEventIndex < tutorialEvents.Count)
         {
             // Hide the current UI
@@ -125,5 +144,65 @@ public class TutorialGameplayManager : StateListener
         StateManager.Instance.IsTutorialPaused = false;
         if (AudioManager.Instance != null) AudioManager.Instance.ToggleTutorialPause(false);
         if (gameUIPanel != null) gameUIPanel.SetActive(true);
+    }
+
+    private System.Collections.IEnumerator GhostHandRoutine(GameplayTutorialEvent tutorialEvent, Vector3 targetStringPos)
+    {
+        Vector3 bottomPos = targetStringPos + handOffset;
+        Vector3 topPos = bottomPos + (Vector3.up * hoverHeight);
+
+        while (isHandlingEvent) // as long as the modal is open
+        {
+            // --- STEP 1 & 2: Start high/faded, hover downwards, fade in ---
+            float timer = 0f;
+            ghostHandContainer.transform.position = topPos;
+            SetHandAlpha(0f);
+            
+            if (ghostHandAnimator != null) ghostHandAnimator.SetTrigger("IdleTrigger");
+
+            while (timer < hoverDuration)
+            {
+                timer += Time.deltaTime;
+                float progress = timer / hoverDuration;
+                
+                ghostHandContainer.transform.position = Vector3.Lerp(topPos, bottomPos, progress);
+                SetHandAlpha(progress * maxHandOpacity); // fade from 0 to max
+                yield return null; // Wait for the next frame
+            }
+
+            // --- STEP 3: Do the gesture and hold ---
+            if (ghostHandAnimator != null) ghostHandAnimator.SetTrigger(tutorialEvent.gestureTriggerName);
+            yield return new WaitForSeconds(gestureHoldTime); // Wait for the animation to play out
+
+            // --- STEP 4: Hover back upwards and fade out ---
+            timer = 0f;
+            while (timer < hoverDuration)
+            {
+                timer += Time.deltaTime;
+                float progress = timer / hoverDuration;
+                
+                ghostHandContainer.transform.position = Vector3.Lerp(bottomPos, topPos, progress);
+                SetHandAlpha((1f - progress) * maxHandOpacity); // Fade from max down to 0
+                yield return null; 
+            }
+
+            // Pause invisibly before repeating the loop
+            yield return new WaitForSeconds(loopPauseTime);
+        }
+    }
+
+    private void SetHandAlpha(float alpha)
+    {
+        if (handRenderers == null) return;
+        
+        foreach (var rend in handRenderers)
+        {
+            if (rend.material.HasProperty("_Color"))
+            {
+                Color c = rend.material.color;
+                c.a = alpha;
+                rend.material.color = c;
+            }
+        }
     }
 }
