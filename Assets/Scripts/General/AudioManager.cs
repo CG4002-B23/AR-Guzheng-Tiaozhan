@@ -112,7 +112,7 @@ public class AudioManager : MonoBehaviour
             audioSource.Play();
     }
 
-    private AudioClip GetActiveGameplayTrack()
+    public AudioClip GetActiveGameplayTrack()
     {
         if (StateManager.Instance != null && StateManager.Instance.isTutorialMode && tutorialMusic != null)
             return tutorialMusic;

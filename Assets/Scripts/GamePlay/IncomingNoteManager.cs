@@ -167,7 +167,8 @@ public class IncomingNoteManager : StateListener
 
         if (AudioManager.Instance != null)
         {
-            float songLength = AudioManager.Instance.gameplayMusic != null ? AudioManager.Instance.gameplayMusic.length : float.MaxValue;
+            AudioClip activeTrack = AudioManager.Instance.GetActiveGameplayTrack();
+            float songLength = activeTrack != null ? activeTrack.length : float.MaxValue;
 
             if (internalSongTime >= 0f && !AudioManager.Instance.IsPlaying() && internalSongTime < 1.0f) // 1.0f ensure that song doesn't restart at end of song
                 AudioManager.Instance.PlayGameplayMusic();

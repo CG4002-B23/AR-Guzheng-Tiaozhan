@@ -3590,7 +3590,7 @@ MonoBehaviour:
   scoreManager: {fileID: 1450936902}
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
-  hitDistanceFromGuzheng: 0.2
+  hitDistanceFromGuzheng: 0.02
   playerNoteSpeed: 5
   botDamage: 10
   collisionDistanceThreshold: 0.05
