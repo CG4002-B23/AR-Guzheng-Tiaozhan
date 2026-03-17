@@ -53,6 +53,7 @@ public class IncomingNoteManager : StateListener
     private bool beatmapLoaded = false;
 
     private float internalSongTime = 0f;
+    public float CurrentSongTime => internalSongTime;
     private bool isSequenceRunning = false;
     private bool waitingForLanes = false;
 
