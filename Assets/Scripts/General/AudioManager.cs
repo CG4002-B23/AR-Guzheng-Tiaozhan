@@ -104,7 +104,8 @@ public class AudioManager : MonoBehaviour
 
     public void ToggleTutorialPause(bool isPaused)
     {
-        if (audioSource == null || audioSource.clip != gameplayMusic) return;
+        AudioClip activeTrack = GetActiveGameplayTrack();
+        if (audioSource == null || audioSource.clip != activeTrack) return;
 
         if (isPaused && audioSource.isPlaying)
             audioSource.Pause();
