@@ -8197,6 +8197,7 @@ MonoBehaviour:
     modalPanels:
     - {fileID: 699195929}
   menuInteractionController: {fileID: 2028187192}
+  gameUIPanel: {fileID: 1853408422}
 --- !u!4 &1340632399
 Transform:
   m_ObjectHideFlags: 0
@@ -8249,6 +8250,7 @@ MonoBehaviour:
   noteManager: {fileID: 1375489250}
   laneManager: {fileID: 427778958}
   menuInteractionController: {fileID: 2028187192}
+  gameUIPanel: {fileID: 1853408422}
   ghostHandContainer: {fileID: 1715868753}
   ghostHandAnimator: {fileID: 1715868752}
   handOffset: {x: 0, y: 0.1, z: 0}

@@ -27,6 +27,7 @@ public class TutorialGameplayManager : StateListener
     public IncomingNoteManager noteManager;
     public LaneManager laneManager;
     public MenuInteractionController menuInteractionController;
+    public GameObject gameUIPanel;
 
     [Header("Ghost Hand")]
     public GameObject ghostHandContainer;
@@ -49,11 +50,15 @@ public class TutorialGameplayManager : StateListener
         base.OnStateToggled(isNowActive);
         
         // reset the timeline when the game stops playing
-        if (!isNowActive)
+        if (!isNowActive && StateManager.Instance != null && StateManager.Instance.CurrentState != StateManager.GameState.Paused)
         {
             currentEventIndex = 0;
             isHandlingEvent = false;
             if (ghostHandContainer != null) ghostHandContainer.SetActive(false);
+
+            // ensure any open tutorial modal is closed if we quit the game
+            if (currentEventIndex < tutorialEvents.Count && tutorialEvents[currentEventIndex].modalPanel != null)
+                tutorialEvents[currentEventIndex].modalPanel.SetActive(false);
         }
     }
 
@@ -76,6 +81,7 @@ public class TutorialGameplayManager : StateListener
         // freeze gameplay and audio
         StateManager.Instance.IsTutorialPaused = true;
         if (AudioManager.Instance != null) AudioManager.Instance.ToggleTutorialPause(true);
+        if (gameUIPanel != null) gameUIPanel.SetActive(false);
 
         if (tutorialEvent.modalPanel != null) tutorialEvent.modalPanel.SetActive(true);
         if (menuInteractionController != null) menuInteractionController.isTutorialUIOverrideActive = true;
@@ -118,5 +124,6 @@ public class TutorialGameplayManager : StateListener
         // Unfreeze the Game & Audio
         StateManager.Instance.IsTutorialPaused = false;
         if (AudioManager.Instance != null) AudioManager.Instance.ToggleTutorialPause(false);
+        if (gameUIPanel != null) gameUIPanel.SetActive(true);
     }
 }

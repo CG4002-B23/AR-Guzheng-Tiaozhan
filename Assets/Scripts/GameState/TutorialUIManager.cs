@@ -24,6 +24,9 @@ public class TutorialUIManager : MonoBehaviour
 
     private HashSet<StateManager.GameState> completedTutorialStates = new HashSet<StateManager.GameState>();
 
+    [Header("References")]
+    public GameObject gameUIPanel;
+
     private void OnEnable()
     {
         StateManager.OnGameStateChanged += HandleGameStateChange;
@@ -79,6 +82,8 @@ public class TutorialUIManager : MonoBehaviour
 
         if (AudioManager.Instance != null) 
             AudioManager.Instance.ToggleTutorialPause(true);
+
+        if (gameUIPanel != null) gameUIPanel.SetActive(false);
     }
 
     // Onclick event
@@ -121,6 +126,7 @@ public class TutorialUIManager : MonoBehaviour
         {
             if (AudioManager.Instance != null)
                 AudioManager.Instance.ToggleTutorialPause(false);
+            if (gameUIPanel != null) gameUIPanel.SetActive(true);
         }
     }
 }
