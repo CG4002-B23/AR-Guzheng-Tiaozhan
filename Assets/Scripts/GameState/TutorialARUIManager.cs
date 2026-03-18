@@ -125,7 +125,11 @@ public class TutorialARUIManager : MonoBehaviour
 
         if (wasTutorialActive)
         {
-            if (gameUIPanel != null) gameUIPanel.SetActive(true);
+            if (gameUIPanel != null && StateManager.Instance != null)
+            {
+                if (StateManager.Instance.CurrentState != StateManager.GameState.StartMenu)
+                    gameUIPanel.SetActive(true);
+            }
 
             // touch audio only if we are actually in the playing state
             if (AudioManager.Instance != null && StateManager.Instance != null && StateManager.Instance.CurrentState == StateManager.GameState.Playing)

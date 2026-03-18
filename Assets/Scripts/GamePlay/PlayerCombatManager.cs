@@ -63,6 +63,7 @@ public class PlayerCombatManager : StateListener
     private void HandleGesture(string gesture)
     {
         if (!isActiveState) return;
+        if (StateManager.Instance != null && StateManager.Instance.IsTutorialPaused) return;
         if (!gestureProvider.gestureNames.Contains(gesture)) return;
         if (gesture == "Idle") return;
 
@@ -105,6 +106,11 @@ public class PlayerCombatManager : StateListener
     void Update()
     {
         if (!isActiveState) return;
+
+        // freeze player notes if the tutorial is active or the game is paused
+        if (StateManager.Instance != null && StateManager.Instance.IsTutorialPaused) return;
+        if (StateManager.Instance != null && StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
+
         MovePlayerNotes();
     }
 
