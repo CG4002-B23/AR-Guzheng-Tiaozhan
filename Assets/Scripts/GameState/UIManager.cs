@@ -64,11 +64,12 @@ public class GameplayUIManager : MonoBehaviour
         defeatScreen.SetActive(newState == StateManager.GameState.Defeat);
         
         bool shouldGameplayUIBeActive = 
-            newState == StateManager.GameState.Playing || 
+            (newState == StateManager.GameState.Playing || 
             newState == StateManager.GameState.GuzhengPlacing || 
             newState == StateManager.GameState.FieldScanning ||
             newState == StateManager.GameState.GuzhengAlignment ||
-            newState == StateManager.GameState.Paused; // in the background (determined by order in canvas Hierachy)
+            newState == StateManager.GameState.Paused) // in the background (determined by order in canvas Hierachy)
+            && (StateManager.Instance == null || !StateManager.Instance.IsTutorialPaused);
 
         bool shouldGameplayUIStatsBeActive = 
             newState == StateManager.GameState.Playing || 
