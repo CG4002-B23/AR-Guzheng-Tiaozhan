@@ -54,7 +54,7 @@ public class TutorialGameplayUIManager : StateListener
                 if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
 
             if (StateManager.Instance != null) StateManager.Instance.IsTutorialPaused = false;
-            if (gameUIPanel != null) gameUIPanel.SetActive(true);
+            if (gameUIPanel != null) gameUIPanel.SetActive(newState != StateManager.GameState.StartMenu);
         }
     }
 
@@ -78,7 +78,7 @@ public class TutorialGameplayUIManager : StateListener
             foreach (var ev in tutorialEvents) // hide panels
                 if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
                 
-            if (gameUIPanel != null) gameUIPanel.SetActive(true);
+            if (gameUIPanel != null) gameUIPanel.SetActive(StateManager.Instance.CurrentState != StateManager.GameState.StartMenu);
         }
     }
 

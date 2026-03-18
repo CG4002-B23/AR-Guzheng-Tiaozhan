@@ -20,12 +20,39 @@ public class RightHandAnimationController : StateListener
             gestureProvider.OnGestureReceived -= HandleGestureDetected;
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        StateManager.OnTutorialPauseToggled += HandleTutorialPause;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable(); 
+        StateManager.OnTutorialPauseToggled -= HandleTutorialPause;
+    }
+
+    private void HandleTutorialPause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            UnsubscribeFromGestures();
+            SetHandTrigger("PointerTrigger");
+        }
+        else
+        {
+            if (StateManager.Instance != null)
+                ChangeHandGesture(StateManager.Instance.CurrentState);
+        }
+    }
+
     protected override void OnStateToggled(bool isNowActive)
     {
         base.OnStateToggled(isNowActive);
         Debug.Log($"OnStateToggled called, current state: {StateManager.Instance.CurrentState}");
 
-        // we need to handle the animations in every state, so isNowActive is irrelevant
+        if (StateManager.Instance != null && StateManager.Instance.IsTutorialPaused) return;
+
         ChangeHandGesture(StateManager.Instance.CurrentState);
     }
 

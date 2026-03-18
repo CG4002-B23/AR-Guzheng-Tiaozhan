@@ -22,7 +22,20 @@ public class StateManager : MonoBehaviour
     public enum GameState { Initialising, StartMenu, GuzhengPlacing, FieldScanning, GuzhengAlignment, Playing, Paused, Victory, Defeat }
 
     public bool isTutorialMode = false;
-    public bool IsTutorialPaused { get; set; } = false;
+    public static event Action<bool> OnTutorialPauseToggled;
+    private bool _isTutorialPaused = false;
+    public bool IsTutorialPaused
+    {
+        get { return _isTutorialPaused; }
+        set
+        {
+            if (_isTutorialPaused != value)
+            {
+                _isTutorialPaused = value;
+                OnTutorialPauseToggled?.Invoke(_isTutorialPaused); // Broadcast the change
+            }
+        }
+    }
 
     // other scripts tune in to this event
     public static event Action<GameState> OnGameStateChanged;
