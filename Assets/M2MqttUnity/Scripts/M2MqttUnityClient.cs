@@ -439,19 +439,22 @@ namespace M2MqttUnity
         client.Settings.TimeoutOnConnection = timeoutOnConnection;
         string clientId = Guid.NewGuid().ToString();
         
-        try
+        while (!client.IsConnected)
         {
-            client.Connect(clientId, mqttUserName, mqttPassword);
-            Debug.Log("✅ Connection attempt completed");
-            DebugStatusText = "MQTT: Connected";
-        }
-        catch (Exception e)
-        {
-            client = null;
-            Debug.LogErrorFormat("❌ Failed to connect to {0}:{1}:\n{2}", brokerAddress, brokerPort, e.ToString());
-            DebugStatusText = "MQTT: Failed to connect";
-            OnConnectionFailed(e.Message);
-            yield break;
+            try
+            {
+                client.Connect(clientId, mqttUserName, mqttPassword);
+                Debug.Log("✅ Connection attempt completed");
+                DebugStatusText = "MQTT: Connected";
+            }
+            catch (Exception e)
+            {
+                client = null;
+                Debug.LogErrorFormat("❌ Failed to connect to {0}:{1}:\n{2}", brokerAddress, brokerPort, e.ToString());
+                DebugStatusText = "MQTT: Failed to connect";
+                OnConnectionFailed(e.Message);
+                yield break;
+            }
         }
 
         if (client.IsConnected)

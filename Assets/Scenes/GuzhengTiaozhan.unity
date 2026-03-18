@@ -1104,6 +1104,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 175355966}
   m_CullTransparentMesh: 1
+--- !u!1 &178216676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178216679}
+  - component: {fileID: 178216678}
+  - component: {fileID: 178216677}
+  m_Layer: 0
+  m_Name: HardwareManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &178216677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178216676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05d1eda0074701b789e262285ee6ebc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &178216678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178216676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3d76f4c410c6765976439adf5cb6d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &178216679
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178216676}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 383.84808, y: 310.10718, z: -0.8311637}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &179382672
 GameObject:
   m_ObjectHideFlags: 0
@@ -7143,6 +7200,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138107458}
   m_CullTransparentMesh: 1
+--- !u!1 &1157316112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1157316114}
+  - component: {fileID: 1157316113}
+  m_Layer: 0
+  m_Name: M2MQTT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1157316113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157316112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087c665c0c30c0ac2a985a5421ba4e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  caCertName: ca.crt
+  clientPfxName: unity.pfx
+  pfxPassword: 12345
+  brokerAddress: 172.20.10.4
+  brokerPort: 8883
+  isEncrypted: 1
+  certificateName: 
+  connectionDelay: 500
+  timeoutOnConnection: 30000
+  autoConnect: 0
+  mqttUserName: 
+  mqttPassword: 
+  autoTest: 0
+  consoleInputField: {fileID: 0}
+  encryptedToggle: {fileID: 0}
+  addressInputField: {fileID: 0}
+  portInputField: {fileID: 0}
+  connectButton: {fileID: 0}
+  disconnectButton: {fileID: 0}
+  testPublishButton: {fileID: 0}
+  clearButton: {fileID: 0}
+  subscribeTopic: ar/visualizer
+  publishTopic: unity/to_broker
+  caCertPath: certificates/ca.crt
+  clientCertPath: certificates/client.crt
+  clientKeyPath: certificates/client.key
+  connectionStatusText: {fileID: 0}
+  lastPredictionText: {fileID: 0}
+--- !u!4 &1157316114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157316112}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 383.84808, y: 310.10718, z: -0.8311637}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1167446570
 GameObject:
   m_ObjectHideFlags: 0
@@ -12632,3 +12761,5 @@ SceneRoots:
   - {fileID: 546071930}
   - {fileID: 724972119}
   - {fileID: 1340632399}
+  - {fileID: 178216679}
+  - {fileID: 1157316114}
