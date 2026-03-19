@@ -1,0 +1,823 @@
+{
+    "notes": [
+        {
+            "time": 16.848,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 17.653,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 18.669,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 20.408,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 21.245,
+            "string": 4,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 22.271,
+            "string": 4,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 24.064,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 25.01,
+            "string": 5,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 25.958,
+            "string": 5,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 26.861,
+            "string": 4,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 28.117,
+            "string": 3,
+            "gesture": "pinky",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 28.551,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 1.156,
+            "vibrato": "none"
+        },
+        {
+            "time": 29.887,
+            "string": 2,
+            "gesture": "mute",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 30.107,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 0.694,
+            "vibrato": "none"
+        },
+        {
+            "time": 31.607,
+            "string": 5,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 32.412,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 33.366,
+            "string": 3,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 33.816,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 34.283,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 34.717,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 35.199,
+            "string": 1,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 36.1,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 37.06,
+            "string": 3,
+            "gesture": "pinky",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 38.397,
+            "string": 2,
+            "gesture": "pinky",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 38.864,
+            "string": 3,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 39.832,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 40.736,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 42.073,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 42.525,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 43.544,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 43.945,
+            "string": 2,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 44.379,
+            "string": 1,
+            "gesture": "pinky",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 46.232,
+            "string": 5,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 47.148,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 48.016,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 49.886,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 50.304,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 50.785,
+            "string": 5,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 51.267,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 51.749,
+            "string": 3,
+            "gesture": "tremolo",
+            "duration": 1.112,
+            "vibrato": "none"
+        },
+        {
+            "time": 53.619,
+            "string": 1,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 54.57,
+            "string": 4,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 55.393,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 56.117,
+            "string": 3,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 56.36,
+            "string": 2,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 56.844,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 57.746,
+            "string": 4,
+            "gesture": "tremolo",
+            "duration": 2.824,
+            "vibrato": "none"
+        },
+        {
+            "time": 60.888,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 61.346,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 61.839,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 62.313,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 62.836,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 63.2,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 63.674,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 64.086,
+            "string": 3,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 64.626,
+            "string": 4,
+            "gesture": "tremolo",
+            "duration": 0.854,
+            "vibrato": "none"
+        },
+        {
+            "time": 65.579,
+            "string": 3,
+            "gesture": "tremolo",
+            "duration": 0.821,
+            "vibrato": "none"
+        },
+        {
+            "time": 66.467,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 1.504,
+            "vibrato": "none"
+        },
+        {
+            "time": 68.315,
+            "string": 1,
+            "gesture": "tremolo",
+            "duration": 0.859,
+            "vibrato": "none"
+        },
+        {
+            "time": 69.3,
+            "string": 3,
+            "gesture": "tremolo",
+            "duration": 0.846,
+            "vibrato": "none"
+        },
+        {
+            "time": 70.231,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 1.217,
+            "vibrato": "none"
+        },
+        {
+            "time": 71.578,
+            "string": 2,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 72.044,
+            "string": 3,
+            "gesture": "tremolo",
+            "duration": 1.934,
+            "vibrato": "none"
+        },
+        {
+            "time": 74.14,
+            "string": 3,
+            "gesture": "mute",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 74.733,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 75.252,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 75.736,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 76.252,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 76.654,
+            "string": 5,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 77.104,
+            "string": 5,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 77.554,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 78.504,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 79.502,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 79.919,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 80.338,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 80.786,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 81.19,
+            "string": 5,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 82.136,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 82.617,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 83.148,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 83.582,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 84.051,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 84.502,
+            "string": 3,
+            "gesture": "pinky",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 84.967,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 85.935,
+            "string": 1,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 86.819,
+            "string": 2,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 87.255,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 87.705,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 88.19,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 88.657,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 89.542,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 90.009,
+            "string": 5,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 90.524,
+            "string": 5,
+            "gesture": "tremolo",
+            "duration": 0.432,
+            "vibrato": "none"
+        },
+        {
+            "time": 91.023,
+            "string": 4,
+            "gesture": "tremolo",
+            "duration": 0.438,
+            "vibrato": "none"
+        },
+        {
+            "time": 91.508,
+            "string": 4,
+            "gesture": "tremolo",
+            "duration": 0.419,
+            "vibrato": "none"
+        },
+        {
+            "time": 91.992,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 92.43,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 0.771,
+            "vibrato": "none"
+        },
+        {
+            "time": 93.303,
+            "string": 3,
+            "gesture": "tremolo",
+            "duration": 0.799,
+            "vibrato": "none"
+        },
+        {
+            "time": 94.223,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 94.643,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 95.11,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 95.64,
+            "string": 5,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 96.091,
+            "string": 5,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 96.929,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 97.332,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 97.797,
+            "string": 4,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 98.248,
+            "string": 5,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 98.712,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 99.229,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 99.68,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 0.822,
+            "vibrato": "none"
+        },
+        {
+            "time": 100.582,
+            "string": 2,
+            "gesture": "tremolo",
+            "duration": 0.746,
+            "vibrato": "none"
+        },
+        {
+            "time": 101.422,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 101.935,
+            "string": 3,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 102.502,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 102.952,
+            "string": 3,
+            "gesture": "ring",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 103.433,
+            "string": 3,
+            "gesture": "pinky",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 104.322,
+            "string": 3,
+            "gesture": "mute",
+            "duration": 0.075,
+            "vibrato": "none"
+        }
+    ]
+}
