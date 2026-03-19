@@ -1,6 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class SongData
+{
+    public string songName;
+    public AudioClip songAudio;
+    public TextAsset beatmapJson;
+}
 
 // handles which button is clicked
 public class GameplayUIManager : MonoBehaviour
@@ -37,6 +46,14 @@ public class GameplayUIManager : MonoBehaviour
     [Tooltip("Drag the GameObject holding the PlayerCombatManager here")]
     public PlayerCombatManager playerCombatManager;
 
+    [Header("Song Selection")]
+    [Tooltip("Drag the new Song Selection Panel here")]
+    public GameObject songSelectionMenu;
+    [Tooltip("Drag the IncomingNoteManager here")]
+    public IncomingNoteManager incomingNoteManager;
+    [Tooltip("Add your songs and beatmaps here in the inspector")]
+    public List<SongData> availableSongs;
+
     void OnEnable()
     {
         StateManager.OnGameStateChanged += HandleGameStateChange;
@@ -62,6 +79,9 @@ public class GameplayUIManager : MonoBehaviour
         pauseMenu.SetActive(newState == StateManager.GameState.Paused);
         victoryScreen.SetActive(newState == StateManager.GameState.Victory);
         defeatScreen.SetActive(newState == StateManager.GameState.Defeat);
+
+        if (newState != StateManager.GameState.StartMenu) 
+            if (songSelectionMenu != null) songSelectionMenu.SetActive(false);
         
         bool shouldGameplayUIBeActive = 
             (newState == StateManager.GameState.Playing || 
@@ -101,8 +121,30 @@ public class GameplayUIManager : MonoBehaviour
     // hook each of these functions to the OnClick() list of the buttons in the menus
     public void OnStartButtonClicked()
     {
-        StateManager.Instance.isTutorialMode = false;
-        StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
+        startMenu.SetActive(false);
+        songSelectionMenu.SetActive(true);
+    }
+
+    public void OnSelectSongClicked(int songIndex)
+    {
+        if (songIndex >= 0 && songIndex < availableSongs.Count)
+        {
+            SongData selectedSong = availableSongs[songIndex];
+            
+            AudioManager.Instance.SetGameplayMusic(selectedSong.songAudio);
+            if (incomingNoteManager != null)
+                incomingNoteManager.SetBeatmap(selectedSong.beatmapJson);
+
+            songSelectionMenu.SetActive(false);
+            StateManager.Instance.isTutorialMode = false;
+            StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
+        }
+    }
+
+    public void OnBackToStartMenuClicked()
+    {
+        songSelectionMenu.SetActive(false);
+        startMenu.SetActive(true);
     }
 
     public void OnTutorialButtonClicked()
