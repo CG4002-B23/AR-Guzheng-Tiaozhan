@@ -4,7 +4,7 @@ public class RightHandAnimationController : StateListener
 {
     [Header("Component References")]
     public Animator handAnimator;
-    public MockGestureProvider gestureProvider; // to be changed later to get information from fpga
+    public GestureProvider gestureProvider;
 
     private string _currentTrigger = "IdleTrigger";
 

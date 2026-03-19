@@ -39,6 +39,7 @@ namespace M2MqttUnity.Examples
         [Header("Display Elements")]
         public Text connectionStatusText;
         public Text lastPredictionText;
+        public event Action<PredictionMessage> OnPredictionReceived;
 
         // CHANGES
         private bool isStreamActive = false;  // Current stream state
@@ -254,6 +255,8 @@ namespace M2MqttUnity.Examples
                     
                     if (lastPredictionText != null)
                         lastPredictionText.text = displayMsg;
+                    
+                    OnPredictionReceived?.Invoke(predMsg);
                 }
             }
             catch (Exception e)

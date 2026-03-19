@@ -9,7 +9,7 @@ public class PlayerCombatManager : StateListener
     public LaneManager laneManager;
     public HealthManager healthManager;
     public ScoreManager scoreManager;
-    public MockGestureProvider gestureProvider; // replace with real gesture provider later
+    public GestureProvider gestureProvider;
     public GameObject collisionSparkPrefab;
     public GameObject enemyDamageEffectPrefab;
 
