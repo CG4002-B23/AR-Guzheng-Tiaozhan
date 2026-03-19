@@ -3,14 +3,6 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class SongData
-{
-    public string songName;
-    public AudioClip songAudio;
-    public TextAsset beatmapJson;
-}
-
 // handles which button is clicked
 public class GameplayUIManager : MonoBehaviour
 {

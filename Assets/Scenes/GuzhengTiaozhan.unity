@@ -353,7 +353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &83512865
 RectTransform:
   m_ObjectHideFlags: 0
@@ -449,7 +449,7 @@ MonoBehaviour:
   targetStates: 0500000006000000
   uiStatsManager: {fileID: 172989354}
   gameManager: {fileID: 1951860612}
-  playerMaxHealth: 1000
+  playerMaxHealth: 500
   playerCurrentHealth: 0
 --- !u!4 &84735141
 Transform:
@@ -548,7 +548,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 89939019}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnBackToStartMenuClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &89939019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4169,7 +4181,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 572138178}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnSelectSongClicked
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &572138178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4786,7 +4810,7 @@ GameObject:
   - component: {fileID: 636128979}
   - component: {fileID: 636128978}
   m_Layer: 5
-  m_Name: SuperIdolButton
+  m_Name: LemonTreeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4855,7 +4879,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 636128979}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnSelectSongClicked
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &636128979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6064,8 +6100,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 871859320}
-  - component: {fileID: 871859319}
   - component: {fileID: 871859321}
+  - component: {fileID: 871859322}
   m_Layer: 0
   m_Name: UIStateManager
   m_TagString: Untagged
@@ -6073,32 +6109,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &871859319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 871859318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51cf6becdd72ec314a358b40e205edb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 309348962}
-  arSession: {fileID: 1167446572}
-  guzhengAnchorManager: {fileID: 2512387470422636673}
-  enemySpawnerManager: {fileID: 2512387470422636671}
-  startMenu: {fileID: 269944953}
-  pauseMenu: {fileID: 1201677158}
-  gameplayUI: {fileID: 1853408422}
-  gameplayUIStats: {fileID: 172989354}
-  victoryScreen: {fileID: 22655691}
-  defeatScreen: {fileID: 1075161562}
-  gameplayUICanvasGroup: {fileID: 1853408426}
-  enableBotToggle: {fileID: 1831726037}
-  playerBotManager: {fileID: 735639758}
-  playerCombatManager: {fileID: 871085830}
 --- !u!4 &871859320
 Transform:
   m_ObjectHideFlags: 0
@@ -6130,6 +6140,47 @@ MonoBehaviour:
   scoreManager: {fileID: 1450936902}
   victoryScoreText: {fileID: 1138107460}
   defeatScoreText: {fileID: 724879832}
+--- !u!114 &871859322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871859318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51cf6becdd72ec314a358b40e205edb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 309348962}
+  arSession: {fileID: 1167446572}
+  guzhengAnchorManager: {fileID: 2512387470422636673}
+  enemySpawnerManager: {fileID: 2512387470422636671}
+  startMenu: {fileID: 269944953}
+  pauseMenu: {fileID: 1201677158}
+  gameplayUI: {fileID: 1853408422}
+  gameplayUIStats: {fileID: 172989354}
+  victoryScreen: {fileID: 22655691}
+  defeatScreen: {fileID: 1075161562}
+  gameplayUICanvasGroup: {fileID: 1853408426}
+  enableBotToggle: {fileID: 1831726037}
+  playerBotManager: {fileID: 735639758}
+  playerCombatManager: {fileID: 871085830}
+  songSelectionMenu: {fileID: 83512864}
+  incomingNoteManager: {fileID: 1375489250}
+  availableSongs:
+  - songName: LotusPond
+    songAudio: {fileID: 8300000, guid: 85195baaae19a9d22b4c585a46feba92, type: 3}
+    beatmapJson: {fileID: 4900000, guid: 3d6d482015f6b077d9855a1c4fed2f58, type: 3}
+  - songName: Endless Love
+    songAudio: {fileID: 8300000, guid: dd8b61b0976b8940caca6a05cac3d0d2, type: 3}
+    beatmapJson: {fileID: 4900000, guid: 2f199121b73bd5856b19943fc85d9902, type: 3}
+  - songName: Subject 3
+    songAudio: {fileID: 8300000, guid: 6c350adff3493c0e4904a78b729bed1c, type: 3}
+    beatmapJson: {fileID: 4900000, guid: da3469e6d1d8dc233b2baee15b821d00, type: 3}
+  - songName: Lemon Tree
+    songAudio: {fileID: 8300000, guid: 089b3639beef9825a99fd273f8b41837, type: 3}
+    beatmapJson: {fileID: 4900000, guid: c6641def6a4f2ab458a1bd4f7a4800a1, type: 3}
 --- !u!1 &890501540
 GameObject:
   m_ObjectHideFlags: 0
@@ -6597,7 +6648,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 939497409}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnSelectSongClicked
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &939497409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6853,8 +6916,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnStartButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -6986,8 +7049,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnPauseButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -7119,8 +7182,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnRestartButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -8393,8 +8456,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnMainMenuButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -9268,7 +9331,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
+      - m_Target: {fileID: 871859322}
         m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnTutorialButtonClicked
         m_Mode: 1
@@ -10927,7 +10990,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnEnableBotToggled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1850213897
 GameObject:
@@ -11493,8 +11568,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnRestartButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -11854,9 +11929,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Super Idol
-
-'
+  m_text: Lemon Tree
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12149,8 +12222,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnMainMenuButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -12693,8 +12766,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnResumeButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -12960,8 +13033,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnMainMenuButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -13306,8 +13379,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 871859319}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
         m_MethodName: OnRestartButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -13438,7 +13511,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2119744845}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 871859322}
+        m_TargetAssemblyTypeName: GameplayUIManager, Assembly-CSharp
+        m_MethodName: OnSelectSongClicked
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2119744845
 MonoBehaviour:
   m_ObjectHideFlags: 0
