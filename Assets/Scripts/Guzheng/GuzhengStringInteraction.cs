@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,6 +44,9 @@ public class GuzhengStringInteraction : StateListener
             if (listChanged && touchingHands.Count == 0) // removed a lost hand and there are no more hands touching the string
             {
                 stringMaterial.color = invisibleColor;
+
+                if (MockHardwareDataPoller.Instance != null)
+                    MockHardwareDataPoller.Instance.UpdateStringState(this, false);
             }
         }
     }
@@ -58,11 +60,13 @@ public class GuzhengStringInteraction : StateListener
             {
                 touchingHands.Add(other); // add the new finger that is touching the string
 
-                if (MockHardwareDataPoller.Instance != null)
-                    MockHardwareDataPoller.Instance.SendPluckSignal(true);
-                
-                if (touchingHands.Count >= 1)
+                if (touchingHands.Count == 1) // Only trigger the color and state on the first hand touch
+                {
                     stringMaterial.color = highlightColor;
+                    
+                    if (MockHardwareDataPoller.Instance != null)
+                        MockHardwareDataPoller.Instance.UpdateStringState(this, true);
+                }
             }
         }
     }
@@ -77,10 +81,12 @@ public class GuzhengStringInteraction : StateListener
                 touchingHands.Remove(other); // remove hand from list when exited normally
                 
                 if (touchingHands.Count == 0)
+                {
                     stringMaterial.color = invisibleColor;
 
-                if (MockHardwareDataPoller.Instance != null)
-                        MockHardwareDataPoller.Instance.SendPluckSignal(false);
+                    if (MockHardwareDataPoller.Instance != null)
+                        MockHardwareDataPoller.Instance.UpdateStringState(this, false);
+                }
             }
         }
     }
@@ -95,6 +101,19 @@ public class GuzhengStringInteraction : StateListener
             touchingHands.Clear();
             if (stringMaterial != null)
                 stringMaterial.color = invisibleColor;
+            
+            // Inform the poller that we are no longer touched due to state change
+            if (MockHardwareDataPoller.Instance != null)
+                MockHardwareDataPoller.Instance.UpdateStringState(this, false);
         }
+    }
+
+    protected override void OnDisable()
+    {
+        // base.OnDisable();
+
+        if (touchingHands.Count > 0 && MockHardwareDataPoller.Instance != null)
+            MockHardwareDataPoller.Instance.UpdateStringState(this, false);
+        touchingHands.Clear();
     }
 }

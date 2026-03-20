@@ -35,6 +35,8 @@ public class GestureProvider : MonoBehaviour
             M2MqttUnityTest.Instance.OnPredictionReceived += HandlePrediction;
         else
             Debug.LogError("GestureProvider: M2MqttUnityTest Instance not found! Is it active in the scene?");
+
+        Debug.Log("GestureProvider started");
     }
 
     private void OnDestroy()
@@ -45,6 +47,7 @@ public class GestureProvider : MonoBehaviour
 
     private void HandlePrediction(M2MqttUnityTest.PredictionMessage predMsg)
     {
+        Debug.Log("GestureProvider: received prediction -- processing");
         if (predMsg.confidence < confidenceThreshold) return;
 
         int predClass = predMsg.prediction;

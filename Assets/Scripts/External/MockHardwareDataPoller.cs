@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using M2MqttUnity.Examples;
 using UnityEngine;
 
 public class MockHardwareDataPoller : MonoBehaviour
 {
     public static MockHardwareDataPoller Instance { get; private set; }
+
+    private HashSet<GuzhengStringInteraction> touchedStrings = new HashSet<GuzhengStringInteraction>();
+    private bool isCurrentlyStreaming = false;
 
     private void Awake()
     {
@@ -15,20 +19,28 @@ public class MockHardwareDataPoller : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void SendPluckSignal(bool isPlucked)
+    public void UpdateStringState(GuzhengStringInteraction guzhengString, bool isTouched)
     {
-        Debug.Log("HardwareDataPoller: Guzheng string plucked! Sending MQTT signal...");
-
-        if (isPlucked)
-        {
-            M2MqttUnityTest.Instance.SetStreamState(true, "FB_001");
-            Debug.Log("String plucked");
-
-        }
+        if (isTouched)
+            touchedStrings.Add(guzhengString); // HashSet automatically ignores duplicates
         else
+            touchedStrings.Remove(guzhengString);
+
+        EvaluateStreamState();
+    }
+
+    private void EvaluateStreamState()
+    {
+        bool shouldStream = touchedStrings.Count > 0;
+
+        if (shouldStream != isCurrentlyStreaming)
         {
-            M2MqttUnityTest.Instance.SetStreamState(false, "FB_001");
-            Debug.Log("String not plucked");
+            isCurrentlyStreaming = shouldStream;
+            
+            Debug.Log($"HardwareDataPoller: Guzheng strings touched: {touchedStrings.Count}. Stream state changing to {isCurrentlyStreaming}");
+
+            if (M2MqttUnityTest.Instance != null) 
+                M2MqttUnityTest.Instance.SetStreamState(isCurrentlyStreaming, "FB_001");
         }
     }
 }
