@@ -338,4 +338,9 @@ public class IncomingNoteManager : StateListener
             activeNotes.Remove(note);
         }
     }
+
+    public void SetBeatmap(TextAsset newBeatmap)
+    {
+        beatmapJson = newBeatmap;
+    }
 }

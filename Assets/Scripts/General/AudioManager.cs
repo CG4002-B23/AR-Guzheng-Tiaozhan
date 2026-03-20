@@ -119,4 +119,9 @@ public class AudioManager : MonoBehaviour
             return tutorialMusic;
         return gameplayMusic;
     }
+
+    public void SetGameplayMusic(AudioClip newMusic)
+    {
+        gameplayMusic = newMusic;
+    }
 }
