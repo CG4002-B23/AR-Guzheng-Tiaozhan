@@ -321,14 +321,17 @@ public class IncomingNoteManager : StateListener
 
             if (timeRemainingToNoteHit <= 0f) // note has reached player
             {
-                if (healthManager != null)
-                    healthManager.DamagePlayer(missedNoteDamage);
+                if (!note.isTargetedByBot)
+                {
+                    if (healthManager != null)
+                        healthManager.DamagePlayer(missedNoteDamage);
 
-                if (MockHapticFeedbackCaller.Instance != null)
-                    MockHapticFeedbackCaller.Instance.TriggerSignal = true;
- 
-                if (playerDamageEffectPrefab != null)
-                    Instantiate(playerDamageEffectPrefab, targetPosition, Quaternion.identity);
+                    if (MockHapticFeedbackCaller.Instance != null)
+                        MockHapticFeedbackCaller.Instance.TriggerSignal = true;
+    
+                    if (playerDamageEffectPrefab != null)
+                        Instantiate(playerDamageEffectPrefab, targetPosition, Quaternion.identity);
+                }
 
                 if (note.vibratoEffectObj != null) Destroy(note.vibratoEffectObj);
 

@@ -99,16 +99,18 @@ public class PlayerBotManager : StateListener
                 continue;
             }
 
+            float moveStepThisFrame = playerNoteSpeed * Time.deltaTime;
+
             // move bot note towards the enemy note
             botNote.noteObject.transform.position = Vector3.MoveTowards(
                 botNote.noteObject.transform.position,
                 botNote.targetEnemyNote.noteObject.transform.position,
-                playerNoteSpeed * Time.deltaTime
+                moveStepThisFrame
             );
 
             float distanceBetweenNotes = Vector3.Distance(botNote.noteObject.transform.position, botNote.targetEnemyNote.noteObject.transform.position);
             
-            if (distanceBetweenNotes < collisionDistanceThreshold) 
+            if (distanceBetweenNotes <= (collisionDistanceThreshold + moveStepThisFrame)) 
             {
                 // spawn collision particles
                 if (collisionSparkPrefab != null)
