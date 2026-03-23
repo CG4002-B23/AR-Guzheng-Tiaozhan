@@ -3354,6 +3354,12 @@ MonoBehaviour:
   targetStates: 0500000006000000
   guzhengSpawner: {fileID: 4588598021487891123, guid: 0f2e137360fd14848b3884ee25701ced, type: 3}
   enemySpawner: {fileID: 3476179374824800027, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
+  guzhengHitboxes:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   connectionLanes:
   - {fileID: 473157850}
   - {fileID: 738125541}
@@ -3361,7 +3367,7 @@ MonoBehaviour:
   - {fileID: 309691097}
   - {fileID: 594706716}
   translucentLaneColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.3}
-  estimatedGuzhengWidth: 0.6
+  estimatedGuzhengWidth: 0.5
   pulseSpeed: 3
   minAlpha: 0.1
   maxAlpha: 0.6

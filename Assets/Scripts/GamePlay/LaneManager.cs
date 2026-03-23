@@ -9,6 +9,9 @@ public class LaneManager : StateListener
     [HideInInspector]
     public ARStringSpawner enemySpawner;
 
+    [HideInInspector]
+    public List<Transform> guzhengHitboxes = new List<Transform>();
+
     [Header("Lane Renderers (Translucent)")]
     [Tooltip("Assign 5 LineRenderers here for the connecting lanes")]
     public List<LineRenderer> connectionLanes;
@@ -40,6 +43,7 @@ public class LaneManager : StateListener
     public Dictionary<int, Vector3> LaneEnds   { get; private set; } = new Dictionary<int, Vector3>();
 
     private float laneThickness = 0.3f;
+    private bool hitboxesFound = false;
 
     void Awake()
     {
@@ -57,6 +61,9 @@ public class LaneManager : StateListener
 
             LaneStarts.Clear();
             LaneEnds.Clear();
+
+            hitboxesFound = false; 
+            guzhengHitboxes.Clear();
         }
     }
 
@@ -65,8 +72,29 @@ public class LaneManager : StateListener
         if (!isActiveState) return;
         if (StateManager.Instance.CurrentState == StateManager.GameState.Paused) return;
 
+        if (!hitboxesFound)
+            FindHitboxesDynamically();
+
         UpdateLanes();
         PulseLanes();
+    }
+
+    private void FindHitboxesDynamically()
+    {
+        GuzhengStringInteraction[] foundHitboxes = Object.FindObjectsByType<GuzhengStringInteraction>(FindObjectsSortMode.None);
+
+        if (foundHitboxes != null && foundHitboxes.Length > 0)
+        {
+            guzhengHitboxes.Clear();
+            foreach (var hitbox in foundHitboxes)
+                guzhengHitboxes.Add(hitbox.transform);
+
+            // ensure string 1 is string 1 and string 5 is string 5
+            guzhengHitboxes.Sort((a, b) => a.GetSiblingIndex().CompareTo(b.GetSiblingIndex()));
+            
+            hitboxesFound = true;
+            Debug.Log($"[LaneManager] Successfully auto-found and sorted {guzhengHitboxes.Count} hitboxes!");
+        }
     }
 
     private void InitLanes()
@@ -88,13 +116,13 @@ public class LaneManager : StateListener
 
     void UpdateLanes()
     {
-        if (guzhengSpawner.StringStarts.Count == 0 || enemySpawner.StringStarts.Count == 0) return;
+        if (guzhengHitboxes == null || guzhengHitboxes.Count == 0 || enemySpawner.StringStarts.Count == 0) return;
 
         for (int i = 0; i < connectionLanes.Count; i++)
         {
-            if (i >= guzhengSpawner.StringStarts.Count || i >= enemySpawner.StringStarts.Count) break;
+            if (i >= guzhengHitboxes.Count || i >= enemySpawner.StringStarts.Count) break;
 
-            Vector3 start = guzhengSpawner.StringStarts[i] + guzhengOffset;
+            Vector3 start = guzhengHitboxes[i].position + guzhengOffset;
             Vector3 end   = enemySpawner.StringStarts[enemySpawner.StringStarts.Count - 1 - i];
 
             if (!LaneStarts.ContainsKey(i))
