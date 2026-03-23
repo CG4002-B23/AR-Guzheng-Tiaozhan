@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [System.Serializable]
 public class BeatmapNote
@@ -227,20 +228,50 @@ public class IncomingNoteManager : StateListener
         newNoteObj.transform.position = laneManager.LaneEnds[laneIndex];
 
         Color requiredNoteColor = colorIndex; // default to index
+        string gestureNumber = ""; // empty string
+
         switch (noteData.gesture)
         {
-            case "thumb": requiredNoteColor = colorThumb; break;
-            case "index": requiredNoteColor = colorIndex; break;
-            case "middle": requiredNoteColor = colorMiddle; break;
-            case "ring": requiredNoteColor = colorRing; break;
-            case "pinky": requiredNoteColor = colorPinky; break;
-            case "mute": requiredNoteColor = colorMute; break;
-            case "tremolo": requiredNoteColor = colorTremolo; break;
+            case "thumb": 
+                requiredNoteColor = colorThumb; 
+                gestureNumber = "1"; 
+                break;
+            case "index": 
+                requiredNoteColor = colorIndex; 
+                gestureNumber = "2"; 
+                break;
+            case "middle": 
+                requiredNoteColor = colorMiddle; 
+                gestureNumber = "3"; 
+                break;
+            case "ring": 
+                requiredNoteColor = colorRing; 
+                gestureNumber = "4"; 
+                break;
+            case "pinky": 
+                requiredNoteColor = colorPinky; 
+                gestureNumber = "5"; 
+                break;
+            case "mute": 
+                requiredNoteColor = colorMute; 
+                gestureNumber = ""; // No number for mute
+                break;
+            case "tremolo": 
+                requiredNoteColor = colorTremolo; 
+                gestureNumber = ""; // No number for tremolo (or assign one if you prefer!)
+                break;
         }
         
         Renderer rend = newNoteObj.GetComponent<Renderer>();
         if (rend != null)
             rend.material.color = requiredNoteColor;
+        
+        TMP_Text textComponent = newNoteObj.GetComponentInChildren<TMP_Text>();
+        if (textComponent != null)
+        {
+            textComponent.text = gestureNumber;
+            textComponent.gameObject.SetActive(!string.IsNullOrEmpty(gestureNumber)); // disable text object if there is no number
+        }
 
         GameObject vibratoObj = null;
         if (noteData.vibrato == "light" && lightVibratoPrefab != null)
