@@ -49,10 +49,13 @@ public class AudioManager : MonoBehaviour
         {
             audioSource.loop = false; // disable looping for gameplay
             AudioClip activeTrack = GetActiveGameplayTrack();
-            if (audioSource.clip != activeTrack)
+
+            bool isRestarting = StateManager.Instance != null && 
+                               (StateManager.Instance.PreviousState == StateManager.GameState.GuzhengAlignment);
+
+            if (audioSource.clip != activeTrack || isRestarting)
             {
-                // switch to gameplay music
-                audioSource.Stop(); // don't play it yet
+                audioSource.Stop(); 
                 audioSource.clip = activeTrack;
                 audioSource.time = 0f; // start from beginning
                 hasGameplayMusicStarted = false;

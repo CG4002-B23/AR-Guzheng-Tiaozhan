@@ -84,13 +84,13 @@ public class IncomingNoteManager : StateListener
 
     private void PrepareBeatmapOnGameStart(StateManager.GameState newState)
     {
-        // transitioning out of the start menu: set the beatmap 
-        if (StateManager.Instance != null && 
-            StateManager.Instance.PreviousState == StateManager.GameState.StartMenu && 
-            newState != StateManager.GameState.StartMenu)
+        if (StateManager.Instance == null) return;
+
+        bool isFreshStart = StateManager.Instance.PreviousState == StateManager.GameState.GuzhengAlignment;
+        if (isFreshStart && newState == StateManager.GameState.Playing)
         {
             LoadBeatmap();
-            internalSongTime = 0f;
+            waitingForLanes = true;
         }
     }
 
@@ -357,8 +357,6 @@ public class IncomingNoteManager : StateListener
             isSequenceRunning = false;
             waitingForLanes = false;
         }
-        else if (isNowActive && beatmapLoaded && currentNoteIndex == 0)
-            waitingForLanes = true; // starting new game, wait for AR lanes to generate
         else if (StateManager.Instance.CurrentState == StateManager.GameState.StartMenu)
             beatmapLoaded = false;
     }
