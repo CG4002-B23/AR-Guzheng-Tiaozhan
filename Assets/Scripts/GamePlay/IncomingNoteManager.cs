@@ -266,7 +266,7 @@ public class IncomingNoteManager : StateListener
         if (rend != null)
             rend.material.color = requiredNoteColor;
         
-        TMP_Text textComponent = newNoteObj.GetComponentInChildren<TMP_Text>();
+        TMP_Text textComponent = newNoteObj.GetComponentInChildren<TMP_Text>(true); // find the TMP_Text even if it was disabled previously
         if (textComponent != null)
         {
             textComponent.text = gestureNumber;
