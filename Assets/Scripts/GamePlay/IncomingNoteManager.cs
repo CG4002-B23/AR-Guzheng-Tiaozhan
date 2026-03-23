@@ -356,6 +356,7 @@ public class IncomingNoteManager : StateListener
             currentNoteIndex = 0; 
             isSequenceRunning = false;
             waitingForLanes = false;
+            internalSongTime = 0f;
         }
         else if (StateManager.Instance.CurrentState == StateManager.GameState.StartMenu)
             beatmapLoaded = false;
