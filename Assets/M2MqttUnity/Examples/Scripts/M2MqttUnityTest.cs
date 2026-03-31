@@ -187,6 +187,8 @@ namespace M2MqttUnity.Examples
                 
                 base.Start();
             }
+
+            Connect();
         }
 
         #if UNITY_ANDROID && !UNITY_EDITOR
@@ -654,12 +656,23 @@ namespace M2MqttUnity.Examples
         {
             base.Awake();
 
+            Connect();
             
-            
+            // if (Instance == null)
+            //     Instance = this;
+            // else 
+            //     Destroy(gameObject);
             if (Instance == null)
+            {
                 Instance = this;
-            else 
+                DontDestroyOnLoad(gameObject);
+
+            }
+            else if (Instance != this)
+            {
                 Destroy(gameObject);
+                return;
+            }
             
             if (isEncrypted)
             {
