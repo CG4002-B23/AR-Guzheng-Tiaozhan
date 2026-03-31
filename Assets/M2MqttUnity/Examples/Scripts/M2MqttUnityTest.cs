@@ -8,6 +8,8 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 using M2MqttUnity;
 using System.IO;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 
 namespace M2MqttUnity.Examples
 {
@@ -42,13 +44,13 @@ namespace M2MqttUnity.Examples
         public event Action<PredictionMessage> OnPredictionReceived;
 
         // CHANGES
-        private bool isStreamActive = false;  // Current stream state
-        private bool lastStreamState = false; // Previous state to detect changes
+        private bool isStreamActive = false;
+        private bool lastStreamState = false;
 
-        private string handToTrigger = "FB_001"; //default to left hand
+        private string handToTrigger = "FB_001";
 
-        private const string ESP32_LEFT = "FB_001";   // Left hand
-        private const string ESP32_RIGHT = "FB_002";  // Right hand
+        private const string ESP32_LEFT = "FB_001";
+        private const string ESP32_RIGHT = "FB_002";
 
         private List<string> eventMessages = new List<string>();
         private bool updateUI = false;
@@ -62,6 +64,17 @@ namespace M2MqttUnity.Examples
         private float lastConfidence = 0;
         private int lastPlayer = 1;
 
+        // UDP Discovery fields
+        private const int UDP_DISCOVERY_PORT = 18883;
+        private UdpClient udpListener;
+        private bool brokerFound = false;
+        private string discoveredBrokerIP = null;
+        
+        // Android multicast lock
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        private AndroidJavaObject multicastLock;
+        #endif
+
         // ============================================================================
         // INITIALIZATION
         // ============================================================================
@@ -71,12 +84,12 @@ namespace M2MqttUnity.Examples
             
             SetupTopicHandlers();
             
-            brokerAddress = "172.20.10.4";
+            // Removed hardcoded IP - will discover via UDP broadcast
             brokerPort = 8883;
             isEncrypted = true;
             
             if (addressInputField != null)
-                addressInputField.text = brokerAddress;
+                addressInputField.text = "Listening for broker...";
             if (portInputField != null)
                 portInputField.text = brokerPort.ToString();
             if (encryptedToggle != null)
@@ -84,12 +97,143 @@ namespace M2MqttUnity.Examples
             
             ClearConsole();
             AddToConsole("AR Gesture System Ready.");
-            AddToConsole("Enter IP or use default: 172.20.10.4");
+            AddToConsole("Listening for MQTT broker broadcasts on port 18883...");
             
             updateUI = true;
             
-            base.Start();
+            // Start listening for broadcasts instead of connecting directly
+            StartCoroutine(ListenForBrokerBroadcast());
         }
+
+        // UDP Broadcast Listener
+        private IEnumerator ListenForBrokerBroadcast()
+        {
+            // Acquire multicast lock for Android
+            #if UNITY_ANDROID && !UNITY_EDITOR
+            AcquireMulticastLock();
+            #endif
+            
+            // Start listening on the discovery port
+            udpListener = new UdpClient(UDP_DISCOVERY_PORT);
+            udpListener.Client.ReceiveTimeout = 1000;
+            
+            AddToConsole("Waiting for broker broadcast...");
+            AddToConsole("Make sure Python broker is running on laptop");
+            
+            // Listen until we find the broker
+            while (!brokerFound)
+            {
+                // Check if there's data available
+                if (udpListener.Available > 0)
+                {
+                    try
+                    {
+                        IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
+                        byte[] data = udpListener.Receive(ref remoteEP);
+                        string message = Encoding.UTF8.GetString(data);
+                        
+                        AddToConsole($"Received: {message}");
+                        
+                        // Parse the broadcast message
+                        // Format: "MQTT_BROKER:172.20.10.4:8883"
+                        if (message.StartsWith("MQTT_BROKER:"))
+                        {
+                            string[] parts = message.Split(':');
+                            if (parts.Length >= 2)
+                            {
+                                discoveredBrokerIP = parts[1];
+                                AddToConsole($"✓ Broker discovered at: {discoveredBrokerIP}");
+                                brokerFound = true;
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        AddToConsole($"Error receiving broadcast: {e.Message}");
+                    }
+                }
+                
+                yield return new WaitForSeconds(0.1f);
+            }
+            
+            // Clean up UDP listener
+            udpListener.Close();
+            udpListener = null;
+            
+            // Release multicast lock
+            #if UNITY_ANDROID && !UNITY_EDITOR
+            ReleaseMulticastLock();
+            #endif
+            
+            if (!string.IsNullOrEmpty(discoveredBrokerIP))
+            {
+                brokerAddress = discoveredBrokerIP;
+                if (addressInputField != null)
+                    addressInputField.text = brokerAddress;
+                
+                AddToConsole($"Connecting to broker at {brokerAddress}:{brokerPort}...");
+                
+                // Now establish MQTT connection
+                base.Start();
+            }
+            else
+            {
+                AddToConsole("Failed to discover broker. Check if Python broker is running.");
+                AddToConsole("Trying fallback IP: 172.20.10.4");
+                brokerAddress = "172.20.10.4";
+                if (addressInputField != null)
+                    addressInputField.text = brokerAddress;
+                
+                base.Start();
+            }
+        }
+
+        #if UNITY_ANDROID && !UNITY_EDITOR
+        private void AcquireMulticastLock()
+        {
+            try
+            {
+                using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+                {
+                    using (AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+                    {
+                        using (AndroidJavaObject systemService = currentActivity.Call<AndroidJavaObject>("getSystemService", "wifi"))
+                        {
+                            AndroidJavaObject wifiManager = systemService;
+                            multicastLock = wifiManager.Call<AndroidJavaObject>("createMulticastLock", "mqtt_lock");
+                            multicastLock.Call("acquire");
+                            AddToConsole("✓ Multicast lock acquired for UDP broadcast");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                AddToConsole($"Failed to acquire multicast lock: {e.Message}");
+                AddToConsole("Try: Settings → Developer Options → Disable 'Wifi scan throttling'");
+            }
+        }
+
+        private void ReleaseMulticastLock()
+        {
+            if (multicastLock != null)
+            {
+                try
+                {
+                    if (multicastLock.Call<bool>("isHeld"))
+                    {
+                        multicastLock.Call("release");
+                        AddToConsole("Multicast lock released");
+                    }
+                }
+                catch (Exception e)
+                {
+                    AddToConsole($"Error releasing multicast lock: {e.Message}");
+                }
+            }
+        }
+        #endif
 
         private void SetupTopicHandlers()
         {
@@ -202,7 +346,6 @@ namespace M2MqttUnity.Examples
             if (connectionStatusText != null)
                 connectionStatusText.text = "Disconnected";
             
-            // Reset stream state
             isStreamActive = false;
             lastStreamState = false;
             updateUI = true;
@@ -278,39 +421,12 @@ namespace M2MqttUnity.Examples
                 connectionStatusText.text = "Status: " + msg;
         }
 
-        //CHANGES
         public void SetStreamState(bool active, string hand)
         {
             isStreamActive = active;
             handToTrigger = hand;
         }
 
-
-        // public void SendPlayerAction(int action, float value = 0, int player = 1)
-        // {
-        //     if (client == null || !client.IsConnected)
-        //     {
-        //         AddToConsole("Not connected - cannot send action");
-        //         return;
-        //     }
-
-        //     var actionMsg = new UnityMessage
-        //     {
-        //         type = "player_action",
-        //         client_id = clientId,
-        //         player = player,
-        //         timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
-        //         data = $"{{\"action\":{action},\"value\":{value}}}"
-        //     };
-
-        //     string jsonMsg = JsonUtility.ToJson(actionMsg);
-        //     client.Publish(publishTopic, System.Text.Encoding.UTF8.GetBytes(jsonMsg), 
-        //                   MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
-            
-        //     AddToConsole($"Sent action: {action} (Player {player})");
-        // }
-
-        //CHANGES
         private void SendStreamTrigger(bool start)
         {
             if (client == null || !client.IsConnected) return;
@@ -320,7 +436,7 @@ namespace M2MqttUnity.Examples
             var triggerMsg = new TriggerMessage
             {
                 type = "trigger",
-                target_device = handToTrigger,  // Single player, always FB_001
+                target_device = handToTrigger,
                 action = action,
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
             };
@@ -332,9 +448,7 @@ namespace M2MqttUnity.Examples
             AddToConsole($"Stream {action} triggered for ESP32");
         }
 
-        
         // HAPTIC FEEDBACK METHODS
-
         public void SendHapticFeedbackLeft(int duration = 500)
         {
             SendHapticFeedback(ESP32_LEFT, duration);
@@ -345,7 +459,7 @@ namespace M2MqttUnity.Examples
             SendHapticFeedback(ESP32_RIGHT, duration);
         }
 
-        public void SendHapticFeedbackBoth( int duration = 500)
+        public void SendHapticFeedbackBoth(int duration = 500)
         {
             SendHapticFeedback(ESP32_LEFT, duration);
             SendHapticFeedback(ESP32_RIGHT, duration);
@@ -363,7 +477,7 @@ namespace M2MqttUnity.Examples
             {
                 type = "haptic",
                 target_device = targetDevice,
-                duration = duration,       // Duration in milliseconds
+                duration = duration,
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
             };
 
@@ -427,8 +541,6 @@ namespace M2MqttUnity.Examples
         // ============================================================================
         public new void Disconnect()
         {
-            // Send stop trigger if stream was active
-            //CHANGES
             if (isStreamActive)
             {
                 SendStreamTrigger(false);
@@ -519,7 +631,6 @@ namespace M2MqttUnity.Examples
             updateUI = false;
         }
 
-        // CHANGES
         protected override void Update()
         {
             base.Update();
@@ -529,7 +640,6 @@ namespace M2MqttUnity.Examples
                 UpdateUI();
             }
             
-            // Check if stream state has changed
             if (isStreamActive != lastStreamState)
             {
                 if (client != null && client.IsConnected)
@@ -544,9 +654,8 @@ namespace M2MqttUnity.Examples
         {
             base.Awake();
 
-            Connect();
             
-            // singleton
+            
             if (Instance == null)
                 Instance = this;
             else 
@@ -580,6 +689,17 @@ namespace M2MqttUnity.Examples
 
         private void OnDestroy()
         {
+            // Release multicast lock if held
+            #if UNITY_ANDROID && !UNITY_EDITOR
+            ReleaseMulticastLock();
+            #endif
+            
+            if (udpListener != null)
+            {
+                udpListener.Close();
+                udpListener = null;
+            }
+            
             if (client != null && client.IsConnected)
             {
                 if (isStreamActive)
@@ -626,7 +746,6 @@ namespace M2MqttUnity.Examples
             public string data;
         }
         
-        // CHANGES
         [Serializable]
         public class TriggerMessage
         {
@@ -641,8 +760,9 @@ namespace M2MqttUnity.Examples
         {
             public string type;
             public string target_device;
-            public int duration;      // Duration in milliseconds
+            public int duration;
             public long timestamp;
         }
     }
 }
+
