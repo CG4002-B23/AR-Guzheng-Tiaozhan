@@ -1834,8 +1834,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Different notes are represented by balls of different colors. \nMatch each
-    note with their corresponding finger gestures!"
+  m_text: "Different notes are represented by balls of different colors. \nMatch
+    each note with their corresponding finger gestures!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4433,8 +4433,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Those were all the basic gestures to make.
 
-    Remember, hitting the string when the note is closer to the Guzheng grants you
-    more points!'
+    Remember, hitting the
+    string when the note is closer to the Guzheng grants you more points!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6139,7 +6139,7 @@ MonoBehaviour:
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
   scoreManager: {fileID: 1450936902}
-  gestureProvider: {fileID: 1735430946}
+  gestureProvider: {fileID: 1735430944}
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
   guzhengStrings:
@@ -8061,7 +8061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1157316113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9050,7 +9050,8 @@ MonoBehaviour:
   m_text: 'Welcome to GuzhengTiaoZhan!
 
 
-    This is an AR-based musical rhythm game that puts your Guzheng skills to the test!'
+    This is an AR-based musical rhythm game
+    that puts your Guzheng skills to the test!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10667,7 +10668,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735430943}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ab6f053a783499d39c4719563b85e77, type: 3}
   m_Name: 
@@ -10688,6 +10689,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1735430946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735430943}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 282d3686ea81da0eebfb7818fd8fa644, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  confidenceThreshold: 0.6
+  classMapping:
+  - Idle
+  - RightTuo
+  - RightIndex
+  - RightMiddle
+  - RightRing
+  - RightPinky
+  - RightYaoZhi
+  - RightMute
 --- !u!1 &1762855492
 GameObject:
   m_ObjectHideFlags: 0
@@ -10824,28 +10847,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762855492}
   m_CullTransparentMesh: 1
---- !u!114 &1735430946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735430943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 282d3686ea81da0eebfb7818fd8fa644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  confidenceThreshold: 0.6
-  classMapping:
-  - Idle
-  - RightTuo
-  - RightIndex
-  - RightMiddle
-  - RightRing
-  - RightPinky
-  - RightYaoZhi
-  - RightMute
 --- !u!4 &1765540924 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6605111590819766859, guid: 923b0646f65a8141a8855d3d3b549770, type: 3}
@@ -11551,7 +11552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStates: 0100000002000000030000000400000005000000
   handAnimator: {fileID: 818703111}
-  gestureProvider: {fileID: 1735430946}
+  gestureProvider: {fileID: 1735430944}
 --- !u!4 &1874470158
 Transform:
   m_ObjectHideFlags: 0
