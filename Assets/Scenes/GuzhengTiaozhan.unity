@@ -3367,7 +3367,7 @@ MonoBehaviour:
   - {fileID: 309691097}
   - {fileID: 594706716}
   translucentLaneColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.3}
-  estimatedGuzhengWidth: 0.5
+  estimatedGuzhengWidth: 0.4
   pulseSpeed: 3
   minAlpha: 0.1
   maxAlpha: 0.6

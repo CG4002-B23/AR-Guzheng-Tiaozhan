@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.24, y: 0.24, z: 0.24}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8691978799109056319}
@@ -475,6 +475,7 @@ MonoBehaviour:
   hoverDuration: 1
   loadingRing: {fileID: 0}
   ringOffset: {x: 60, y: 60}
+  isTutorialUIOverrideActive: 0
 --- !u!4 &8691978799109056319 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 705561775665358165, guid: 930b7a19d446f4b4c9c810e37e84e625, type: 3}
