@@ -11,6 +11,11 @@ public class ScoreManager : StateListener
     [Header("Score Tracking")]
     public int currentScore = 0;
 
+    [Header("Ultimate Meter Settings")]
+    public UltimateMeterManager ultimateMeter;
+    public int perfectChargeAmount = 10;
+    public int goodChargeAmount = 5;
+
     [Header("Hit Thresholds (Distance from Guzheng)")]
     [Tooltip("Distance closer than this is a Perfect hit")]
     public float perfectThreshold = 0.3f; 
@@ -50,6 +55,7 @@ public class ScoreManager : StateListener
             currentScore += perfectPoints;
             popupText = "PERFECT!";
             popupColor = Color.yellow;
+            if (ultimateMeter != null) ultimateMeter.AddCharge(perfectChargeAmount);
             Debug.Log($"<color=yellow>PERFECT!</color> Distance: {distanceAtImpact:F2} | Score: {currentScore}");
         }
         else if (distanceAtImpact <= goodThreshold)
@@ -57,6 +63,7 @@ public class ScoreManager : StateListener
             currentScore += goodPoints;
             popupText = "GOOD!";
             popupColor = Color.green;
+            if (ultimateMeter != null) ultimateMeter.AddCharge(goodChargeAmount);
             Debug.Log($"<color=green>GOOD!</color> Distance: {distanceAtImpact:F2} | Score: {currentScore}");
         }
         else
