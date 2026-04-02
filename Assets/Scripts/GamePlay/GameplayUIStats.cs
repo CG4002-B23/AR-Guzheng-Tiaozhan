@@ -33,7 +33,6 @@ public class GameplayUIStats : StateListener
             playerHealthBarVisual.SetActive(true);
             scoreText.enabled = true;
             if (ultimateMeterVisual != null) ultimateMeterVisual.SetActive(true);
-            if (ultimateMeterManager != null) ultimateMeterManager.ConsumeUltimate();
         }
         else
         {

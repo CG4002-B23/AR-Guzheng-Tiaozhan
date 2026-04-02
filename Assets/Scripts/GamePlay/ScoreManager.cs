@@ -26,7 +26,7 @@ public class ScoreManager : StateListener
     public int perfectPoints = 3;
     public int goodPoints = 1;
 
-    void Awake()
+    void Start()
     {
         ResetScore();
     }
@@ -43,6 +43,7 @@ public class ScoreManager : StateListener
     {
         currentScore = 0;
         if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);
+        if (ultimateMeter!= null) ultimateMeter.ConsumeUltimate();
     }
 
     public void RegisterHit(float distanceAtImpact, Vector3 hitPosition)

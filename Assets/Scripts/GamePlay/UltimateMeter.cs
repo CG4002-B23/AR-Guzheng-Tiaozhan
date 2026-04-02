@@ -26,7 +26,7 @@ public class UltimateMeterManager : MonoBehaviour
 
     public bool IsFull => currentCharge >= maxCharge;
 
-    void Start()
+    void Awake()
     {
         if (gaugeRectTransform != null)
             originalScale = gaugeRectTransform.localScale;
