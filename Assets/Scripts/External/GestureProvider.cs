@@ -9,11 +9,6 @@ public class GestureProvider : MonoBehaviour
     [Tooltip("Minimum confidence required to trigger a gesture (0.0 to 1.0)")]
     public float confidenceThreshold = 0.6f; 
 
-    // list of all the gesture names 
-    public readonly List<string> gestureNames = new List<string> { 
-        "Idle", "RightTuo", "RightIndex", "RightMiddle", "RightRing", "RightPinky", "RightYaoZhi", "RightMute" 
-    };
-
     [Header("Class Mapping")]
     [Tooltip("Map the incoming MQTT integer to the correct gesture string.")]
     public string[] classMapping = new string[] {

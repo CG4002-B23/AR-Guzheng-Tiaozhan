@@ -10803,7 +10803,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab6f053a783499d39c4719563b85e77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  switchInterval: 0.5
+  switchInterval: 2
+  gestureNames:
+  - Idle
+  - Tuo
+  - Index
+  - Middle
+  - Ring
+  - Pinky
+  - YaoZhi
+  - Mute
+  - DragonClaw
+  - CraneWing
+  - BuddhaChop
+  - Punch
+  - SnakeStrike
 --- !u!4 &1735430945
 Transform:
   m_ObjectHideFlags: 0
