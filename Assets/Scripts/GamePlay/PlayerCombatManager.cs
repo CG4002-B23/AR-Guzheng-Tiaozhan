@@ -88,7 +88,11 @@ public class PlayerCombatManager : StateListener
 
         for (int i = 0; i < guzhengStrings.Count; i++)
         {
-            if (guzhengStrings[i] != null && guzhengStrings[i].IsTouched) // touching the string and making gesture
+            // if (guzhengStrings[i] != null && guzhengStrings[i].IsTouched) // touching the string and making gesture
+            //     FireNote(i, gesture);
+
+            if (guzhengStrings[i] == null) continue;
+            if (IsStringTouchedByHand(guzhengStrings[i], targetHand))
                 FireNote(i, gesture);
         }
     }
@@ -214,5 +218,10 @@ public class PlayerCombatManager : StateListener
 
             activePlayerNotes.Clear();
         }
+    }
+
+    private bool IsStringTouchedByHand(GuzhengStringInteraction stringInteraction, HandType hand)
+    {
+        return stringInteraction.IsTouchedBy(hand); 
     }
 }
