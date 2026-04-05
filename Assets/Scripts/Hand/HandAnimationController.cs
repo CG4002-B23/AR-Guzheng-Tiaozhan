@@ -7,6 +7,9 @@ public class HandAnimationController : StateListener
     public MockGestureProvider gestureProvider; // for testing standalone
     // public GestureProvider gestureProvider;
 
+    [Header("Hand Identity")]
+    public HandType myHandType;
+
     private string _currentTrigger = "IdleTrigger";
     public string[] gestureTriggersToReset =
     {
@@ -113,9 +116,11 @@ public class HandAnimationController : StateListener
             handAnimator.ResetTrigger(trigger);
     }
 
-    private void HandleGestureDetected(string detectedGesture)
+    private void HandleGestureDetected(HandType targetHand, string detectedGesture)
     {
-        // e.g., "RightTuo" + "Trigger" = "RightTuoTrigger"
+        if (targetHand != myHandType) return;
+
+        // e.g., "Tuo" + "Trigger" = "TuoTrigger"
         handAnimator.SetTrigger(detectedGesture + "Trigger");
     }
 

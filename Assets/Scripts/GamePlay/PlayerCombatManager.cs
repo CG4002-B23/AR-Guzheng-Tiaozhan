@@ -61,7 +61,7 @@ public class PlayerCombatManager : StateListener
         activePlayerNotes.Clear();
     }
 
-    private void HandleGesture(string gesture)
+    private void HandleGesture(HandType targetHand, string gesture)
     {
         if (!isActiveState) return;
         if (StateManager.Instance != null && StateManager.Instance.IsTutorialPaused) return;

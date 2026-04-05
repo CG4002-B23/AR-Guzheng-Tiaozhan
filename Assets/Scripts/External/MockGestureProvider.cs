@@ -30,7 +30,7 @@ public class MockGestureProvider : MonoBehaviour
     };
     private int currentState = 0;
 
-    public event Action<string> OnGestureReceived; // broadcast the gesture string to anyone listening
+    public event Action<HandType, string> OnGestureReceived;// broadcast the gesture string to anyone listening
 
     void Update()
     {
@@ -50,6 +50,7 @@ public class MockGestureProvider : MonoBehaviour
 
         string detectedGesture = gestureNames[currentState];
         
-        OnGestureReceived?.Invoke(detectedGesture); // fire the event, making it available to anyone listening
+        HandType randomHand = (currentState % 2 == 0) ? HandType.Left : HandType.Right;
+        OnGestureReceived?.Invoke(randomHand, detectedGesture); // fire the event, making it available to anyone listening
     }
 }

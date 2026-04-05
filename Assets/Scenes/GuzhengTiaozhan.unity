@@ -11702,6 +11702,7 @@ MonoBehaviour:
   targetStates: 0100000002000000030000000400000005000000
   handAnimator: {fileID: 818703111}
   gestureProvider: {fileID: 1735430944}
+  myHandType: 1
   gestureTriggersToReset:
   - IdleTrigger
   - PointerTrigger
@@ -14010,6 +14011,7 @@ MonoBehaviour:
   targetStates: 0100000002000000030000000400000005000000
   handAnimator: {fileID: 930838698}
   gestureProvider: {fileID: 1735430944}
+  myHandType: 0
   gestureTriggersToReset:
   - IdleTrigger
   - PointerTrigger
