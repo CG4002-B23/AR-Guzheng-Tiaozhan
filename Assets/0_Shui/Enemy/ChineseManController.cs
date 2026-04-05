@@ -15,4 +15,30 @@ public class ChineseManController : MonoBehaviour
     {
         
     }
+
+    public void PlayAttack() 
+    {
+        if (anim != null) 
+        {
+            int randomAttack = Random.Range(0, 2);
+            anim.SetInteger("AttackIndex", randomAttack);
+            anim.SetTrigger("Attack");
+        }
+    }
+
+    public void PlayDeath()
+    {
+        if (anim != null) 
+        {
+            anim.SetTrigger("Die");
+        }
+    }
+
+    public void PlayHit()
+    {
+        if (anim != null) 
+        {
+            anim.SetTrigger("Hit");
+        }
+    }
 }
