@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RightHandAnimationController : StateListener
+public class HandAnimationController : StateListener
 {
     [Header("Component References")]
     public Animator handAnimator;
@@ -8,6 +8,11 @@ public class RightHandAnimationController : StateListener
     // public GestureProvider gestureProvider;
 
     private string _currentTrigger = "IdleTrigger";
+    public string[] gestureTriggersToReset =
+    {
+        "IdleTrigger", "PointerTrigger", "TuoTrigger", "IndexTrigger", "MiddleTrigger", "RingTrigger", "PinkyTrigger", "YaoZhiTrigger", "MuteTrigger", "DragonClawTrigger", 
+        "CraneWingTrigger", "BuddhaChopTrigger", "PunchTrigger", "SnakeStrikeTrigger"
+    };
 
     void Awake()
     {
@@ -89,9 +94,7 @@ public class RightHandAnimationController : StateListener
 
         if (handAnimator.gameObject.activeInHierarchy)
         {
-            handAnimator.ResetTrigger("PointerTrigger");
-            handAnimator.ResetTrigger("IdleTrigger");
-            handAnimator.ResetTrigger("RightTuoTrigger");
+            ResetTriggers();
             handAnimator.SetTrigger(triggerName);
         }
     }
@@ -100,10 +103,14 @@ public class RightHandAnimationController : StateListener
     {
         if (handAnimator == null) return;
 
-        handAnimator.ResetTrigger("PointerTrigger");
-        handAnimator.ResetTrigger("IdleTrigger");
-        handAnimator.ResetTrigger("RightTuoTrigger");
+        ResetTriggers();
         handAnimator.SetTrigger(_currentTrigger);
+    }
+
+    private void ResetTriggers()
+    {
+        foreach (string trigger in gestureTriggersToReset)
+            handAnimator.ResetTrigger(trigger);
     }
 
     private void HandleGestureDetected(string detectedGesture)
