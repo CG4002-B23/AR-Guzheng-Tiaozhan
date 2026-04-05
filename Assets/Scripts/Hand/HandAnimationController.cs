@@ -119,9 +119,11 @@ public class HandAnimationController : StateListener
     private void HandleGestureDetected(HandType targetHand, string detectedGesture)
     {
         if (targetHand != myHandType) return;
+        ResetTriggers();
 
         // e.g., "Tuo" + "Trigger" = "TuoTrigger"
-        handAnimator.SetTrigger(detectedGesture + "Trigger");
+        _currentTrigger = detectedGesture + "Trigger";
+        handAnimator.SetTrigger(_currentTrigger);
     }
 
     private void SubscribeToGestures()

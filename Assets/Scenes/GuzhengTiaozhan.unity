@@ -13113,6 +13113,10 @@ PrefabInstance:
       propertyPath: animationController
       value: 
       objectReference: {fileID: 1874470157}
+    - target: {fileID: 8352994264169282949, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8449261071925912535, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       propertyPath: mainCamera
       value: 
