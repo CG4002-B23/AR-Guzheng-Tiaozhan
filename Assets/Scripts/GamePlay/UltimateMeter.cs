@@ -92,6 +92,7 @@ public class UltimateMeterManager : MonoBehaviour
             fireEffectObject.SetActive(true);
             
         Debug.Log("<color=orange>Ultimate Meter is FULL!</color>");
+        OnUltimateReady?.Invoke();
     }
 
     private void UpdateUI()

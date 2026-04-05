@@ -18,7 +18,7 @@ public class PlayerCombatManager : StateListener
     public UltimateMeterManager ultimateMeter;
     public GameObject knifePrefab;
     [Tooltip("A BoxCollider defining the 3D space where the knife can spawn")]
-    public BoxCollider knifeSpawnArea; 
+    private BoxCollider knifeSpawnArea; 
     [Tooltip("The point on the Guzheng the knife should point at")]
     public Transform enemyCenter; 
 
@@ -222,7 +222,10 @@ public class PlayerCombatManager : StateListener
             //automatically find the spawned guzheng in the scene and grab its strings
             GuzhengController spawnedGuzheng = FindObjectOfType<GuzhengController>();
             if (spawnedGuzheng != null)
+            {
                 guzhengStrings = spawnedGuzheng.stringsInOrder;
+                knifeSpawnArea = spawnedGuzheng.knifeSpawnArea;
+            }
         }
         else
         {

@@ -1905,8 +1905,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Different notes are represented by balls of different colors. \nMatch each
-    note with their corresponding finger gestures!"
+  m_text: "Different notes are represented by balls of different colors. \nMatch
+    each note with their corresponding finger gestures!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2380,7 +2380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -306.5, y: -216}
+  m_AnchoredPosition: {x: -306.12, y: -173.9}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &299355558
@@ -4593,8 +4593,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Those were all the basic gestures to make.
 
-    Remember, hitting the string when the note is closer to the Guzheng grants you
-    more points!'
+    Remember, hitting the
+    string when the note is closer to the Guzheng grants you more points!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6378,8 +6378,7 @@ MonoBehaviour:
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
   ultimateMeter: {fileID: 1637519809}
-  knifePrefab: {fileID: 0}
-  knifeSpawnArea: {fileID: 0}
+  knifePrefab: {fileID: 8186842308611924880, guid: 7c22ed554a9d88a47b0ba60149baccaf, type: 3}
   enemyCenter: {fileID: 4456108998041565338, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   guzhengStrings:
   - {fileID: 0}
@@ -9458,7 +9457,8 @@ MonoBehaviour:
   m_text: 'Welcome to GuzhengTiaoZhan!
 
 
-    This is an AR-based musical rhythm game that puts your Guzheng skills to the test!'
+    This is an AR-based musical rhythm game
+    that puts your Guzheng skills to the test!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10366,9 +10366,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: [{targetCorrespondingSourceObject: {fileID: 6699280592585339964, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}, insertIndex: -1, addedObject: {fileID: 930838699}},
-      {targetCorrespondingSourceObject: {fileID: 7791768391638834046, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}, insertIndex: -1, addedObject: {fileID: 1968063544}},
-      {targetCorrespondingSourceObject: {fileID: 7791768391638834046, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}, insertIndex: -1, addedObject: {fileID: 1968063543}}]
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6699280592585339964, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 930838699}
+    - targetCorrespondingSourceObject: {fileID: 7791768391638834046, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1968063544}
+    - targetCorrespondingSourceObject: {fileID: 7791768391638834046, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1968063543}
   m_SourcePrefab: {fileID: 100100000, guid: eadb5e628d6c0124e9837184ae1a4e19, type: 3}
 --- !u!4 &1486952514 stripped
 Transform:
@@ -13481,12 +13488,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: [{fileID: 5720440775507695852, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3},
-      {fileID: 7050021237518109848, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}]
+    m_RemovedComponents:
+    - {fileID: 5720440775507695852, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+    - {fileID: 7050021237518109848, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: [{targetCorrespondingSourceObject: {fileID: 4842073438374269639, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}, insertIndex: -1, addedObject: {fileID: 1742703480}},
-      {targetCorrespondingSourceObject: {fileID: 4842073438374269639, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}, insertIndex: -1, addedObject: {fileID: 1742703479}}]
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4842073438374269639, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1742703480}
+    - targetCorrespondingSourceObject: {fileID: 4842073438374269639, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1742703479}
   m_SourcePrefab: {fileID: 100100000, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
 --- !u!4 &2028187191 stripped
 Transform:
