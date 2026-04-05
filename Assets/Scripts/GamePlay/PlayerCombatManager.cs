@@ -14,6 +14,14 @@ public class PlayerCombatManager : StateListener
     public GameObject collisionSparkPrefab;
     public GameObject enemyDamageEffectPrefab;
 
+    [Header("Ultimate Mechanic")]
+    public UltimateMeterManager ultimateMeter;
+    public GameObject knifePrefab;
+    [Tooltip("A BoxCollider defining the 3D space where the knife can spawn")]
+    public BoxCollider knifeSpawnArea; 
+    [Tooltip("The point on the Guzheng the knife should point at")]
+    public Transform enemyCenter; 
+
     [Header("Guzheng Strings (Auto-Assigned at Runtime)")]
     [HideInInspector] public List<GuzhengStringInteraction> guzhengStrings;
 
@@ -31,6 +39,8 @@ public class PlayerCombatManager : StateListener
     public Color colorMute = Color.gray;
     public Color colorTremolo = new Color(1.0f, 0.5f, 0.0f); // orange
 
+    private GameObject spawnedKnife;
+
     private class PlayerNote
     {
         public GameObject noteObject;
@@ -45,6 +55,9 @@ public class PlayerCombatManager : StateListener
         base.OnEnable();
         if (gestureProvider != null)
             gestureProvider.OnGestureReceived += HandleGesture;
+
+        if (ultimateMeter != null) 
+            ultimateMeter.OnUltimateReady += SpawnUltimateKnife;
     }
 
     protected override void OnDisable()
@@ -52,6 +65,9 @@ public class PlayerCombatManager : StateListener
         base.OnDisable();
         if (gestureProvider != null)
             gestureProvider.OnGestureReceived -= HandleGesture;
+        
+        if (ultimateMeter != null) 
+            ultimateMeter.OnUltimateReady -= SpawnUltimateKnife;
 
         foreach (var note in activePlayerNotes)
         {
@@ -196,5 +212,28 @@ public class PlayerCombatManager : StateListener
 
             activePlayerNotes.Clear();
         }
+    }
+
+    private void SpawnUltimateKnife()
+    {
+        if (spawnedKnife != null) return; // Prevent spawning multiple knives
+
+        if (knifeSpawnArea == null || knifePrefab == null)
+        {
+            Debug.LogWarning("Knife Prefab or Spawn Area is not assigned!");
+            return;
+        }
+
+        // calculate random position inside box collider
+        Bounds bounds = knifeSpawnArea.bounds;
+        Vector3 randomPosition = new Vector3(
+            Random.Range(bounds.min.x, bounds.max.x),
+            Random.Range(bounds.min.y, bounds.max.y),
+            Random.Range(bounds.min.z, bounds.max.z)
+        );
+
+        // spawn knife and make it face the enemy
+        spawnedKnife = Instantiate(knifePrefab, randomPosition, Quaternion.identity);
+        if (enemyCenter != null) spawnedKnife.transform.LookAt(enemyCenter);
     }
 }

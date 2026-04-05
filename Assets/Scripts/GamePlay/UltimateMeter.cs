@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class UltimateMeterManager : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class UltimateMeterManager : MonoBehaviour
     private Vector3 originalScale;
 
     public bool IsFull => currentCharge >= maxCharge;
+    public event Action OnUltimateReady;
 
     void Awake()
     {
