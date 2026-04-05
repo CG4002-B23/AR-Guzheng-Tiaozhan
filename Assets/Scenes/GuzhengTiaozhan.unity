@@ -10834,13 +10834,18 @@ MonoBehaviour:
   confidenceThreshold: 0.6
   classMapping:
   - Idle
-  - RightTuo
-  - RightIndex
-  - RightMiddle
-  - RightRing
-  - RightPinky
-  - RightYaoZhi
-  - RightMute
+  - Tuo
+  - Index
+  - Middle
+  - Ring
+  - Pinky
+  - YaoZhi
+  - Mute
+  - DragonClaw
+  - CraneWing
+  - BuddhaChop
+  - Punch
+  - SnakeStrike
 --- !u!1 &1762855492
 GameObject:
   m_ObjectHideFlags: 0

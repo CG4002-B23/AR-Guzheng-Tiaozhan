@@ -17,14 +17,19 @@ public class GestureProvider : MonoBehaviour
     [Header("Class Mapping")]
     [Tooltip("Map the incoming MQTT integer to the correct gesture string.")]
     public string[] classMapping = new string[] {
-        "Idle",         // 0
-        "RightTuo",     // 1
-        "RightIndex",   // 2
-        "RightMiddle",  // 3
-        "RightRing",    // 4
-        "RightPinky",   // 5
-        "RightYaoZhi",  // 6
-        "RightMute"     // 7
+        "Idle",    // 0
+        "Tuo",     // 1
+        "Index",   // 2
+        "Middle",  // 3
+        "Ring",    // 4
+        "Pinky",   // 5
+        "YaoZhi",  // 6
+        "Mute",    // 7
+        "DragonClaw",  // 8
+        "CraneWing",   // 9
+        "BuddhaChop",  // 10
+        "Punch",       // 11
+        "SnakeStrike", // 12
     };
 
     public event Action<string> OnGestureReceived;
