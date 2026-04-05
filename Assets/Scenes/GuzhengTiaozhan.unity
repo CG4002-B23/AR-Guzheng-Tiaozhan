@@ -14369,7 +14369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStates: 03000000
   objectToSpawn: {fileID: 1027182576545114604, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
-  minPlaneArea: 6
+  minPlaneArea: 2
   guzhengTransform: {fileID: 0}
   savedLocations: []
 --- !u!114 &2512387470422636672
