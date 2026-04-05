@@ -54,7 +54,7 @@ public class GuzhengStringInteraction : StateListener
     void OnTriggerEnter(Collider other)
     {
         if (!isActiveState) return;
-        if (other.CompareTag("Hand"))
+        if (other.CompareTag("LeftHand") || other.CompareTag("RightHand") || other.CompareTag("Hand"))
         {
             if (!touchingHands.Contains(other))
             {
@@ -74,7 +74,7 @@ public class GuzhengStringInteraction : StateListener
     void OnTriggerExit(Collider other)
     {
         if (!isActiveState) return;
-        if (other.CompareTag("Hand"))
+        if (other.CompareTag("LeftHand") || other.CompareTag("RightHand") || other.CompareTag("Hand"))
         {
             if (touchingHands.Contains(other))
             {
@@ -89,6 +89,20 @@ public class GuzhengStringInteraction : StateListener
                 }
             }
         }
+    }
+
+    public bool IsTouchedBy(HandType handType)
+    {
+        string handStr = handType.ToString();
+        
+        foreach (var handCollider in touchingHands)
+        {
+            if (handCollider == null) continue;
+
+            if (handStr.Contains("Left") && handCollider.CompareTag("LeftHand")) return true;
+            if (handStr.Contains("Right") && handCollider.CompareTag("RightHand")) return true;
+        }
+        return false;
     }
 
     protected override void OnStateToggled(bool isNowActive)

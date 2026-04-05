@@ -77,16 +77,35 @@ public class PlayerCombatManager : StateListener
         activePlayerNotes.Clear();
     }
 
-    private void HandleGesture(string gesture)
+    private bool IsValidCombatGesture(string gesture)
+    {
+        switch (gesture)
+        {
+            case "Tuo":
+            case "Index":
+            case "Middle":
+            case "Ring":
+            case "Pinky":
+            case "Mute":
+            case "YaoZhi":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void HandleGesture(HandType targetHand, string gesture)
     {
         if (!isActiveState) return;
         if (StateManager.Instance != null && StateManager.Instance.IsTutorialPaused) return;
         if (!gestureProvider.gestureNames.Contains(gesture)) return;
         if (gesture == "Idle") return;
+        if (!IsValidCombatGesture(gesture)) return;
 
         for (int i = 0; i < guzhengStrings.Count; i++)
         {
-            if (guzhengStrings[i] != null && guzhengStrings[i].IsTouched) // touching the string and making gesture
+            if (guzhengStrings[i] == null) continue;
+            if (IsStringTouchedByHand(guzhengStrings[i], targetHand))
                 FireNote(i, gesture);
         }
     }
@@ -101,13 +120,13 @@ public class PlayerCombatManager : StateListener
         Color mappedColor = colorIndex; // default
         switch (gesture)
         {
-            case "RightTuo": mappedColor = colorThumb; break;
-            case "RightIndex": mappedColor = colorIndex; break;
-            case "RightMiddle": mappedColor = colorMiddle; break;
-            case "RightRing": mappedColor = colorRing; break;
-            case "RightPinky": mappedColor = colorPinky; break;
-            case "RightMute": mappedColor = colorMute; break;
-            case "RightYaoZhi": mappedColor = colorTremolo; break;
+            case "Tuo": mappedColor = colorThumb; break;
+            case "Index": mappedColor = colorIndex; break;
+            case "Middle": mappedColor = colorMiddle; break;
+            case "Ring": mappedColor = colorRing; break;
+            case "Pinky": mappedColor = colorPinky; break;
+            case "Mute": mappedColor = colorMute; break;
+            case "YaoZhi": mappedColor = colorTremolo; break;
         }
 
         Renderer rend = newNote.GetComponent<Renderer>();
@@ -235,5 +254,10 @@ public class PlayerCombatManager : StateListener
         // spawn knife and make it face the enemy
         spawnedKnife = Instantiate(knifePrefab, randomPosition, Quaternion.identity);
         if (enemyCenter != null) spawnedKnife.transform.LookAt(enemyCenter);
+    }
+
+    private bool IsStringTouchedByHand(GuzhengStringInteraction stringInteraction, HandType hand)
+    {
+        return stringInteraction.IsTouchedBy(hand); 
     }
 }
