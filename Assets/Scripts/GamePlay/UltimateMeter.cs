@@ -91,7 +91,7 @@ public class UltimateMeterManager : MonoBehaviour
         if (fireEffectObject != null)
             fireEffectObject.SetActive(true);
             
-        Debug.Log("<color=orange>Ultimate Meter is FULL!</color>");
+        Debug.Log($"<color=orange>Ultimate Meter (ID: {this.GetInstanceID()}) is FULL!</color>");
         OnUltimateReady?.Invoke();
     }
 

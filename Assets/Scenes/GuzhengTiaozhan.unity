@@ -6377,9 +6377,6 @@ MonoBehaviour:
   gestureProvider: {fileID: 1735430944}
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
-  ultimateMeter: {fileID: 1637519809}
-  knifePrefab: {fileID: 8186842308611924880, guid: 7c22ed554a9d88a47b0ba60149baccaf, type: 3}
-  enemyCenter: {fileID: 4456108998041565338, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
   guzhengStrings:
   - {fileID: 0}
   playerNoteSpeed: 5
@@ -10526,6 +10523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1637519808}
   - component: {fileID: 1637519809}
+  - component: {fileID: 1637519810}
   m_Layer: 0
   m_Name: UltimateMeterManager
   m_TagString: Untagged
@@ -10570,6 +10568,21 @@ MonoBehaviour:
   currentCharge: 0
   pulseSpeed: 5
   pulseScale: 0.1
+--- !u!114 &1637519810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637519807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9564c30b2267f96199d9722d680f8e2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ultimateMeter: {fileID: 1637519809}
+  knifePrefab: {fileID: 8186842308611924880, guid: 7c22ed554a9d88a47b0ba60149baccaf, type: 3}
+  enemyCenter: {fileID: 4456108998041565338, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
 --- !u!1 &1651256143
 GameObject:
   m_ObjectHideFlags: 0
