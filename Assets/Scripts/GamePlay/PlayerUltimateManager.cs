@@ -5,6 +5,8 @@ public class PlayerUltimateManager : MonoBehaviour
     [Header("References")]
     public UltimateMeterManager ultimateMeter;
     public GameObject knifePrefab;
+    public MockGestureProvider gestureProvider;
+    // public GestureProvider gestureProvider;
     private Transform enemyCenter;
 
     private BoxCollider knifeSpawnArea;
@@ -58,9 +60,9 @@ public class PlayerUltimateManager : MonoBehaviour
 
         // Spawn knife and make it face the enemy
         spawnedKnife = Instantiate(knifePrefab, randomPosition, Quaternion.identity);
-        if (enemyCenter != null) 
-            spawnedKnife.transform.LookAt(enemyCenter);
-        else
-            Debug.LogWarning("Enemy was not found in LaneManager! Knife spawned but cannot look at enemy.");
+        UltimateKnife knifeScript = spawnedKnife.GetComponent<UltimateKnife>();
+        
+        if (knifeScript != null)
+            knifeScript.Initialize(enemyCenter, ultimateMeter, gestureProvider);
     }
 }

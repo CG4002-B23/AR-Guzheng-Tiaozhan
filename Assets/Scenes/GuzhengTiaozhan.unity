@@ -10582,6 +10582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ultimateMeter: {fileID: 1637519809}
   knifePrefab: {fileID: 2886954661100545003, guid: 719a43bd519a8ff2eb745afbb04aada3, type: 3}
+  gestureProvider: {fileID: 1735430944}
 --- !u!1 &1651256143
 GameObject:
   m_ObjectHideFlags: 0
