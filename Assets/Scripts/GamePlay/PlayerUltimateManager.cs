@@ -65,4 +65,13 @@ public class PlayerUltimateManager : MonoBehaviour
         if (knifeScript != null)
             knifeScript.Initialize(enemyCenter, ultimateMeter, gestureProvider);
     }
+
+    public void DestroySpawnedKnife()
+    {
+        if (spawnedKnife != null)
+        {
+            Destroy(spawnedKnife);
+            spawnedKnife = null; 
+        }
+    }
 }

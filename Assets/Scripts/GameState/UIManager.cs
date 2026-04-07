@@ -159,6 +159,7 @@ public class GameplayUIManager : MonoBehaviour
     {
         guzhengAnchorManager.DestroyGuzheng();
         enemySpawnerManager.DestroyEnemy();
+        FindObjectOfType<PlayerUltimateManager>().DestroySpawnedKnife();
         StateManager.Instance.ChangeState(StateManager.GameState.GuzhengPlacing);
         arSession.Reset();
     }
@@ -167,6 +168,7 @@ public class GameplayUIManager : MonoBehaviour
     {
         guzhengAnchorManager.DestroyGuzheng();
         enemySpawnerManager.DestroyEnemy();
+        FindObjectOfType<PlayerUltimateManager>().DestroySpawnedKnife();
         StateManager.Instance.ChangeState(StateManager.GameState.StartMenu);
         arSession.Reset();
     }
