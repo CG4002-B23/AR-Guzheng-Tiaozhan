@@ -5,7 +5,7 @@ public class PlayerUltimateManager : MonoBehaviour
     [Header("References")]
     public UltimateMeterManager ultimateMeter;
     public GameObject knifePrefab;
-    public Transform enemyCenter;
+    private Transform enemyCenter;
 
     private BoxCollider knifeSpawnArea;
     private GameObject spawnedKnife;
@@ -34,6 +34,14 @@ public class PlayerUltimateManager : MonoBehaviour
                 knifeSpawnArea = spawnedGuzheng.knifeSpawnArea;
         }
 
+        // dynamically get enemy's location
+        if (enemyCenter == null)
+        {
+            LaneManager laneManager = FindObjectOfType<LaneManager>();
+            if (laneManager != null && laneManager.enemySpawner != null)
+                enemyCenter = laneManager.enemySpawner.transform;
+        }
+
         if (knifeSpawnArea == null || knifePrefab == null)
         {
             Debug.LogWarning("Knife Prefab or Spawn Area is missing!");
@@ -50,6 +58,9 @@ public class PlayerUltimateManager : MonoBehaviour
 
         // Spawn knife and make it face the enemy
         spawnedKnife = Instantiate(knifePrefab, randomPosition, Quaternion.identity);
-        if (enemyCenter != null) spawnedKnife.transform.LookAt(enemyCenter);
+        if (enemyCenter != null) 
+            spawnedKnife.transform.LookAt(enemyCenter);
+        else
+            Debug.LogWarning("Enemy was not found in LaneManager! Knife spawned but cannot look at enemy.");
     }
 }
