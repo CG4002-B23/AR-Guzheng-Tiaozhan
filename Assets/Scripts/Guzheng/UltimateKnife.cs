@@ -80,9 +80,8 @@ public class UltimateKnife : MonoBehaviour
     private void CheckGesture(HandType hand, string detectedGesture)
     {
         if (isFired) return; 
+        if (StateManager.Instance.CurrentState != StateManager.GameState.Playing) return; 
         
-        Debug.Log($"detectedGesture: {detectedGesture}, requiredGesture: {requiredGesture}");
-
         if (detectedGesture == requiredGesture)
             FireKnife();
     }
