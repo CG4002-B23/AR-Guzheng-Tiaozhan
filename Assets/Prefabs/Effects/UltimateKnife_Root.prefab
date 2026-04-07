@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 860949807135512640}
   - component: {fileID: 1428711396614370776}
+  - component: {fileID: 8075209225172387379}
+  - component: {fileID: 7724171393009318620}
   m_Layer: 0
   m_Name: UltimateKnife_Root
   m_TagString: Untagged
@@ -65,6 +67,54 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 387454f6cd7cc5047bc289d606b175b3, type: 3}
   flySpeed: 5
   hitParticlePrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
+--- !u!65 &8075209225172387379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886954661100545003}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.51670974, y: 0.085736305, z: 0.048615307}
+  m_Center: {x: 0.0049322546, y: 0.0031373203, z: 0.006272861}
+--- !u!54 &7724171393009318620
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2886954661100545003}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4981967237002561142
 GameObject:
   m_ObjectHideFlags: 0
