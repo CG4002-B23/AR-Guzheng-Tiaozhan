@@ -50,7 +50,7 @@ MonoBehaviour:
   knifeMesh: {fileID: 1638107215478979167}
   meshRotationOffset: {x: 0, y: -90, z: 0}
   floatSpeed: 3
-  floatHeight: 0.1
+  floatHeight: 0.03
   iconRenderer: {fileID: 1790517706379925637}
   possibleIcons:
   - {fileID: 21300000, guid: 9c3d15adfbc21d64683a6553e1330d99, type: 3}

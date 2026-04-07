@@ -10567,7 +10567,7 @@ MonoBehaviour:
   maxCharge: 100
   currentCharge: 0
   pulseSpeed: 5
-  pulseScale: 0.1
+  pulseScale: 0.05
 --- !u!114 &1637519810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10582,7 +10582,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ultimateMeter: {fileID: 1637519809}
   knifePrefab: {fileID: 2886954661100545003, guid: 719a43bd519a8ff2eb745afbb04aada3, type: 3}
-  enemyCenter: {fileID: 4456108998041565338, guid: 0e612058c6c97f095b3f6c151d0de1cd, type: 3}
 --- !u!1 &1651256143
 GameObject:
   m_ObjectHideFlags: 0
