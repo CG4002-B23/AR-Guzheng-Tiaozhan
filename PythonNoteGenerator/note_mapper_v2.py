@@ -37,24 +37,15 @@ TEXT_COLOR = (220, 220, 220)
 COLOR_THUMB = (50, 255, 50)       
 COLOR_INDEX = (50, 150, 255)      
 COLOR_MIDDLE = (200, 50, 255)     
-COLOR_RING = (255, 50, 200)       
-COLOR_PINKY = (255, 255, 50)      
-COLOR_MUTE = (150, 150, 150)      
-COLOR_TREMOLO = (255, 150, 0)
 
-ALL_GESTURES = ["thumb", "index", "middle", "ring", "pinky", "mute", "tremolo"]
-FIXED_DURATION_GESTURES = ["thumb", "index", "middle", "ring", "pinky", "mute"]
+ALL_GESTURES = ["thumb", "index", "middle"]
+FIXED_DURATION_GESTURES = ["thumb", "index", "middle"]
 
 GESTURE_SYMBOLS = {
     "thumb": "1",
     "index": "2",
-    "middle": "3",
-    "ring": "4",
-    "pinky": "5",
-    "mute": "X",
-    "tremolo": "#"
+    "middle": "3"
 }
-
 
 class GuzhengBeatmapper:
     def __init__(self, audio_file, output_file):
@@ -255,7 +246,6 @@ class GuzhengBeatmapper:
                 "string": note.get("string", 1),
                 "gesture": gesture,
                 "duration": round(note.get("duration", default_duration), 3),
-                "vibrato": note.get("vibrato", "none")
             }
             standardized_notes.append(standardized_note)
 
@@ -281,7 +271,6 @@ class GuzhengBeatmapper:
                 "string": string_num,
                 "gesture": gesture,
                 "duration": round(duration, 3),
-                "vibrato": "none"
             })
 
     def handle_events(self):
@@ -311,11 +300,10 @@ class GuzhengBeatmapper:
                         continue
 
                 clicked_note_idx = None
-                clicked_edge = False
                 
                 for i in range(len(self.notes) - 1, -1, -1):
                     note = self.notes[i]
-                    note_duration = note.get("duration", (15 if note["gesture"] in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC)
+                    note_duration = note.get("duration", 15 / PX_PER_SEC)
                     note_height = note_duration * PX_PER_SEC
                     
                     note_start_y = PLAYHEAD_Y - ((note["time"] - self.playhead_time) * PX_PER_SEC)
@@ -325,43 +313,27 @@ class GuzhengBeatmapper:
                     note_width = LANE_WIDTH - 20
                     
                     note_rect = pygame.Rect(note_x, note_end_y, note_width, note_height)
-                    edge_rect = pygame.Rect(note_x, note_end_y - 10, note_width, 30) 
                     
-                    if edge_rect.collidepoint(mouse_x, mouse_y) and note["gesture"] == "tremolo":
-                        clicked_note_idx = i
-                        clicked_edge = True
-                        break
-                    elif note_rect.collidepoint(mouse_x, mouse_y):
+                    if note_rect.collidepoint(mouse_x, mouse_y):
                         clicked_note_idx = i
                         break
 
                 if clicked_note_idx is not None:
                     if event.button == 1: 
-                        if clicked_edge:
-                            self.dragging_note_idx = clicked_note_idx 
-                        else:
-                            mods = pygame.key.get_mods()
-                            if mods & pygame.KMOD_SHIFT:
-                                # --- Cycle vibrato ---
-                                vib_states = ["none", "light", "heavy"]
-                                current_vib = self.notes[clicked_note_idx].get("vibrato", "none")
-                                next_vib = vib_states[(vib_states.index(current_vib) + 1) % len(vib_states)]
-                                self.notes[clicked_note_idx]["vibrato"] = next_vib
-                            else:
-                                # --- Cycle gesture ---
-                                gestures = ALL_GESTURES
-                                current = self.notes[clicked_note_idx]["gesture"]
-                                next_idx = (gestures.index(current) + 1) % len(gestures)
-                                proposed_gesture = gestures[next_idx]
-                                proposed_duration = (15 if proposed_gesture in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC
-                                
-                                if not self._is_overlapping(self.notes[clicked_note_idx]["time"], 
-                                                            self.notes[clicked_note_idx]["string"], 
-                                                            proposed_gesture, 
-                                                            target_duration=proposed_duration,
-                                                            ignore_idx=clicked_note_idx):
-                                    self.notes[clicked_note_idx]["gesture"] = proposed_gesture
-                                    self.notes[clicked_note_idx]["duration"] = proposed_duration
+                        # --- Cycle gesture ---
+                        gestures = ALL_GESTURES
+                        current = self.notes[clicked_note_idx]["gesture"]
+                        next_idx = (gestures.index(current) + 1) % len(gestures)
+                        proposed_gesture = gestures[next_idx]
+                        proposed_duration = 15 / PX_PER_SEC
+                        
+                        if not self._is_overlapping(self.notes[clicked_note_idx]["time"], 
+                                                    self.notes[clicked_note_idx]["string"], 
+                                                    proposed_gesture, 
+                                                    target_duration=proposed_duration,
+                                                    ignore_idx=clicked_note_idx):
+                            self.notes[clicked_note_idx]["gesture"] = proposed_gesture
+                            self.notes[clicked_note_idx]["duration"] = proposed_duration
                                 
                     elif event.button == 3:  
                         self.notes.pop(clicked_note_idx)
@@ -378,20 +350,6 @@ class GuzhengBeatmapper:
                     self._update_slider_visual(event.pos[1])
                 elif self.dragging_volume:               
                     self._update_volume_visual(event.pos[0])
-                elif self.dragging_note_idx is not None:
-                    note = self.notes[self.dragging_note_idx]
-                    
-                    note_start_y = PLAYHEAD_Y - ((note["time"] - self.playhead_time) * PX_PER_SEC)
-                    new_height = max(20, note_start_y - mouse_y) 
-                    new_duration = new_height / PX_PER_SEC
-                    
-                    max_duration = float('inf')
-                    for j, other_note in enumerate(self.notes):
-                        if j != self.dragging_note_idx and other_note["string"] == note["string"]:
-                            if other_note["time"] > note["time"]:
-                                max_duration = min(max_duration, other_note["time"] - note["time"])
-                    
-                    note["duration"] = round(min(new_duration, max_duration), 3)
 
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
@@ -400,7 +358,6 @@ class GuzhengBeatmapper:
                         self.is_playing = self.was_playing_before_drag
                         self.seek_audio(self.playhead_time)
                     self.dragging_volume = False
-                    self.dragging_note_idx = None
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE: self.running = False
@@ -437,9 +394,9 @@ class GuzhengBeatmapper:
             self.screen.blit(label, (x + 15, HEIGHT - 30))
 
     def draw_notes(self):
-        """Renders the recorded notes, symbols, and drag handles falling towards the playhead."""
+        """Renders the recorded notes and symbols falling towards the playhead."""
         for note in self.notes:
-            note_duration = note.get("duration", (15 if note["gesture"] in FIXED_DURATION_GESTURES else 40) / PX_PER_SEC)
+            note_duration = note.get("duration", 15 / PX_PER_SEC)
             note_height = note_duration * PX_PER_SEC
             
             note_start_y = PLAYHEAD_Y - ((note["time"] - self.playhead_time) * PX_PER_SEC)
@@ -451,22 +408,12 @@ class GuzhengBeatmapper:
                 
                 if note["gesture"] == "thumb": color = COLOR_THUMB
                 elif note["gesture"] == "index": color = COLOR_INDEX
-                elif note["gesture"] == "middle": color = COLOR_MIDDLE
-                elif note["gesture"] == "ring": color = COLOR_RING
-                elif note["gesture"] == "pinky": color = COLOR_PINKY
-                elif note["gesture"] == "mute": color = COLOR_MUTE
-                else: color = COLOR_TREMOLO
+                else: color = COLOR_MIDDLE
                     
                 # 1. Draw the main note rectangle
                 rect_tuple = (note_x, note_end_y, note_width, note_height)
                 pygame.draw.rect(self.screen, color, rect_tuple, border_radius=4)
                 
-                vibrato = note.get("vibrato", "none")
-                if vibrato == "light":
-                    pygame.draw.rect(self.screen, (170, 170, 170), rect_tuple, width=2, border_radius=4)
-                elif vibrato == "heavy":
-                    pygame.draw.rect(self.screen, (255, 255, 255), rect_tuple, width=3, border_radius=4)
-
                 # 2. Draw the symbol text
                 symbol = GESTURE_SYMBOLS.get(note["gesture"], "?")
                 text_surface = self.font.render(symbol, True, (30, 30, 30)) 
@@ -479,11 +426,6 @@ class GuzhengBeatmapper:
                     text_rect.bottom = note_start_y - 5
                     
                 self.screen.blit(text_surface, text_rect)
-                
-                # 3. Draw a visual drag handle at the TOP of Tremolo notes
-                if note["gesture"] == "tremolo":
-                    handle_rect = (note_x + 10, note_end_y, note_width - 20, 15)
-                    pygame.draw.rect(self.screen, (255, 255, 255), handle_rect, border_radius=4)
 
     def draw_ui(self):
         """Renders the left control panel, instructions, and horizontal playhead line."""
@@ -517,9 +459,7 @@ class GuzhengBeatmapper:
             "",
             "EDITING NOTES:",
             "[Left Click Note] Cycle Gesture",
-            "[Shift + Left Click] Cycle Vibrato", 
             "[Right Click Note] Delete",
-            "[Drag Note Top] Stretch Tremolo",
             "[Z] Undo Last Added Note",
             "",
             "SYSTEM:",
