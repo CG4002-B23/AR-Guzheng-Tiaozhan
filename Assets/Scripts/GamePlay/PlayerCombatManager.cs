@@ -9,8 +9,8 @@ public class PlayerCombatManager : StateListener
     public LaneManager laneManager;
     public HealthManager healthManager;
     public ScoreManager scoreManager;
-    public MockGestureProvider gestureProvider; // for testing standalone
-    // public GestureProvider gestureProvider;
+    // public MockGestureProvider gestureProvider; // for testing standalone
+    public GestureProvider gestureProvider;
     public GameObject collisionSparkPrefab;
     public GameObject enemyDamageEffectPrefab;
 

@@ -5,8 +5,8 @@ public class PlayerUltimateManager : MonoBehaviour
     [Header("References")]
     public UltimateMeterManager ultimateMeter;
     public GameObject knifePrefab;
-    public MockGestureProvider gestureProvider;
-    // public GestureProvider gestureProvider;
+    // public MockGestureProvider gestureProvider;
+    public GestureProvider gestureProvider;
     private Transform enemyCenter;
 
     private BoxCollider knifeSpawnArea;

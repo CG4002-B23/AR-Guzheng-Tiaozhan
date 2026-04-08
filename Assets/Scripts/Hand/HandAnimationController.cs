@@ -4,8 +4,8 @@ public class HandAnimationController : StateListener
 {
     [Header("Component References")]
     public Animator handAnimator;
-    public MockGestureProvider gestureProvider; // for testing standalone
-    // public GestureProvider gestureProvider;
+    // public MockGestureProvider gestureProvider; // for testing standalone
+    public GestureProvider gestureProvider;
 
     [Header("Hand Identity")]
     public HandType myHandType;

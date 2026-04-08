@@ -740,6 +740,7 @@ namespace M2MqttUnity.Examples
         public class PredictionMessage
         {
             public string type;
+            public string device_id;
             public int prediction;
             public float confidence;
             public int player;

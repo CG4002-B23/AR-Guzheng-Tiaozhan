@@ -11,15 +11,15 @@ public class GestureProvider : MonoBehaviour
 
     [Header("Class Mapping")]
     [Tooltip("Map the incoming MQTT integer to the correct gesture string.")]
-    public string[] classMapping = new string[] {
-        "Idle",    // 0
-        "Tuo",     // 1
-        "Index",   // 2
-        "Middle",  // 3
-        "Ring",    // 4
-        "Pinky",   // 5
-        "YaoZhi",  // 6
-        "Mute",    // 7
+    public List<string> gestureNames = new List<string> {
+        "Idle",        // 0
+        "Tuo",         // 1
+        "Index",       // 2
+        "Middle",      // 3
+        "Ring",        // 4
+        "Pinky",       // 5
+        "YaoZhi",      // 6
+        "Mute",        // 7
         "DragonClaw",  // 8
         "CraneWing",   // 9
         "BuddhaChop",  // 10
@@ -27,7 +27,7 @@ public class GestureProvider : MonoBehaviour
         "SnakeStrike", // 12
     };
 
-    public event Action<string> OnGestureReceived;
+    public event Action<HandType, string> OnGestureReceived;
 
     private void Start()
     {
@@ -50,12 +50,13 @@ public class GestureProvider : MonoBehaviour
         Debug.Log("GestureProvider: received prediction -- processing");
         if (predMsg.confidence < confidenceThreshold) return;
 
+        HandType hand = (predMsg.device_id == "FB_001") ? HandType.Left : HandType.Right;
         int predClass = predMsg.prediction;
         
-        if (predClass >= 0 && predClass < classMapping.Length)
+        if (predClass >= 0 && predClass < gestureNames.Count)
         {
-            string detectedGesture = classMapping[predClass];
-            OnGestureReceived?.Invoke(detectedGesture);
+            string detectedGesture = gestureNames[predClass];
+            OnGestureReceived?.Invoke(hand, detectedGesture);
         }
         else
         {

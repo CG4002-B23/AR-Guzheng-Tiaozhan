@@ -6374,7 +6374,7 @@ MonoBehaviour:
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
   scoreManager: {fileID: 1450936902}
-  gestureProvider: {fileID: 1735430944}
+  gestureProvider: {fileID: 1735430946}
   collisionSparkPrefab: {fileID: 2029927854084913047, guid: d169c3bd7e8dfe788a7c0342288568b6, type: 3}
   enemyDamageEffectPrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
   guzhengStrings:
@@ -8395,7 +8395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1157316113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10582,7 +10582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ultimateMeter: {fileID: 1637519809}
   knifePrefab: {fileID: 2886954661100545003, guid: 719a43bd519a8ff2eb745afbb04aada3, type: 3}
-  gestureProvider: {fileID: 1735430944}
+  gestureProvider: {fileID: 1735430946}
 --- !u!1 &1651256143
 GameObject:
   m_ObjectHideFlags: 0
@@ -11179,7 +11179,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735430943}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ab6f053a783499d39c4719563b85e77, type: 3}
   m_Name: 
@@ -11221,13 +11221,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735430943}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 282d3686ea81da0eebfb7818fd8fa644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   confidenceThreshold: 0.6
-  classMapping:
+  gestureNames:
   - Idle
   - Tuo
   - Index
@@ -12136,7 +12136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStates: 0100000002000000030000000400000005000000
   handAnimator: {fileID: 818703111}
-  gestureProvider: {fileID: 1735430944}
+  gestureProvider: {fileID: 1735430946}
   myHandType: 1
   gestureTriggersToReset:
   - IdleTrigger
@@ -14530,7 +14530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetStates: 0100000002000000030000000400000005000000
   handAnimator: {fileID: 930838698}
-  gestureProvider: {fileID: 1735430944}
+  gestureProvider: {fileID: 1735430946}
   myHandType: 0
   gestureTriggersToReset:
   - IdleTrigger

@@ -29,9 +29,11 @@ public class UltimateKnife : MonoBehaviour
     private bool isFired = false;
     private Transform targetEnemy;
     private UltimateMeterManager meterManager;
-    private MockGestureProvider gestureProvider;
+    // private MockGestureProvider gestureProvider;
+    private GestureProvider gestureProvider;
 
-    public void Initialize(Transform enemy, UltimateMeterManager meter, MockGestureProvider provider)
+    // public void Initialize(Transform enemy, UltimateMeterManager meter, MockGestureProvider provider)
+    public void Initialize(Transform enemy, UltimateMeterManager meter, GestureProvider provider)
     {
         targetEnemy = enemy;
         meterManager = meter;
