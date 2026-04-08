@@ -15,10 +15,10 @@ pip install -r requirements.txt
 Run the script from your terminal, providing an input audio file (like `.mp3` or `.wav`) and the desired output `.json` file path. 
 
 **Syntax:**
-python note_mapper.py -i <path_to_audio> -o <path_to_json>
+python note_mapper_v2.py -i <path_to_audio> -o <path_to_json>
 
 **Quick Example:**
-python note_mapper.py -i audio/spring_festival.mp3 -o beatmaps/spring_festival.json
+python note_mapper_v2.py -i audio/spring_festival.mp3 -o beatmaps/spring_festival.json
 
 *Note: If the JSON file already exists, the tool will load the existing notes so you can resume your progress!*
 
@@ -35,11 +35,9 @@ The interface is divided into a control panel on the left and a vertical, scroll
 
 ### Adding & Editing Notes
 Notes are dropped exactly at the red playhead line.
-* **[1, 2, 3, 4, 5]** - Drop a note on String 1 (Highest Pitch) to String 5 (Lowest Pitch). Defaults to the "Thumb" gesture.
-* **[Left Click Note]** - Cycle the note's gesture style (Thumb -> Index -> Middle -> Ring -> Pinky -> Mute -> Tremolo).
-* **[Shift + Left Click Note]** - Cycle the note's vibrato style (None -> Light -> Heavy).
+* **[1, 2, 3, 4]** - Drop a note on String 1 to String 4. Defaults to the "Thumb" gesture.
+* **[Left Click Note]** - Cycle the note's gesture style (Thumb -> Index -> Middle).
 * **[Right Click Note]** - Delete the clicked note.
-* **[Drag Tremolo Handle]** - Tremolo notes (`#`) have a white handle at the top. Click and drag this handle to stretch the duration of the tremolo.
 * **[Z]** - Undo the last added note.
 * **[ESC]** - Save and exit the tool.
 
@@ -66,7 +64,7 @@ The tool automatically sorts your notes chronologically and saves them to the sp
         {
             "time": 2.105,
             "string": 3,
-            "gesture": "tremolo",
+            "gesture": "index",
             "duration": 1.45
         }
     ]
