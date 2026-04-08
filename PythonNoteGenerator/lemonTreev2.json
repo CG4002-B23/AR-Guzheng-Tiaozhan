@@ -1,0 +1,39 @@
+{
+    "notes": [
+        {
+            "time": 4.18,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 4.276,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 4.838,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 5.208,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        },
+        {
+            "time": 5.757,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075,
+            "vibrato": "none"
+        }
+    ]
+}
