@@ -113,26 +113,7 @@ public class IncomingNoteManager : StateListener
 
         foreach (BeatmapNote note in data.notes)
         {
-            if (note.gesture == "tremolo")
-            {
-                // how many  tremolo notes to include within the duration of the tremolo
-                int tremoloCount = Mathf.Max(1, Mathf.RoundToInt(note.duration / 0.08f));
-                for (int i = 0; i < tremoloCount; i++)
-                {
-                    upcomingNotes.Add(new BeatmapNote 
-                    { 
-                        time = note.time + (i * 0.08f), 
-                        @string = note.@string, 
-                        gesture = "tremolo",
-                        duration = 0.075f, 
-                        vibrato = note.vibrato
-                    });
-                }
-            }
-            else
-            {
-                upcomingNotes.Add(note);
-            }
+            upcomingNotes.Add(note);
         }
 
         // resort in case the injected tremolo notes got out of order

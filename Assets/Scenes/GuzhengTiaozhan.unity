@@ -6469,16 +6469,16 @@ MonoBehaviour:
   availableSongs:
   - songName: LotusPond
     songAudio: {fileID: 8300000, guid: 85195baaae19a9d22b4c585a46feba92, type: 3}
-    beatmapJson: {fileID: 4900000, guid: 3d6d482015f6b077d9855a1c4fed2f58, type: 3}
+    beatmapJson: {fileID: 4900000, guid: ab2edd5b2a78ecbea946d6d4842b044a, type: 3}
   - songName: Endless Love
     songAudio: {fileID: 8300000, guid: dd8b61b0976b8940caca6a05cac3d0d2, type: 3}
-    beatmapJson: {fileID: 4900000, guid: 2f199121b73bd5856b19943fc85d9902, type: 3}
+    beatmapJson: {fileID: 4900000, guid: 09a60f3fbb780149181bad22914e010f, type: 3}
   - songName: Subject 3
     songAudio: {fileID: 8300000, guid: 6c350adff3493c0e4904a78b729bed1c, type: 3}
-    beatmapJson: {fileID: 4900000, guid: da3469e6d1d8dc233b2baee15b821d00, type: 3}
+    beatmapJson: {fileID: 4900000, guid: 84c52def7a72eb16eb6d1d74efef2a6e, type: 3}
   - songName: Lemon Tree
     songAudio: {fileID: 8300000, guid: 089b3639beef9825a99fd273f8b41837, type: 3}
-    beatmapJson: {fileID: 4900000, guid: c6641def6a4f2ab458a1bd4f7a4800a1, type: 3}
+    beatmapJson: {fileID: 4900000, guid: 164b4c08d96d9f09abb2857646b3f101, type: 3}
 --- !u!1 &873327141
 GameObject:
   m_ObjectHideFlags: 0
@@ -9991,8 +9991,8 @@ MonoBehaviour:
   laneManager: {fileID: 427778958}
   healthManager: {fileID: 84735140}
   gameManager: {fileID: 1951860612}
-  beatmapJson: {fileID: 4900000, guid: 3d6d482015f6b077d9855a1c4fed2f58, type: 3}
-  tutorialBeatmapJson: {fileID: 4900000, guid: 05b8bbb4e6082dad1a32027c3e9ab871, type: 3}
+  beatmapJson: {fileID: 4900000, guid: ab2edd5b2a78ecbea946d6d4842b044a, type: 3}
+  tutorialBeatmapJson: {fileID: 4900000, guid: e7ecefa89934dea1c920043d4c344e22, type: 3}
   noteSpeed: 0.5
   missedNoteDamage: 5
   playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
