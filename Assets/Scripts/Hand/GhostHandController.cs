@@ -3,12 +3,19 @@ using UnityEngine;
 
 public class GhostHandController : MonoBehaviour
 {
+    public enum HandSide { Left, Right }
+
+    [Header("Identity")]
+    [Tooltip("Just for inspector clarity to identify which prefab this is.")]
+    public HandSide handSide;
+
     [Header("References")]
     public GameObject ghostHandContainer;
     public Animator ghostHandAnimator;
 
     [Header("Positioning & Timing")]
-    public Vector3 handOffset = new Vector3(0, 0.1f, 0); // Hover slightly above the string
+    [Tooltip("Local offset added on top of the target position (e.g., hovering above the string/midpoint)")]
+    public Vector3 handOffset = new Vector3(0, 0.1f, 0); 
     public float hoverHeight = 0.15f; 
     public float hoverDuration = 0.5f;
     public float gestureHoldTime = 1.0f;
@@ -31,14 +38,18 @@ public class GhostHandController : MonoBehaviour
         }
     }
 
-    public void StartSequence(string gestureTriggerName, Vector3 laneStartPos, Vector3 laneEndPos)
+    /// <summary>
+    /// Starts the ghost hand sequence. Works for both on-string and off-string positions.
+    /// </summary>
+    public void StartSequence(string gestureTriggerName, Vector3 startPos, Vector3 endPos)
     {
         if (ghostHandContainer == null) return;
 
         // Clean up any existing sequences before starting a new one
         StopSequence(); 
 
-        Vector3 lookDirection = laneEndPos - laneStartPos;
+        // Calculate rotation based on the start and end points
+        Vector3 lookDirection = endPos - startPos;
         lookDirection.y = 0; // ensure the hand does not tilt up or down
 
         if (lookDirection != Vector3.zero)
@@ -46,7 +57,9 @@ public class GhostHandController : MonoBehaviour
 
         isAnimating = true;
         ghostHandContainer.SetActive(true);
-        activeHandLoop = StartCoroutine(GhostHandRoutine(gestureTriggerName, laneStartPos));
+        
+        // Pass the start position as the anchor point for the animation routine
+        activeHandLoop = StartCoroutine(GhostHandRoutine(gestureTriggerName, startPos));
     }
 
     public void StopSequence()
@@ -65,9 +78,10 @@ public class GhostHandController : MonoBehaviour
         }
     }
 
-    private IEnumerator GhostHandRoutine(string gestureTriggerName, Vector3 targetStringPos)
+    private IEnumerator GhostHandRoutine(string gestureTriggerName, Vector3 anchorPos)
     {
-        Vector3 bottomPos = targetStringPos + handOffset;
+        // Calculate the actual hover bounds based on the anchor point and offsets
+        Vector3 bottomPos = anchorPos + handOffset;
         Vector3 topPos = bottomPos + (Vector3.up * hoverHeight);
 
         while (isAnimating) 

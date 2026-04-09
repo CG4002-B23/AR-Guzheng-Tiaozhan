@@ -2,12 +2,31 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GhostHandTarget
+{
+    Left,
+    Right,
+    Both
+}
+
 [Serializable]
 public class GameplayTutorialEvent
 {
     public float triggerTime;
-    public int targetLaneIndex;
+    
+    [Header("Hand Settings")]
+    public GhostHandTarget handTarget;
     public string gestureTriggerName;
+
+    [Header("Position Settings")]
+    [Tooltip("If true, plays the gesture between the 2nd and 3rd string instead of on a specific lane.")]
+    public bool playOffString;
+    public Vector3 offStringOffset = new Vector3(0, 0, 0.1f); // Adjust Z offset here
+    
+    [Tooltip("Used only if playOffString is false.")]
+    public int targetLaneIndex;
+    
+    [Header("UI")]
     public GameObject modalPanel;
 }
 
@@ -23,7 +42,13 @@ public class TutorialGameplayUIManager : StateListener
     public GameObject gameUIPanel;
     
     [Header("Controllers")]
-    public GhostHandController ghostHandController; 
+    public GhostHandController leftGhostHandController; 
+    public GhostHandController rightGhostHandController; 
+
+    [Header("Off-String Configuration")]
+    [Tooltip("Lane indices for the 2nd and 3rd strings (assuming 0-indexed array)")]
+    public int secondStringIndex = 1; 
+    public int thirdStringIndex = 2;
 
     private int currentEventIndex = 0;
     private bool isHandlingEvent = false;
@@ -48,7 +73,7 @@ public class TutorialGameplayUIManager : StateListener
             currentEventIndex = 0;
             isHandlingEvent = false;
 
-            if (ghostHandController != null) ghostHandController.StopSequence();
+            StopAllGhostHands();
 
             foreach (var ev in tutorialEvents) // hide all modals
                 if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
@@ -73,7 +98,7 @@ public class TutorialGameplayUIManager : StateListener
             currentEventIndex = 0;
             isHandlingEvent = false;
 
-            if (ghostHandController != null) ghostHandController.StopSequence();
+            StopAllGhostHands();
 
             foreach (var ev in tutorialEvents) // hide panels
                 if (ev.modalPanel != null) ev.modalPanel.SetActive(false);
@@ -105,19 +130,54 @@ public class TutorialGameplayUIManager : StateListener
         if (tutorialEvent.modalPanel != null) tutorialEvent.modalPanel.SetActive(true);
         if (menuInteractionController != null) menuInteractionController.isTutorialUIOverrideActive = true;
 
-        if (ghostHandController != null && 
-            laneManager.LaneStarts.ContainsKey(tutorialEvent.targetLaneIndex) && 
-            laneManager.LaneEnds.ContainsKey(tutorialEvent.targetLaneIndex))
+        // Calculate Hand Positions
+        Vector3 startPos = Vector3.zero;
+        Vector3 endPos = Vector3.zero;
+        bool validPositionFound = false;
+
+        if (tutorialEvent.playOffString)
         {
-            Vector3 startPos = laneManager.LaneStarts[tutorialEvent.targetLaneIndex];
-            Vector3 endPos = laneManager.LaneEnds[tutorialEvent.targetLaneIndex];
-            ghostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
+            if (laneManager.LaneStarts.ContainsKey(secondStringIndex) && laneManager.LaneStarts.ContainsKey(thirdStringIndex))
+            {
+                startPos = (laneManager.LaneStarts[secondStringIndex] + laneManager.LaneStarts[thirdStringIndex]) / 2f + tutorialEvent.offStringOffset;
+                endPos = (laneManager.LaneEnds[secondStringIndex] + laneManager.LaneEnds[thirdStringIndex]) / 2f + tutorialEvent.offStringOffset;
+                validPositionFound = true;
+            }
+            else
+            {
+                Debug.LogWarning("Tutorial UI: Could not find lanes for off-string positioning.");
+            }
+        }
+        else
+        {
+            if (laneManager.LaneStarts.ContainsKey(tutorialEvent.targetLaneIndex) && laneManager.LaneEnds.ContainsKey(tutorialEvent.targetLaneIndex))
+            {
+                startPos = laneManager.LaneStarts[tutorialEvent.targetLaneIndex];
+                endPos = laneManager.LaneEnds[tutorialEvent.targetLaneIndex];
+                validPositionFound = true;
+            }
+        }
+
+        // Trigger appropriate hand(s)
+        if (validPositionFound)
+        {
+            if (tutorialEvent.handTarget == GhostHandTarget.Left || tutorialEvent.handTarget == GhostHandTarget.Both)
+            {
+                if (leftGhostHandController != null) 
+                    leftGhostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
+            }
+            
+            if (tutorialEvent.handTarget == GhostHandTarget.Right || tutorialEvent.handTarget == GhostHandTarget.Both)
+            {
+                if (rightGhostHandController != null) 
+                    rightGhostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
+            }
         }
     }
 
     public void ResumeGameplay()
     {
-        if (ghostHandController != null) ghostHandController.StopSequence();
+        StopAllGhostHands();
 
         if (currentEventIndex < tutorialEvents.Count)
         {
@@ -133,5 +193,11 @@ public class TutorialGameplayUIManager : StateListener
         StateManager.Instance.IsTutorialPaused = false;
         if (AudioManager.Instance != null) AudioManager.Instance.ToggleTutorialPause(false);
         if (gameUIPanel != null) gameUIPanel.SetActive(true);
+    }
+
+    private void StopAllGhostHands()
+    {
+        if (leftGhostHandController != null) leftGhostHandController.StopSequence();
+        if (rightGhostHandController != null) rightGhostHandController.StopSequence();
     }
 }
