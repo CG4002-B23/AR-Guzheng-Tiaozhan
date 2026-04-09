@@ -9993,7 +9993,7 @@ MonoBehaviour:
   gameManager: {fileID: 1951860612}
   beatmapJson: {fileID: 4900000, guid: ab2edd5b2a78ecbea946d6d4842b044a, type: 3}
   tutorialBeatmapJson: {fileID: 4900000, guid: e7ecefa89934dea1c920043d4c344e22, type: 3}
-  noteSpeed: 0.5
+  noteSpeed: 0.3
   missedNoteDamage: 5
   playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
   colorThumb: {r: 0, g: 1, b: 0, a: 1}
