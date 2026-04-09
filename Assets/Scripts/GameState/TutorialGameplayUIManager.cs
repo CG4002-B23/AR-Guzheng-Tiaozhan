@@ -6,7 +6,8 @@ public enum GhostHandTarget
 {
     Left,
     Right,
-    Both
+    Both,
+    None
 }
 
 [Serializable]
@@ -19,12 +20,15 @@ public class GameplayTutorialEvent
     public string gestureTriggerName;
 
     [Header("Position Settings")]
-    [Tooltip("If true, plays the gesture between the 2nd and 3rd string instead of on a specific lane.")]
+    [Tooltip("If true, plays the gesture between the 2nd and 3rd string instead of on specific lanes.")]
     public bool playOffString;
     public Vector3 offStringOffset = new Vector3(0, 0, 0.1f); // Adjust Z offset here
     
-    [Tooltip("Used only if playOffString is false.")]
-    public int targetLaneIndex;
+    [Tooltip("Lane index for the Left hand (Used if target is Left or Both)")]
+    public int leftTargetLaneIndex;
+
+    [Tooltip("Lane index for the Right hand (Used if target is Right or Both)")]
+    public int rightTargetLaneIndex;
     
     [Header("UI")]
     public GameObject modalPanel;
@@ -130,48 +134,71 @@ public class TutorialGameplayUIManager : StateListener
         if (tutorialEvent.modalPanel != null) tutorialEvent.modalPanel.SetActive(true);
         if (menuInteractionController != null) menuInteractionController.isTutorialUIOverrideActive = true;
 
-        // Calculate Hand Positions
-        Vector3 startPos = Vector3.zero;
-        Vector3 endPos = Vector3.zero;
-        bool validPositionFound = false;
+        // Pre-calculate Off-String positions just in case playOffString is true
+        Vector3 offStringStart = Vector3.zero;
+        Vector3 offStringEnd = Vector3.zero;
+        bool hasValidOffString = false;
 
         if (tutorialEvent.playOffString)
         {
             if (laneManager.LaneStarts.ContainsKey(secondStringIndex) && laneManager.LaneStarts.ContainsKey(thirdStringIndex))
             {
-                startPos = (laneManager.LaneStarts[secondStringIndex] + laneManager.LaneStarts[thirdStringIndex]) / 2f + tutorialEvent.offStringOffset;
-                endPos = (laneManager.LaneEnds[secondStringIndex] + laneManager.LaneEnds[thirdStringIndex]) / 2f + tutorialEvent.offStringOffset;
-                validPositionFound = true;
+                offStringStart = (laneManager.LaneStarts[secondStringIndex] + laneManager.LaneStarts[thirdStringIndex]) / 2f + tutorialEvent.offStringOffset;
+                offStringEnd = (laneManager.LaneEnds[secondStringIndex] + laneManager.LaneEnds[thirdStringIndex]) / 2f + tutorialEvent.offStringOffset;
+                hasValidOffString = true;
             }
             else
             {
                 Debug.LogWarning("Tutorial UI: Could not find lanes for off-string positioning.");
             }
         }
-        else
+
+        // --- LEFT HAND LOGIC ---
+        if (tutorialEvent.handTarget == GhostHandTarget.Left || tutorialEvent.handTarget == GhostHandTarget.Both)
         {
-            if (laneManager.LaneStarts.ContainsKey(tutorialEvent.targetLaneIndex) && laneManager.LaneEnds.ContainsKey(tutorialEvent.targetLaneIndex))
+            Vector3 startPos = Vector3.zero;
+            Vector3 endPos = Vector3.zero;
+            bool validPos = false;
+
+            if (tutorialEvent.playOffString && hasValidOffString)
             {
-                startPos = laneManager.LaneStarts[tutorialEvent.targetLaneIndex];
-                endPos = laneManager.LaneEnds[tutorialEvent.targetLaneIndex];
-                validPositionFound = true;
+                startPos = offStringStart;
+                endPos = offStringEnd;
+                validPos = true;
             }
+            else if (!tutorialEvent.playOffString && laneManager.LaneStarts.ContainsKey(tutorialEvent.leftTargetLaneIndex))
+            {
+                startPos = laneManager.LaneStarts[tutorialEvent.leftTargetLaneIndex];
+                endPos = laneManager.LaneEnds[tutorialEvent.leftTargetLaneIndex];
+                validPos = true;
+            }
+
+            if (validPos && leftGhostHandController != null)
+                leftGhostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
         }
 
-        // Trigger appropriate hand(s)
-        if (validPositionFound)
+        // --- RIGHT HAND LOGIC ---
+        if (tutorialEvent.handTarget == GhostHandTarget.Right || tutorialEvent.handTarget == GhostHandTarget.Both)
         {
-            if (tutorialEvent.handTarget == GhostHandTarget.Left || tutorialEvent.handTarget == GhostHandTarget.Both)
+            Vector3 startPos = Vector3.zero;
+            Vector3 endPos = Vector3.zero;
+            bool validPos = false;
+
+            if (tutorialEvent.playOffString && hasValidOffString)
             {
-                if (leftGhostHandController != null) 
-                    leftGhostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
+                startPos = offStringStart;
+                endPos = offStringEnd;
+                validPos = true;
             }
-            
-            if (tutorialEvent.handTarget == GhostHandTarget.Right || tutorialEvent.handTarget == GhostHandTarget.Both)
+            else if (!tutorialEvent.playOffString && laneManager.LaneStarts.ContainsKey(tutorialEvent.rightTargetLaneIndex))
             {
-                if (rightGhostHandController != null) 
-                    rightGhostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
+                startPos = laneManager.LaneStarts[tutorialEvent.rightTargetLaneIndex];
+                endPos = laneManager.LaneEnds[tutorialEvent.rightTargetLaneIndex];
+                validPos = true;
             }
+
+            if (validPos && rightGhostHandController != null)
+                rightGhostHandController.StartSequence(tutorialEvent.gestureTriggerName, startPos, endPos);
         }
     }
 

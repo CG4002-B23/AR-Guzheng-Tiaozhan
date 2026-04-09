@@ -5204,7 +5204,7 @@ MonoBehaviour:
   m_text: 'Those were all the basic gestures to make.
 
     Remember, hitting the
-    string when the note is closer to the Guzheng grants you more points!'
+    string when the note is closer to the Guzheng grants you more points! Have fun!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9454,7 +9454,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Your UltimateMeter is charged by notes you hit and is now full. You need
-    to make a special gesture to actiavate the Ultimate ability.
+    to make a special gesture to activate the Ultimate ability. Doing so gives you
+    more points!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11740,77 +11741,88 @@ MonoBehaviour:
     gestureTriggerName: TuoTrigger
     playOffString: 0
     offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 0
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 904484114}
   - triggerTime: 15.4
     handTarget: 0
     gestureTriggerName: IndexTrigger
     playOffString: 0
     offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 1
+    leftTargetLaneIndex: 1
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 746877320}
   - triggerTime: 29.4
     handTarget: 0
     gestureTriggerName: MiddleTrigger
     playOffString: 0
     offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 1
+    leftTargetLaneIndex: 1
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 1782360721}
-  - triggerTime: 39.9
+  - triggerTime: 43.2
     handTarget: 2
     gestureTriggerName: TuoTrigger
     playOffString: 0
     offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    leftTargetLaneIndex: 1
+    rightTargetLaneIndex: 3
     modalPanel: {fileID: 179694302}
   - triggerTime: 50
-    handTarget: 2
+    handTarget: 3
     gestureTriggerName: IdleTrigger
     playOffString: 0
     offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 1672431847}
   - triggerTime: 50
     handTarget: 1
     gestureTriggerName: DragonClawTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    offStringOffset: {x: 0, y: 0.2, z: -0.1}
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 1529475839}
   - triggerTime: 53
     handTarget: 1
     gestureTriggerName: CraneWingTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    offStringOffset: {x: 0, y: 0.2, z: -0.1}
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 2019019160}
   - triggerTime: 56
     handTarget: 1
     gestureTriggerName: BuddhaChopTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    offStringOffset: {x: 0, y: 0.2, z: -0.1}
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 450103269}
   - triggerTime: 59
     handTarget: 1
     gestureTriggerName: PunchTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    offStringOffset: {x: 0, y: 0.2, z: -0.1}
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 2031997897}
   - triggerTime: 62
-    handTarget: 0
+    handTarget: 1
     gestureTriggerName: SnakeStrikeTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    offStringOffset: {x: 0, y: 0.2, z: -0.1}
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 1683179709}
   - triggerTime: 67
-    handTarget: 2
+    handTarget: 3
     gestureTriggerName: DragonClawTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 0, z: -0.1}
-    targetLaneIndex: 2
+    offStringOffset: {x: 0, y: 0.5, z: -0.1}
+    leftTargetLaneIndex: 0
+    rightTargetLaneIndex: 0
     modalPanel: {fileID: 1430283723}
   noteManager: {fileID: 1375489250}
   laneManager: {fileID: 427778958}
@@ -12024,7 +12036,7 @@ MonoBehaviour:
   healthManager: {fileID: 84735140}
   gameManager: {fileID: 1951860612}
   beatmapJson: {fileID: 4900000, guid: ab2edd5b2a78ecbea946d6d4842b044a, type: 3}
-  tutorialBeatmapJson: {fileID: 4900000, guid: e7ecefa89934dea1c920043d4c344e22, type: 3}
+  tutorialBeatmapJson: {fileID: 4900000, guid: 2cfb5c2bf9665f06baf6639bd2170aa8, type: 3}
   noteSpeed: 0.3
   missedNoteDamage: 5
   playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
