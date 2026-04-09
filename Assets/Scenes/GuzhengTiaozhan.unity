@@ -4770,7 +4770,7 @@ MonoBehaviour:
   handOffset: {x: 0, y: 0.1, z: -0.2}
   hoverHeight: 0.15
   hoverDuration: 0.5
-  gestureHoldTime: 1
+  gestureHoldTime: 1.5
   loopPauseTime: 1
   maxHandOpacity: 0.5
 --- !u!4 &526820989
@@ -11766,7 +11766,7 @@ MonoBehaviour:
   - triggerTime: 50
     handTarget: 2
     gestureTriggerName: IdleTrigger
-    playOffString: 1
+    playOffString: 0
     offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
     modalPanel: {fileID: 1672431847}
@@ -11774,40 +11774,40 @@ MonoBehaviour:
     handTarget: 1
     gestureTriggerName: DragonClawTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 1, z: -0.1}
+    offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
     modalPanel: {fileID: 1529475839}
   - triggerTime: 53
     handTarget: 1
     gestureTriggerName: CraneWingTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 1, z: -0.1}
+    offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
     modalPanel: {fileID: 2019019160}
   - triggerTime: 56
     handTarget: 1
     gestureTriggerName: BuddhaChopTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 1, z: -0.1}
+    offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
     modalPanel: {fileID: 450103269}
   - triggerTime: 59
     handTarget: 1
     gestureTriggerName: PunchTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 1, z: -0.1}
+    offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
     modalPanel: {fileID: 2031997897}
   - triggerTime: 62
     handTarget: 0
     gestureTriggerName: SnakeStrikeTrigger
     playOffString: 1
-    offStringOffset: {x: 0, y: 1, z: -0.1}
+    offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
     modalPanel: {fileID: 1683179709}
   - triggerTime: 67
     handTarget: 2
-    gestureTriggerName: IdleTrigger
+    gestureTriggerName: DragonClawTrigger
     playOffString: 1
     offStringOffset: {x: 0, y: 0, z: -0.1}
     targetLaneIndex: 2
@@ -15345,7 +15345,7 @@ MonoBehaviour:
   handOffset: {x: 0, y: 0.1, z: -0.2}
   hoverHeight: 0.15
   hoverDuration: 0.5
-  gestureHoldTime: 1
+  gestureHoldTime: 1.5
   loopPauseTime: 1
   maxHandOpacity: 0.5
 --- !u!4 &1882862007

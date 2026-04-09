@@ -90,8 +90,8 @@ public class GhostHandController : MonoBehaviour
             float timer = 0f;
             ghostHandContainer.transform.position = topPos;
             SetHandAlpha(0f);
-            
-            if (ghostHandAnimator != null) ghostHandAnimator.SetTrigger("IdleTrigger");
+            // if (ghostHandAnimator != null) ghostHandAnimator.SetTrigger("IdleTrigger");
+            if (ghostHandAnimator != null) ghostHandAnimator.Play("Idle", 0, 0f);
 
             while (timer < hoverDuration)
             {
