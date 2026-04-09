@@ -56,15 +56,15 @@ MonoBehaviour:
   iconRenderer: {fileID: 1790517706379925637}
   possibleGestures:
   - gestureName: DragonClaw
-    icon: {fileID: 21300000, guid: ca6ff084116929e41a747403f15f808e, type: 3}
+    icon: {fileID: 21300000, guid: 2b1877b539848e2b4b866e728b816ad4, type: 3}
   - gestureName: CraneWing
-    icon: {fileID: 21300000, guid: 41bc5d0324757c7439b419ae5397a50e, type: 3}
+    icon: {fileID: 21300000, guid: a2d09808bfc61126795153d3eae2f539, type: 3}
   - gestureName: BuddhaChop
-    icon: {fileID: 21300000, guid: 23772e19474d2c443b3be8361065a7b1, type: 3}
+    icon: {fileID: 21300000, guid: faa7b3aaba3176a5b9370de4121cec33, type: 3}
   - gestureName: Punch
-    icon: {fileID: 21300000, guid: 433f891bf38fed24d91d68c15aae515d, type: 3}
+    icon: {fileID: 21300000, guid: 51db30dd4f3aef0318e75c4f9375be5c, type: 3}
   - gestureName: SnakeStrike
-    icon: {fileID: 21300000, guid: 387454f6cd7cc5047bc289d606b175b3, type: 3}
+    icon: {fileID: 21300000, guid: 481b0c50bc354e0c0ae080f1720c5c08, type: 3}
   flySpeed: 5
   hitParticlePrefab: {fileID: 2029927854084913047, guid: df93046d9c155ec9a8e6aa3ea7b66814, type: 3}
 --- !u!65 &8075209225172387379
