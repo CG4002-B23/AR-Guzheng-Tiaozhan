@@ -16,15 +16,11 @@ public class GestureProvider : MonoBehaviour
         "Tuo",         // 1
         "Index",       // 2
         "Middle",      // 3
-        "Ring",        // 4
-        "Pinky",       // 5
-        "YaoZhi",      // 6
-        "Mute",        // 7
-        "DragonClaw",  // 8
-        "CraneWing",   // 9
-        "BuddhaChop",  // 10
-        "Punch",       // 11
-        "SnakeStrike", // 12
+        "DragonClaw",  // 4
+        "CraneWing",   // 5
+        "BuddhaChop",  // 6
+        "Punch",       // 7
+        "SnakeStrike", // 8
     };
 
     public event Action<HandType, string> OnGestureReceived;
