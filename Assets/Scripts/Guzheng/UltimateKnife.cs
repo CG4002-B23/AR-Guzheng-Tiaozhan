@@ -31,13 +31,15 @@ public class UltimateKnife : MonoBehaviour
     private UltimateMeterManager meterManager;
     // private MockGestureProvider gestureProvider;
     private GestureProvider gestureProvider;
+    private ScoreManager scoreManager;
 
-    // public void Initialize(Transform enemy, UltimateMeterManager meter, MockGestureProvider provider)
-    public void Initialize(Transform enemy, UltimateMeterManager meter, GestureProvider provider)
+    // public void Initialize(Transform enemy, UltimateMeterManager meter, MockGestureProvider provider, ScoreManager scoreManager)
+    public void Initialize(Transform enemy, UltimateMeterManager meter, GestureProvider provider, ScoreManager score)
     {
         targetEnemy = enemy;
         meterManager = meter;
         gestureProvider = provider;
+        scoreManager = score;
 
         if (gestureProvider != null) gestureProvider.OnGestureReceived += CheckGesture;
     }
@@ -106,7 +108,7 @@ public class UltimateKnife : MonoBehaviour
             if (hitParticlePrefab != null)
                 Instantiate(hitParticlePrefab, transform.position, Quaternion.identity);
 
-            // TODO: Add to the score here
+            if (scoreManager != null) scoreManager.AddUltimateScore(transform.position);
 
             Destroy(gameObject);
         }

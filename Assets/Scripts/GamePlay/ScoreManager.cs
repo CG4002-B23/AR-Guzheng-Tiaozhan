@@ -25,6 +25,7 @@ public class ScoreManager : StateListener
     [Header("Points Awarded")]
     public int perfectPoints = 3;
     public int goodPoints = 1;
+    public int ultimatePoints = 5;
 
     void Start()
     {
@@ -83,5 +84,20 @@ public class ScoreManager : StateListener
         }
 
         if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);
+    }
+
+    public void AddUltimateScore(Vector3 hitPosition)
+    {
+        currentScore += ultimatePoints;
+
+        if (floatingTextPrefab != null)
+        {
+            Vector3 spawnPos = hitPosition + (Vector3.up * 0.2f);
+            GameObject popup = Instantiate(floatingTextPrefab, spawnPos, Quaternion.identity);
+            popup.GetComponent<FloatingText>().Setup("ULTIMATE!", Color.cyan);
+        }
+
+        if (uiStatsManager != null) uiStatsManager.UpdateScore(currentScore);
+        Debug.Log($"<color=cyan>ULTIMATE!</color> Score: {currentScore}");
     }
 }

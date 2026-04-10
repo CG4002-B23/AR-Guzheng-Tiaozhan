@@ -7,6 +7,7 @@ public class PlayerUltimateManager : MonoBehaviour
     public GameObject knifePrefab;
     // public MockGestureProvider gestureProvider;
     public GestureProvider gestureProvider;
+    public ScoreManager scoreManager;
     private Transform enemyCenter;
 
     private BoxCollider knifeSpawnArea;
@@ -63,7 +64,7 @@ public class PlayerUltimateManager : MonoBehaviour
         UltimateKnife knifeScript = spawnedKnife.GetComponent<UltimateKnife>();
         
         if (knifeScript != null)
-            knifeScript.Initialize(enemyCenter, ultimateMeter, gestureProvider);
+            knifeScript.Initialize(enemyCenter, ultimateMeter, gestureProvider, scoreManager);
     }
 
     public void DestroySpawnedKnife()
