@@ -6003,8 +6003,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Those were all the basic gestures to make.
 
-    Remember, hitting the string when the note is closer to the Guzheng grants you
-    more points! Have fun!'
+    Remember, hitting the
+    string when the note is closer to the Guzheng grants you more points! Have fun!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8357,16 +8357,16 @@ MonoBehaviour:
   availableSongs:
   - songName: LotusPond
     songAudio: {fileID: 8300000, guid: 85195baaae19a9d22b4c585a46feba92, type: 3}
-    beatmapJson: {fileID: 4900000, guid: ab2edd5b2a78ecbea946d6d4842b044a, type: 3}
+    beatmapJson: {fileID: 4900000, guid: afaf17447deed67d084b36933d0a570f, type: 3}
   - songName: Endless Love
     songAudio: {fileID: 8300000, guid: dd8b61b0976b8940caca6a05cac3d0d2, type: 3}
-    beatmapJson: {fileID: 4900000, guid: 09a60f3fbb780149181bad22914e010f, type: 3}
+    beatmapJson: {fileID: 4900000, guid: 11e9aa71e4eba1053b36585c4d17265e, type: 3}
   - songName: Subject 3
     songAudio: {fileID: 8300000, guid: 6c350adff3493c0e4904a78b729bed1c, type: 3}
-    beatmapJson: {fileID: 4900000, guid: 84c52def7a72eb16eb6d1d74efef2a6e, type: 3}
+    beatmapJson: {fileID: 4900000, guid: d02381b3fe87bb38caf1c57ac20427af, type: 3}
   - songName: Lemon Tree
     songAudio: {fileID: 8300000, guid: 089b3639beef9825a99fd273f8b41837, type: 3}
-    beatmapJson: {fileID: 4900000, guid: 164b4c08d96d9f09abb2857646b3f101, type: 3}
+    beatmapJson: {fileID: 4900000, guid: f712b76a03316132a90746dc3345e7b3, type: 3}
 --- !u!1 &873327141
 GameObject:
   m_ObjectHideFlags: 0
@@ -11072,8 +11072,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Keep the fingers relaxed. Let the arm rise. Snap the wrist upward like a
-    crane taking flight.
+  m_text: Keep the fingers relaxed. Let the arm rise. Snap the wrist upward like
+    a crane taking flight.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12737,7 +12737,8 @@ MonoBehaviour:
   m_text: 'Welcome to GuzhengTiaoZhan!
 
 
-    This is an AR-based musical rhythm game that puts your Guzheng skills to the test!'
+    This is an AR-based musical rhythm game
+    that puts your Guzheng skills to the test!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

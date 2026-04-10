@@ -1,0 +1,190 @@
+{
+    "notes": [
+        {
+            "time": 1.984,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 4.048,
+            "string": 1,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 4.948,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 7.93,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 10.385,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 11.936,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 13.955,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 15.947,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 18.038,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 18.054,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 21.968,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 23.067,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 25.494,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 28.178,
+            "string": 1,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 28.195,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 31.913,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 34.363,
+            "string": 4,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 35.956,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 37.86,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 39.926,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 39.942,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 41.968,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 45.905,
+            "string": 2,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 48.486,
+            "string": 3,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 51.189,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 52.026,
+            "string": 2,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 54.894,
+            "string": 3,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 56.908,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 58.89,
+            "string": 4,
+            "gesture": "middle",
+            "duration": 0.075
+        },
+        {
+            "time": 60.213,
+            "string": 1,
+            "gesture": "index",
+            "duration": 0.075
+        },
+        {
+            "time": 60.945,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        }
+    ]
+}

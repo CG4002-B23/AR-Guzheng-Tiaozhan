@@ -1,0 +1,358 @@
+{
+    "notes": [
+        {
+            "time": 0.0,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 2.692,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 5.445,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 7.401,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 9.304,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 11.186,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 16.632,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 16.648,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 18.505,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 22.136,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 22.169,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 23.974,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 26.677,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 29.545,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 31.416,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 33.284,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 35.075,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 36.028,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 36.995,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 40.596,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 40.612,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 44.287,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 46.043,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 46.059,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 47.965,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 49.805,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 51.712,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 54.37,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 54.386,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 57.546,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 60.774,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 62.684,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 64.774,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 66.572,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 68.691,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 70.126,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 71.996,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 72.012,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 75.606,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 75.622,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 77.423,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 79.303,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 79.319,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 81.107,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 82.945,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 82.961,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 84.826,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 87.578,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 88.546,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 90.429,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 90.445,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 93.133,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 95.843,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 95.859,
+            "string": 1,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 97.631,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 100.488,
+            "string": 3,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 102.326,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 104.307,
+            "string": 2,
+            "gesture": "thumb",
+            "duration": 0.075
+        },
+        {
+            "time": 107.405,
+            "string": 4,
+            "gesture": "thumb",
+            "duration": 0.075
+        }
+    ]
+}
