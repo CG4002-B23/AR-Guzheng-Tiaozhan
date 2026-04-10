@@ -36,6 +36,7 @@ public class PlayerCombatManager : StateListener
         public GameObject noteObject;
         public int laneIndex;
         public Color noteColor;
+        public Vector3 previousPosition;
     }
 
     private List<PlayerNote> activePlayerNotes = new List<PlayerNote>();
@@ -119,7 +120,8 @@ public class PlayerCombatManager : StateListener
         activePlayerNotes.Add(new PlayerNote { 
             noteObject = newNote, 
             laneIndex = laneIndex,
-            noteColor = mappedColor 
+            noteColor = mappedColor,
+            previousPosition = laneManager.LaneStarts[laneIndex]
         });
     }
 
@@ -143,14 +145,14 @@ public class PlayerCombatManager : StateListener
             if (!laneManager.LaneEnds.ContainsKey(pNote.laneIndex)) continue;
 
             Vector3 targetPos = laneManager.LaneEnds[pNote.laneIndex];
-            
+            pNote.previousPosition = pNote.noteObject.transform.position;
+
             pNote.noteObject.transform.position = Vector3.MoveTowards(
                 pNote.noteObject.transform.position,
                 targetPos,
                 playerNoteSpeed * Time.deltaTime
             );
 
-            // sphere reaches enemy (with tiny threshold)
             if (Vector3.Distance(pNote.noteObject.transform.position, targetPos) < 0.05f)
             {
                 playerSphereSpawner.ReturnSphere(pNote.noteObject);
@@ -158,21 +160,29 @@ public class PlayerCombatManager : StateListener
                 continue;
             }
 
-            // collision detection
             bool hitRegistered = false;
             for (int j = enemyNoteManager.activeNotes.Count - 1; j >= 0; j--)
             {
                 var eNote = enemyNoteManager.activeNotes[j];
-                
-                if (eNote.laneIndex != pNote.laneIndex) continue; // only check collisions that are in the same lane
-                if (eNote.noteColor != pNote.noteColor) continue; // only notes of the same color can collide
 
-                float dist = Vector3.Distance(pNote.noteObject.transform.position, eNote.noteObject.transform.position);
+                if (eNote.laneIndex != pNote.laneIndex) continue;
+                if (eNote.noteColor != pNote.noteColor) continue;
 
-                if (dist < collisionDistanceThreshold)
+                // --- SWEPT COLLISION: check both current AND previous positions ---
+                float distCurrent  = Vector3.Distance(pNote.noteObject.transform.position, eNote.noteObject.transform.position);
+                float distPrevious = Vector3.Distance(pNote.previousPosition, eNote.previousPosition);
+
+                // A collision occurred if they are close NOW, OR if they were further
+                // apart last frame and are now closer (i.e. they crossed paths mid-frame)
+                bool crossedThisFrame = distPrevious > collisionDistanceThreshold && distCurrent < collisionDistanceThreshold;
+                bool closeEnough      = distCurrent < collisionDistanceThreshold;
+
+                if (closeEnough || crossedThisFrame)
                 {
+                    Vector3 collisionPoint = Vector3.Lerp(pNote.previousPosition, pNote.noteObject.transform.position, 0.5f);
+
                     if (collisionSparkPrefab != null)
-                        Instantiate(collisionSparkPrefab, pNote.noteObject.transform.position, Quaternion.identity);
+                        Instantiate(collisionSparkPrefab, collisionPoint, Quaternion.identity);
 
                     if (enemyDamageEffectPrefab != null)
                         Instantiate(enemyDamageEffectPrefab, targetPos, Quaternion.identity);
@@ -181,16 +191,14 @@ public class PlayerCombatManager : StateListener
                     float distanceToGuzheng = Vector3.Distance(eNote.noteObject.transform.position, guzhengLaneStartPosition);
 
                     if (scoreManager != null)
-                        scoreManager.RegisterHit(distanceToGuzheng, pNote.noteObject.transform.position);
+                        scoreManager.RegisterHit(distanceToGuzheng, collisionPoint);
 
-                    enemyNoteManager.DestroyNoteFromBot(eNote); 
+                    enemyNoteManager.DestroyNoteFromBot(eNote);
                     hitRegistered = true;
-                    
-                    break; // stop checking other enemy notes since this player note exploded
+                    break;
                 }
             }
 
-            // clean up the player note if it exploded
             if (hitRegistered)
             {
                 playerSphereSpawner.ReturnSphere(pNote.noteObject);

@@ -66,6 +66,7 @@ public class IncomingNoteManager : StateListener
         public bool isTargetedByBot;
         public float hitTime;
         public GameObject vibratoEffectObj;
+        public Vector3 previousPosition;
     }
 
     public List<ActiveNote> activeNotes = new List<ActiveNote>();
@@ -290,6 +291,7 @@ public class IncomingNoteManager : StateListener
 
             if (!laneManager.LaneStarts.ContainsKey(note.laneIndex) || !laneManager.LaneEnds.ContainsKey(note.laneIndex)) continue;
 
+            note.previousPosition = note.noteObject.transform.position;
             Vector3 targetPosition = laneManager.LaneStarts[note.laneIndex]; 
             Vector3 startPosition = laneManager.LaneEnds[note.laneIndex];
 
