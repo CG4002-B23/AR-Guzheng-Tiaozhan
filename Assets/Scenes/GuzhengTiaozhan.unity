@@ -13461,7 +13461,7 @@ MonoBehaviour:
   healthManager: {fileID: 84735140}
   gameManager: {fileID: 1951860612}
   beatmapJson: {fileID: 4900000, guid: ab2edd5b2a78ecbea946d6d4842b044a, type: 3}
-  tutorialBeatmapJson: {fileID: 4900000, guid: 2cfb5c2bf9665f06baf6639bd2170aa8, type: 3}
+  tutorialBeatmapJson: {fileID: 4900000, guid: d4841417bdb14a2c1b3c800433f4923d, type: 3}
   noteSpeed: 0.3
   missedNoteDamage: 5
   playerDamageEffectPrefab: {fileID: 2029927854084913047, guid: 0688c736f4c6a0faba40772633b9e58b, type: 3}
