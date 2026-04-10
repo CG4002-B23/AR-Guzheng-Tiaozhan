@@ -14371,7 +14371,7 @@ MonoBehaviour:
   fireEffectObject: {fileID: 0}
   normalColor: {r: 0, g: 0.9254902, b: 1, a: 1}
   fullColor: {r: 1, g: 0.8807937, b: 0, a: 1}
-  maxCharge: 100
+  maxCharge: 30
   currentCharge: 0
   pulseSpeed: 5
   pulseScale: 0.05
@@ -19059,7 +19059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8632180759679770195, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8691978799109056319, guid: 0b3dc05b7c5b9b58a8f56db697ef00af, type: 3}
       propertyPath: m_LocalPosition.z
