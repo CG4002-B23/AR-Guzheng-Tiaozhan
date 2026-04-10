@@ -43,12 +43,6 @@ namespace M2MqttUnity.Examples
         public Text lastPredictionText;
         public event Action<PredictionMessage> OnPredictionReceived;
 
-        // CHANGES
-        private bool isStreamActive = false;
-        private bool lastStreamState = false;
-
-        private string handToTrigger = "FB_001";
-
         private const string ESP32_LEFT = "FB_001";
         private const string ESP32_RIGHT = "FB_002";
 
@@ -300,6 +294,9 @@ namespace M2MqttUnity.Examples
             AddToConsole($"Client ID: {clientId}");
             AddToConsole("Waiting for predictions...");
 
+            SendStreamTrigger(true, ESP32_LEFT);
+            SendStreamTrigger(true, ESP32_RIGHT);
+
             SendConnectionStatus("connected");
 
             if (autoTest)
@@ -348,8 +345,6 @@ namespace M2MqttUnity.Examples
             if (connectionStatusText != null)
                 connectionStatusText.text = "Disconnected";
             
-            isStreamActive = false;
-            lastStreamState = false;
             updateUI = true;
         }
 
@@ -359,8 +354,6 @@ namespace M2MqttUnity.Examples
             if (connectionStatusText != null)
                 connectionStatusText.text = "Connection Lost";
             
-            isStreamActive = false;
-            lastStreamState = false;
             updateUI = true;
         }
 
@@ -384,6 +377,7 @@ namespace M2MqttUnity.Examples
             try
             {
                 var predMsg = JsonUtility.FromJson<PredictionMessage>(msg);
+                Debug.Log("MQTT: here");
                 if (predMsg != null && predMsg.type == "prediction")
                 {
                     lastPrediction = predMsg.prediction.ToString();
@@ -407,6 +401,7 @@ namespace M2MqttUnity.Examples
             catch (Exception e)
             {
                 AddToConsole($"Error parsing message: {e.Message}");
+                Debug.Log($"Error parsing message: {e.Message}");
             }
         }
 
@@ -423,13 +418,7 @@ namespace M2MqttUnity.Examples
                 connectionStatusText.text = "Status: " + msg;
         }
 
-        public void SetStreamState(bool active, string hand)
-        {
-            isStreamActive = active;
-            handToTrigger = hand;
-        }
-
-        private void SendStreamTrigger(bool start)
+        private void SendStreamTrigger(bool start, string targetDevice)
         {
             if (client == null || !client.IsConnected) return;
 
@@ -438,7 +427,7 @@ namespace M2MqttUnity.Examples
             var triggerMsg = new TriggerMessage
             {
                 type = "trigger",
-                target_device = handToTrigger,
+                target_device = targetDevice,
                 action = action,
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
             };
@@ -447,7 +436,7 @@ namespace M2MqttUnity.Examples
             client.Publish(publishTopic, System.Text.Encoding.UTF8.GetBytes(jsonMsg), 
                           MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
             
-            AddToConsole($"Stream {action} triggered for ESP32");
+            AddToConsole($"Stream {action} triggered for ESP32 {targetDevice}");
         }
 
         // HAPTIC FEEDBACK METHODS
@@ -543,11 +532,9 @@ namespace M2MqttUnity.Examples
         // ============================================================================
         public new void Disconnect()
         {
-            if (isStreamActive)
-            {
-                SendStreamTrigger(false);
-            }
-            
+            SendStreamTrigger(false, ESP32_LEFT);
+            SendStreamTrigger(false, ESP32_RIGHT);
+
             AddToConsole("Disconnecting...");
             base.Disconnect();
             updateUI = true;
@@ -642,14 +629,14 @@ namespace M2MqttUnity.Examples
                 UpdateUI();
             }
             
-            if (isStreamActive != lastStreamState)
-            {
-                if (client != null && client.IsConnected)
-                {
-                    SendStreamTrigger(isStreamActive);
-                }
-                lastStreamState = isStreamActive;
-            }
+            // if (isStreamActive != lastStreamState)
+            // {
+            //     if (client != null && client.IsConnected)
+            //     {
+            //         SendStreamTrigger(isStreamActive);
+            //     }
+            //     lastStreamState = isStreamActive;
+            // }
         }
 
         protected override void Awake()
@@ -715,10 +702,9 @@ namespace M2MqttUnity.Examples
             
             if (client != null && client.IsConnected)
             {
-                if (isStreamActive)
-                {
-                    SendStreamTrigger(false);
-                }
+                SendStreamTrigger(false, ESP32_LEFT);
+                SendStreamTrigger(false, ESP32_RIGHT);
+
                 SendConnectionStatus("disconnected");
                 Disconnect();
                 AddToConsole("Disconnected");

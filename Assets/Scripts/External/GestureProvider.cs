@@ -43,8 +43,8 @@ public class GestureProvider : MonoBehaviour
 
     private void HandlePrediction(M2MqttUnityTest.PredictionMessage predMsg)
     {
-        Debug.Log("GestureProvider: received prediction -- processing");
         if (predMsg.confidence < confidenceThreshold) return;
+        Debug.Log($"GestureProvider: received prediction: {predMsg.prediction}");
 
         HandType hand = (predMsg.device_id == "FB_001") ? HandType.Left : HandType.Right;
         int predClass = predMsg.prediction;

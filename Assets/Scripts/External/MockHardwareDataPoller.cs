@@ -25,22 +25,5 @@ public class MockHardwareDataPoller : MonoBehaviour
             touchedStrings.Add(guzhengString); // HashSet automatically ignores duplicates
         else
             touchedStrings.Remove(guzhengString);
-
-        EvaluateStreamState();
-    }
-
-    private void EvaluateStreamState()
-    {
-        bool shouldStream = touchedStrings.Count > 0;
-
-        if (shouldStream != isCurrentlyStreaming)
-        {
-            isCurrentlyStreaming = shouldStream;
-            
-            Debug.Log($"HardwareDataPoller: Guzheng strings touched: {touchedStrings.Count}. Stream state changing to {isCurrentlyStreaming}");
-
-            if (M2MqttUnityTest.Instance != null) 
-                M2MqttUnityTest.Instance.SetStreamState(isCurrentlyStreaming, "FB_001");
-        }
     }
 }
