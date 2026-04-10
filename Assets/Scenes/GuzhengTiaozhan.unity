@@ -13833,6 +13833,7 @@ MonoBehaviour:
   goodThreshold: 0.8
   perfectPoints: 3
   goodPoints: 1
+  ultimatePoints: 5
 --- !u!4 &1450936903
 Transform:
   m_ObjectHideFlags: 0
@@ -14377,6 +14378,7 @@ MonoBehaviour:
   ultimateMeter: {fileID: 1637519809}
   knifePrefab: {fileID: 2886954661100545003, guid: 719a43bd519a8ff2eb745afbb04aada3, type: 3}
   gestureProvider: {fileID: 1735430946}
+  scoreManager: {fileID: 0}
 --- !u!1 &1651256143
 GameObject:
   m_ObjectHideFlags: 0
@@ -15551,10 +15553,10 @@ MonoBehaviour:
   - Index
   - Middle
   - DragonClaw
-  - CraneWing
-  - BuddhaChop
-  - Punch
   - SnakeStrike
+  - Punch
+  - BuddhaChop
+  - CraneWing
 --- !u!1 &1736125387
 GameObject:
   m_ObjectHideFlags: 0

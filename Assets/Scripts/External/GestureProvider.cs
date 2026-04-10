@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using M2MqttUnity.Examples;
+using System.Runtime.CompilerServices;
 
 public class GestureProvider : MonoBehaviour
 {
@@ -33,31 +34,37 @@ public class GestureProvider : MonoBehaviour
             Debug.LogError("GestureProvider: M2MqttUnityTest Instance not found! Is it active in the scene?");
 
         Debug.Log("GestureProvider started");
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnDestroy()
     {
         if (M2MqttUnityTest.Instance != null)
+        {
             M2MqttUnityTest.Instance.OnPredictionReceived -= HandlePrediction;
+            Debug.Log("GestureProvider destroyed");
+        }
     }
 
     private void HandlePrediction(M2MqttUnityTest.PredictionMessage predMsg)
     {
-        if (predMsg.confidence < confidenceThreshold) return;
-
         HandType hand = (predMsg.device_id == "FB_001") ? HandType.Left : HandType.Right;
         int predClass = predMsg.prediction;
 
-        if (predClass == 0) return;
-        if (predClass >= 0 && predClass < gestureNames.Count)
+        if (predClass <= 0) return;
+        if (predClass < gestureNames.Count)
         {
             string detectedGesture = gestureNames[predClass];
             Debug.Log($"GestureProvider: received prediction: {detectedGesture} on hand: {hand}");
-            OnGestureReceived?.Invoke(hand, detectedGesture);
-        }
-        else
-        {
-            Debug.LogWarning($"GestureProvider: Received unmapped prediction class index: {predClass}");
+            
+            try
+            {
+                OnGestureReceived?.Invoke(hand, detectedGesture);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"GestureProvider: Exception in OnGestureReceived subscriber — Hand: {hand}, Gesture: {detectedGesture}\n{e}");
+            }
         }
     }
 }

@@ -364,7 +364,7 @@ namespace M2MqttUnity.Examples
         {
             string msg = System.Text.Encoding.UTF8.GetString(message);
             
-            AddToConsole($"Received [{topic}]: {msg}");
+            // AddToConsole($"Received [{topic}]: {msg}");
             
             if (topicHandlers.ContainsKey(topic))
             {
