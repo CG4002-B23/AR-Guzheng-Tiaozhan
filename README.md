@@ -1,6 +1,6 @@
 # AR Guzheng Tiaozhan
 
-This README covers the setup and replication steps for two components of the project: **Comms** and **Visualiser**.
+This README covers the setup and replication steps for the project.
 
 ---
 
