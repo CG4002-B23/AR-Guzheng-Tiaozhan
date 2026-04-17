@@ -37,7 +37,14 @@ Contains Vitis HLS hardware implementation and testbench assets:
 - `gesture_weights_hls.h`: exported quantized weights/normalization constants for HLS
 - `tb.cpp`: HLS testbench
 - `data_with_logits.csv`: generated HLS testbench input + expected output reference data
+- `vitis_workspace.zip`: Exported workspace file for Vitis HLS
+  
+### `vivado/`
 
+Contains Vivado-packaged hardware project deliverables:
+
+- `rnn_wrapper.zip`: packaged hardware implementation exported from Vivado
+  
 ### `fpga/`
 
 Contains FPGA runtime deployment files and inference wrapper:
@@ -45,11 +52,6 @@ Contains FPGA runtime deployment files and inference wrapper:
 - `rnn.bit` and `rnn.hwh`: hardware bitstream and hardware handoff metadata
 - `inference.py`: overlay load/setup script and inference abstraction for communication with the hardware model via DMA
 
-### `vivado/`
-
-Contains Vivado-packaged hardware project deliverables:
-
-- `rnn_wrapper.zip`: packaged hardware implementation exported from Vivado
 
 ## Typical Workflow
 
