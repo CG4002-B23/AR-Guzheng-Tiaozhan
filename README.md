@@ -237,4 +237,4 @@ sudo su
 ```
 
 ## More Resources
-Click [here](https://drive.google.com/file/d/1QvoHVhFhJa4knbPaPK581uXEcmhk6ccR/view?usp=sharing) to download the APK for the visualiser, and [here](https://docs.google.com/document/d/1jq-NAarq0MVdrMZtwGHCQtAdrvzGgn8LGwj4qw9SXLc/edit?usp=sharing) to view the final report, and [here](https://youtu.be/2PQ7bNgT9PA?si=lnkjrBgCULc_K95v) to view a demo of our project.
+Click [here](https://drive.google.com/file/d/1QvoHVhFhJa4knbPaPK581uXEcmhk6ccR/view?usp=sharing) to download the APK for the visualiser, and [here](https://docs.google.com/document/d/1jq-NAarq0MVdrMZtwGHCQtAdrvzGgn8LGwj4qw9SXLc/edit?usp=sharing) to view the final report, and [here](https://youtu.be/2PQ7bNgT9PA?si=lnkjrBgCULc_K95v) to view a demo of our project, and [here](https://canva.link/wifwy825md1w9br) to view the poster of our project.
