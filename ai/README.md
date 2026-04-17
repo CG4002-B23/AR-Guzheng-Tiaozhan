@@ -5,7 +5,7 @@ This folder contains the full AI pipeline for the capstone project, from dataset
 ## Main Files
 
 - `rnn.py`  
-  Loads `<PROCESSED_DATASET_FILE>`, trains the gesture RNN model, evaluates performance, and exports:
+  Loads pre-processed data CSV in ./data folder, trains the gesture RNN model, evaluates performance, and exports:
   - `gesture_rnn_full.pth` (PyTorch checkpoint with model state + normalization stats)
   - `gesture_weights_hls.h` (quantized weights/header for hardware implementation)
 
@@ -25,7 +25,7 @@ This folder contains the full AI pipeline for the capstone project, from dataset
 Contains training data assets:
 
 - Raw CSV recordings for each gesture class (for example `thumb_raw.csv`, `snake_strike_raw.csv`, etc.)
-- `<PROCESSED_DATASET_FILE>`, the merged/processed dataset used by `rnn.py` for training
+- Merged/processed dataset used by `rnn.py` for training
 
 The data collection and preprocessing pipeline produces these files before model training.
 
@@ -53,9 +53,9 @@ Contains Vivado-packaged hardware project deliverables:
 
 ## Typical Workflow
 
-1. Collect and preprocess gesture data into `<PROCESSED_DATASET_FILE>`
+1. Collect and preprocess gesture data
 2. Train and export model artifacts using `rnn.py`
 3. Generate HLS test vectors using `generate_HLS_test.py`
 4. Create and validate hardware implementation in Vitis HLS using latest weights and test vectors
 5. Import hardware IP into Vivado, create and validate block hardware design and package into bitstream
-5. Deploy bitstream/handoff files in `<FPGA_FOLDER>` and run hardware inference
+5. Deploy bitstream/handoff files in fpga folder and run hardware inference
