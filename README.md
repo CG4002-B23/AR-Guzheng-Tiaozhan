@@ -13,6 +13,7 @@ This README covers the setup and replication steps for the project.
   - [3. mDNS Setup (Avahi)](#3-mdns-setup-avahi)
   - [4. Arduino Setup](#4-arduino-setup)
   - [5. Ultra96 Setup](#5-ultra96-setup)
+- [More Resources](#more-resources)
 
 ---
 
@@ -86,6 +87,9 @@ git config --global mergetool.unityyamlmerge.trustExitCode false
 ```bash
 git mergetool
 ```
+
+### APK File
+Access the APK for the visualiser [here](https://drive.google.com/file/d/1QvoHVhFhJa4knbPaPK581uXEcmhk6ccR/view?usp=sharing).
 
 ---
 
@@ -231,3 +235,6 @@ ssh -R 8883:localhost:8883 xilinx@makerslab-fpga-30.ddns.comp.nus.edu.sg
 sudo su
 ./run_mqtt
 ```
+
+## More Resources
+Click [here](https://drive.google.com/file/d/1QvoHVhFhJa4knbPaPK581uXEcmhk6ccR/view?usp=sharing) to download the APK for the visualiser, and [here](https://docs.google.com/document/d/1jq-NAarq0MVdrMZtwGHCQtAdrvzGgn8LGwj4qw9SXLc/edit?usp=sharing) to view the final report.
